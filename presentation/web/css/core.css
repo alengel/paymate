@@ -1,0 +1,109 @@
+body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
+/* Login & Registration Form CSS */
+.login-header,
+.reg-header {
+    margin-top: 170px;
+    margin-left: -251px;
+    text-align: center;
+    color: rgb(31, 166, 122);
+}
+
+.reg-header {
+    margin-left: -38px;
+}
+
+.form {
+    background-color: #F5F5F5;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 24px;
+    width: 350px;
+}
+
+.login-form {
+    height: 140px;
+}
+
+.registration-form {
+    height: 190px;
+}
+
+input {
+    height: 30px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(31, 166, 122, 0.7);
+}
+
+.labels {
+    margin-right: 65px;
+    margin-bottom: 12px;
+}
+
+.reg {
+    margin-right: 12px;
+}
+
+.button {
+    float: right;
+    margin-left: 12px;
+    margin-top: 24px;
+    width: 90px;
+}
+
+.button:hover {
+    background-color: rgba(31, 166, 122, 0.7);
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.registration-link {
+    margin-top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+}
+
+/* Home CSS */
+.header {
+    color: rgb(31, 166, 122);
+    margin-left: 12px;
+    margin-top: 12px;
+}
+
+.logout {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
+
+.tab {
+    border: 1px solid rgba(31, 166, 122, 0.7);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    color: rgb(31, 166, 122);
+    padding: 6px;
+    text-decoration: none;
+}
+
+.notifications-link {
+    margin-left: 12px;
+    margin-right: 1px;
+}
+
+.tab:hover {
+    background-color: rgb(31, 166, 122);
+    color: #FFFFFF;
+}
+
+.notifications-table {
+    border: 1px solid rgba(31, 166, 122, 0.7);
+    margin-left: 12px;
+    margin-top: 4px;
+    margin-right: 1px;
+    width: 90%;
+}

@@ -5,3 +5,5 @@
 *.war
 *.ear
 /presentation/nbproject/private/
+/presentation/build/
+/presentation/dist/

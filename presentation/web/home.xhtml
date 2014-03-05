@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="css/normalize.css"></link>
+        <link rel="stylesheet" href="css/main.css"></link>
+        <link rel="stylesheet" href="css/core.css"></link>
+        <title>PayMate</title>
+    </h:head>
+    <h:body>
+        <h2 class="header">PayMate</h2>
+        <h:form>
+            <h:commandLink styleClass="logout" action="logout">Logout</h:commandLink>
+            
+            <h:commandLink styleClass="tab notifications-link" action="notifications">Notifications</h:commandLink>
+            <h:commandLink styleClass="tab payments" action="payments">Payments</h:commandLink>
+        </h:form>
+        
+        <h:dataTable styleClass="notifications-table">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Date" />
+                </f:facet>
+                <h:outputText value="14/03/2014" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Name" />
+                </f:facet>
+                <h:outputText value="Alena Ruprecht" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Currency" />
+                </f:facet>
+                <h:outputText value="£" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Amount" />
+                </f:facet>
+                <h:outputText value="100" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Status" />
+                </f:facet>
+                <h:outputText value="Completed" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Actions" />
+                </f:facet>
+                <h:outputText value="n/a" />
+            </h:column>
+        </h:dataTable>
+    </h:body>
+</html>
+
