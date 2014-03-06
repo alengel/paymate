@@ -12,6 +12,7 @@
     <h:body>
         <h2 class="header">PayMate</h2>
         <h:form>
+            <div class="date">March 6th - 10:07</div>
             <h:commandLink styleClass="logout" action="logout">Logout</h:commandLink>
             
             <h:commandLink styleClass="tab notifications-link" action="notifications">Notifications</h:commandLink>
@@ -21,6 +22,27 @@
         <h:form styleClass="payments-form">
             something in it
         </h:form>
+        
+        <div class="exchange">Current Exchange Rates</div>
+        <h:dataTable styleClass="currency-table">
+            <h:column>
+                <f:facet name="header">Currencies</f:facet>
+                USD
+                GBP
+                EUR
+            </h:column>
+            <h:column>
+                <f:facet name="header">USD</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name="header">GBP</f:facet>
+                1.50
+            </h:column>
+            <h:column>
+                <f:facet name="header">EUR</f:facet>
+                1.30
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>
 

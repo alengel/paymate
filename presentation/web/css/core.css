@@ -2,6 +2,16 @@ body {
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(31, 166, 122);
+    text-decoration: underline;
+}
+
 /* Login & Registration Form CSS */
 .login-header,
 .reg-header {
@@ -68,6 +78,10 @@ input {
     width: 350px;
 }
 
+.registration-link a {
+    text-decoration: underline;
+}
+
 /* Home CSS */
 .header {
     color: rgb(31, 166, 122);
@@ -75,9 +89,16 @@ input {
     margin-top: 12px;
 }
 
+.date {
+    color: rgb(31, 166, 122);
+    position: absolute;
+    right: 30%;
+    top: 66px;
+}
+
 .logout {
     position: absolute;
-    right: 12px;
+    right: 24px;
     top: 12px;
 }
 
@@ -87,6 +108,10 @@ input {
     border-top-right-radius: 6px;
     color: rgb(31, 166, 122);
     padding: 6px;
+    text-decoration: none;
+}
+
+.tab:hover {
     text-decoration: none;
 }
 
@@ -106,10 +131,30 @@ input {
 }
 
 .notifications-table,
-.payments-form {
+.payments-form,
+.currency-table {
     border: 1px solid rgba(31, 166, 122, 0.7);
     margin-left: 12px;
     margin-top: 4px;
     margin-right: 1px;
-    width: 90%;
+    width: 70%;
+}
+
+.exchange {
+    color: rgb(31, 166, 122);
+    float: right;
+    margin-top: -50px;
+    margin-right: 92px;
+}
+
+.currency-table {
+    float: right;
+    margin-top: -24px;
+    margin-right: 48px;
+    width: 15%;
+}
+
+th {
+    border-right: 1px solid rgba(31, 166, 122, 0.7);
+    padding: 3px;
 }

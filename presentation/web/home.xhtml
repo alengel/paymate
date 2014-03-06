@@ -12,6 +12,7 @@
     <h:body>
         <h2 class="header">PayMate</h2>
         <h:form>
+            <div class="date">March 6th - 10:07</div>
             <h:commandLink styleClass="logout" action="logout">Logout</h:commandLink>
             
             <h:commandLink styleClass="tab notifications-link active" action="notifications">Notifications</h:commandLink>
@@ -20,10 +21,8 @@
         
         <h:dataTable styleClass="notifications-table">
             <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Date" />
-                </f:facet>
-                <h:outputText value="14/03/2014" />
+                <f:facet name="header">Date</f:facet>
+                "14/03/2014" />
             </h:column>
             <h:column>
                 <f:facet name="header">
