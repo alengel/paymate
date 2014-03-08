@@ -35,18 +35,26 @@ a:hover {
 }
 
 .login-form {
-    height: 140px;
+    height: 170px;
 }
 
 .registration-form {
-    height: 190px;
+    height: 290px;
+}
+
+.input-container {
+    margin-bottom: 12px;
 }
 
 input {
     height: 30px;
-    margin-bottom: 12px;
     border-radius: 6px;
     border: 1px solid rgba(31, 166, 122, 0.7);
+}
+
+select {
+    width: 214px;
+    float: right;
 }
 
 .labels {
@@ -54,14 +62,18 @@ input {
     margin-bottom: 12px;
 }
 
+.email {
+    margin-right: 98px;
+}
+
 .reg {
-    margin-right: 12px;
+    margin-right: 8px;
 }
 
 .button {
     float: right;
     margin-left: 12px;
-    margin-top: 24px;
+    margin-top: 20px;
     width: 90px;
 }
 
@@ -69,6 +81,16 @@ input {
     background-color: rgba(31, 166, 122, 0.7);
     color: #FFFFFF;
     cursor: pointer;
+}
+
+.mini-reg-form {
+    margin-top: -54px;
+}
+
+.mini-login-form {
+    position: absolute;
+    top: 12px;
+    left: 18px;
 }
 
 .registration-link {
@@ -80,6 +102,21 @@ input {
 
 .registration-link a {
     text-decoration: underline;
+}
+
+.error-message {
+    color: #993351;
+}
+
+#javax_faces_developmentstage_messages li {
+    color: #993351;
+    margin-right: auto;
+    margin-left: auto;
+    width: 350px;
+    text-align: right;
+    list-style: none;
+    margin-top: -48px;
+    padding-right: 24px;
 }
 
 /* Home CSS */

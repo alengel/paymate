@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="resources/css/normalize.css"></link>
+        <link rel="stylesheet" href="resources/css/main.css"></link>
+        <link rel="stylesheet" href="resources/css/core.css"></link>
+        
+        <title>PayMate Registration</title>
+    </h:head>
+    <h:body>
+        <h2 class="reg-header">PayMate Registration Form</h2>
+        <h:form styleClass="form registration-form" id="registration-form">
+            <div class="input-container">
+                <span class="labels email">Email</span>
+                <h:inputText id="email" label="Email" required="true" 
+                             value="#{registrationBean.email}" 
+                             validatorMessage="Email is not valid">
+                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                </h:inputText>
+                <h:message styleClass="error-message" for="email"/>
+            </div>
+            <div class="input-container">
+                <span class="labels">Password</span>
+                <h:inputSecret id="password" label="Password" required="true" 
+                               value="#{registrationBean.password}">
+                </h:inputSecret>
+                <h:message styleClass="error-message" for="password"/>
+            </div>
+            <div class="input-container">
+                <span class="labels reg">Confirm Password</span>
+                <h:inputSecret id="passwordVerification" label="Confirm Password" 
+                               validatorMessage="my custom message" required="true" 
+                               value="#{registrationBean.passwordVerification}"></h:inputSecret>
+                <h:message styleClass="error-message" for="passwordVerification"/>
+            </div>
+            <span>Select Currency </span>
+            <h:selectOneMenu value="#{registrationBean.currency}">
+                <f:selectItem itemValue="GBP" itemLabel="£ - British GBP" />
+                <f:selectItem itemValue="EUR" itemLabel="€ - Euro" />
+                <f:selectItem itemValue="USD" itemLabel="$ - US Dollar" />
+            </h:selectOneMenu>
+            <h:commandButton styleClass="button" action="#{registrationBean.register}" value="Register"></h:commandButton>
+            <h:commandButton styleClass="button" type="reset" value="Cancel"></h:commandButton>
+            
+            <h:message styleClass="error-message" for="passwordsMatch"/>
+        </h:form>
+        
+        <h:form styleClass="mini-login-form">
+            <h:commandLink action="back">Back to Login</h:commandLink>
+        </h:form>
+    </h:body>
+</html>
+
