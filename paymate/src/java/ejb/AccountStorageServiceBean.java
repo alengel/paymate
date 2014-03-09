@@ -5,7 +5,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -28,10 +27,7 @@ public class AccountStorageServiceBean {
         Query result = em.createNamedQuery("getAccountWithEmail")
           .setParameter("email", email);
         
-        if((long)result.getSingleResult() == 0){
-            return false;
-        }
-        return true;
+        return (long)result.getSingleResult() != 0;
     }
 
     public synchronized Account getAccount(String email, String password) {
