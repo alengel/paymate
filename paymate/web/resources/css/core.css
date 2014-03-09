@@ -98,11 +98,18 @@ input,
     text-decoration: underline;
 }
 
-.error-message,
+.error-message {
+   color: #993351;
+}
+
 .global-error {
     color: #993351;
     margin-top: 80px;
     margin-left: -44px;
+}
+
+.registration-page .global-error {
+    margin-top: 120px;
 }
 
 .global-error li {

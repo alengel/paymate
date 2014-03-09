@@ -15,8 +15,12 @@ import javax.validation.constraints.NotNull;
  * @author 119848
  */
 
+@NamedQuery(
+    name="getAccountWithEmail",
+    query="SELECT COUNT(c) FROM Account c WHERE c.email = :email"
+)
+
 @Entity
-@NamedQuery(name="findAccount",query="SELECT c FROM Account c ")
 public class Account implements Serializable {
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
     @Column(unique=true) @NotNull String email;

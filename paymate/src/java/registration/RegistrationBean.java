@@ -65,20 +65,41 @@ public class RegistrationBean implements Serializable {
     }
     
     public String register() {
-        //Check if passwords match
-        if(!(password.equals(passwordVerification))){
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, new FacesMessage("Passwords don't match."));
-            
+        //Check if user already exists
+        if(checkIfAccountExists()){
             return null;
         }
         
-        //Check if user already exists
-        
+        //Check if passwords match
+        if(!checkPasswordsMatch()){
+            return null;
+        }
         
         //Insert user account into the DB account table
         accountStore.insertAccount(email, password, currency, balance);
         return "success";
+    }
+    
+    public Boolean checkPasswordsMatch(){
+        if(password.equals(passwordVerification)){
+            return true;
+        } else {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage(null, new FacesMessage("Passwords don't match."));
+            
+            return false;
+        }        
+    }
+    
+    public Boolean checkIfAccountExists(){
+        if(accountStore.checkAccountExists(email)){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage(null, new FacesMessage("Email already exists"));
+            
+            return true;
+        }
+        
+        return false;
     }
     
     @PostConstruct
