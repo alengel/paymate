@@ -11,7 +11,7 @@
             <to-view-id>/registration.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
-            <from-outcome>login</from-outcome> 
+            <from-outcome>success</from-outcome> 
             <to-view-id>/index.xhtml</to-view-id> 
         </navigation-case> 
     </navigation-rule>

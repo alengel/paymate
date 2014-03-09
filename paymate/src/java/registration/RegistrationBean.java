@@ -68,13 +68,13 @@ public class RegistrationBean implements Serializable {
         //Check if passwords match
         if(!(password.equals(passwordVerification))){
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage("registration-form:passwordsMatch", new FacesMessage("Passwords don't match."));
+            facesContext.addMessage(null, new FacesMessage("Passwords don't match."));
             
             return null;
         }
         
         //Check if user already exists
-        accountStore.getAccount(email);
+        
         
         //Insert user account into the DB account table
         accountStore.insertAccount(email, password, currency, balance);

@@ -10,47 +10,61 @@
         
         <title>PayMate Registration</title>
     </h:head>
-    <h:body>
+    <h:body styleClass="registration-page">
         <h2 class="reg-header">PayMate Registration Form</h2>
         <h:form styleClass="form registration-form" id="registration-form">
+            
             <div class="input-container">
                 <span class="labels email">Email</span>
-                <h:inputText id="email" label="Email" required="true" 
+                <h:inputText id="email" 
+                             label="Email" 
+                             required="true"
+                             requiredMessage="Please enter an email."
                              value="#{registrationBean.email}" 
-                             validatorMessage="Email is not valid">
+                             validatorMessage="Email is not valid.">
                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
                 </h:inputText>
                 <h:message styleClass="error-message" for="email"/>
             </div>
+            
             <div class="input-container">
                 <span class="labels">Password</span>
-                <h:inputSecret id="password" label="Password" required="true" 
+                <h:inputSecret id="password" 
+                               label="Password" 
+                               required="true"
+                               requiredMessage="Please enter a password."
                                value="#{registrationBean.password}">
                 </h:inputSecret>
                 <h:message styleClass="error-message" for="password"/>
             </div>
+            
             <div class="input-container">
                 <span class="labels reg">Confirm Password</span>
-                <h:inputSecret id="passwordVerification" label="Confirm Password" 
-                               validatorMessage="my custom message" required="true" 
-                               value="#{registrationBean.passwordVerification}"></h:inputSecret>
+                <h:inputSecret id="passwordVerification" 
+                               label="Confirm Password" 
+                               required="true" 
+                               requiredMessage="Please confirm your password."
+                               value="#{registrationBean.passwordVerification}">
+                </h:inputSecret>
                 <h:message styleClass="error-message" for="passwordVerification"/>
             </div>
+            
             <span>Select Currency </span>
-            <h:selectOneMenu value="#{registrationBean.currency}">
+            <h:selectOneMenu styleClass="reg-currency" value="#{registrationBean.currency}">
                 <f:selectItem itemValue="GBP" itemLabel="£ - British GBP" />
                 <f:selectItem itemValue="EUR" itemLabel="€ - Euro" />
                 <f:selectItem itemValue="USD" itemLabel="$ - US Dollar" />
             </h:selectOneMenu>
+            
             <h:commandButton styleClass="button" action="#{registrationBean.register}" value="Register"></h:commandButton>
             <h:commandButton styleClass="button" type="reset" value="Cancel"></h:commandButton>
             
-            <h:message styleClass="error-message" for="passwordsMatch"/>
         </h:form>
         
         <h:form styleClass="mini-login-form">
             <h:commandLink action="back">Back to Login</h:commandLink>
         </h:form>
+        
     </h:body>
 </html>
 

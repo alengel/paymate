@@ -4,12 +4,13 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <link rel="stylesheet" href="css/normalize.css"></link>
-        <link rel="stylesheet" href="css/main.css"></link>
-        <link rel="stylesheet" href="css/core.css"></link>
+        <link rel="stylesheet" href="resources/css/normalize.css"></link>
+        <link rel="stylesheet" href="resources/css/main.css"></link>
+        <link rel="stylesheet" href="resources/css/core.css"></link>
+        
         <title>PayMate</title>
     </h:head>
-    <h:body>
+    <h:body styleClass="payments-page">
         <h2 class="header">PayMate</h2>
         <h:form>
             <div class="date">March 6th - 10:07</div>
@@ -20,7 +21,62 @@
         </h:form>
         
         <h:form styleClass="payments-form">
-            something in it
+            <p class="introduction">Please fill in the details to make a payment or request funds.</p>
+            
+            <div class="input-container">
+                <span class="labels">Recipient</span>
+                <h:inputText id="recipient" 
+                             label="Recipient" 
+                             required="true"
+                             requiredMessage="Please enter a recipient."
+                             styleClass="recipient-field"
+                             validatorMessage="Email is not valid.">
+                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                </h:inputText>
+                <h:message styleClass="error-message" for="recipient"/>
+            </div>
+            
+            <div class="input-container">
+                <span>Select Currency</span>
+                <h:selectOneMenu styleClass="pay-currency" value="">
+                    <f:selectItem itemValue="GBP" itemLabel="£ - British GBP" />
+                    <f:selectItem itemValue="EUR" itemLabel="€ - Euro" />
+                    <f:selectItem itemValue="USD" itemLabel="$ - US Dollar" />
+                </h:selectOneMenu>
+            </div>
+            
+            <div class="input-container">
+                <span class="labels">Amount</span>
+                <h:inputText id="amount" 
+                             label="Amount" 
+                             required="true"
+                             requiredMessage="Please enter an amount."
+                             styleClass="amount-field"
+                             validatorMessage="The amount has to be a number, either 12 or 12.20"
+                             value="">
+                    <f:validateRegex pattern="\d+\.?\d\d"/>
+                </h:inputText>
+                <h:message styleClass="error-message" for="amount"/>
+            </div>
+            
+            <div class="input-container">
+                <span class="labels">Schedule Payment Date</span>
+                
+                <span class="labels">(defaults to today)</span>
+            </div>
+            
+            <h:commandButton styleClass="button long" 
+                             action="#{paymentsBean.makePayment}" 
+                             value="Make Payment">
+            </h:commandButton>
+            
+            <h:commandButton styleClass="button long" 
+                             action="#{paymentsBean.requestFunds}" 
+                             value="Request Funds">
+            </h:commandButton>
+            
+            <h:commandButton styleClass="button left" type="reset" value="Cancel"></h:commandButton>
+        
         </h:form>
         
         <div class="exchange">Current Exchange Rates</div>
