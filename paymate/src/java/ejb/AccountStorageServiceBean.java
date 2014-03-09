@@ -6,11 +6,13 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author 119848
  */
+
 @Stateless
 public class AccountStorageServiceBean {
     
@@ -20,8 +22,12 @@ public class AccountStorageServiceBean {
         
     }
 
-    public synchronized Object getAccount(String email) {
-         return em.createNamedQuery("findAccount").getSingleResult();
+    public synchronized Account getAccount(String email, String password) {
+        TypedQuery<Account> query = em.createQuery(
+            "SELECT c FROM Account c WHERE c.email = :email", Account.class);
+        return query.setParameter("email", email).getSingleResult(); 
+        
+//        return em.createNamedQuery("getAccount").getSingleResult();
     }
     
     public synchronized void insertAccount(String email, String password, String currency, int balance) {

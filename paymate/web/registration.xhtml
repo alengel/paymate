@@ -20,8 +20,8 @@
                              label="Email" 
                              required="true"
                              requiredMessage="Please enter an email."
-                             value="#{registrationBean.email}" 
-                             validatorMessage="Email is not valid.">
+                             validatorMessage="Email is not valid."
+                             value="#{registrationBean.email}">
                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
                 </h:inputText>
                 <h:message styleClass="error-message" for="email"/>

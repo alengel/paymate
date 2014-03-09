@@ -98,8 +98,15 @@ input,
     text-decoration: underline;
 }
 
-.error-message {
+.error-message,
+.global-error {
     color: #993351;
+    margin-top: 80px;
+    margin-left: -44px;
+}
+
+.global-error li {
+    list-style: none;
 }
 
 .payments-page .error-message {
@@ -134,7 +141,7 @@ input,
 .date {
     color: rgb(31, 166, 122);
     position: absolute;
-    left: 582px;
+    left: 694px;
     top: 66px;
 }
 

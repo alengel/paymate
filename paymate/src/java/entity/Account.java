@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @NamedQuery(name="findAccount",query="SELECT c FROM Account c ")
 public class Account implements Serializable {
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
-    @NotNull String email;
+    @Column(unique=true) @NotNull String email;
     @NotNull String password;
     @NotNull String currency;
     int balance = 1000000;

@@ -10,5 +10,5 @@ import javax.ejb.Local;
 @Local
 public interface AccountStorageService {
     public void insertAccount(String email, String password, String currency, int balance);
-    public Account getAccount(String email);
+    public Account getAccount(String email, String password);
 }
