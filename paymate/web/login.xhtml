@@ -20,7 +20,8 @@
                              label="Email" 
                              required="true"
                              requiredMessage="Please enter an email."
-                             validatorMessage="Email is not valid.">
+                             validatorMessage="Email is not valid."
+                             value="#{loginBean.email}" >
                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
                 </h:inputText>
                 <h:message styleClass="error-message" for="email"/>
@@ -31,9 +32,9 @@
                 <h:inputSecret id="password" 
                                label="Password" 
                                required="true"
-                               requiredMessage="Please enter your password.">
+                               requiredMessage="Please enter your password."
+                               value="#{loginBean.password}">
                 </h:inputSecret>
-                <h:message styleClass="error-message" for="password"/>
             </div>
             
             <h:commandButton styleClass="button" action="#{loginBean.login}" value="Login"></h:commandButton>

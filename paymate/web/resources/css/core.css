@@ -46,10 +46,17 @@ a:hover {
     margin-bottom: 12px;
 }
 
-input {
+input,
+.calendar input {
     height: 30px;
     border-radius: 6px;
     border: 1px solid rgba(31, 166, 122, 0.7);
+}
+
+.calendar input {
+    height: 26px;
+    margin-left: -6px;
+    width: 200px;
 }
 
 .reg-currency {
@@ -95,6 +102,10 @@ input {
     color: #993351;
 }
 
+.payments-page .error-message {
+   margin-left: 6px;
+}
+
 #javax_faces_developmentstage_messages li {
     color: #993351;
     margin-right: auto;
@@ -123,7 +134,7 @@ input {
 .date {
     color: rgb(31, 166, 122);
     position: absolute;
-    right: 30%;
+    left: 582px;
     top: 66px;
 }
 
@@ -175,13 +186,13 @@ input {
     color: rgb(31, 166, 122);
     position: absolute;
     top: 66px;
-    right: 88px;
+    left: 860px;
 }
 
 .currency-table {
     position: absolute;
-    top: 88px;
-    right: 78px;
+    top: 87px;
+    left: 847px;
     width: 15%;
 }
 
@@ -191,7 +202,8 @@ th {
 }
 
 .payments-form {
-    padding: 12px;
+    padding: 12px 0 12px 12px;
+    width: 796px;
 }
 
 .introduction{
@@ -234,7 +246,7 @@ th {
 
 .button.left {
     float: left;
-    margin-left: 0;
+    margin-left: -12px;
 }
 
 .button:hover {

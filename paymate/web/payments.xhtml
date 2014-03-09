@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <link rel="stylesheet" href="resources/css/normalize.css"></link>
         <link rel="stylesheet" href="resources/css/main.css"></link>
@@ -30,7 +31,8 @@
                              required="true"
                              requiredMessage="Please enter a recipient."
                              styleClass="recipient-field"
-                             validatorMessage="Email is not valid.">
+                             validatorMessage="Email is not valid."
+                             value="#{paymentsBean.recipient}">
                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
                 </h:inputText>
                 <h:message styleClass="error-message" for="recipient"/>
@@ -38,7 +40,7 @@
             
             <div class="input-container">
                 <span>Select Currency</span>
-                <h:selectOneMenu styleClass="pay-currency" value="">
+                <h:selectOneMenu styleClass="pay-currency" value="#{paymentsBean.currency}">
                     <f:selectItem itemValue="GBP" itemLabel="£ - British GBP" />
                     <f:selectItem itemValue="EUR" itemLabel="€ - Euro" />
                     <f:selectItem itemValue="USD" itemLabel="$ - US Dollar" />
@@ -53,16 +55,18 @@
                              requiredMessage="Please enter an amount."
                              styleClass="amount-field"
                              validatorMessage="The amount has to be a number, either 12 or 12.20"
-                             value="">
-                    <f:validateRegex pattern="\d+\.?\d\d"/>
+                             value="#{paymentsBean.amount}">
+                    <f:validateRegex pattern="\d+(\.\d\d|\d*)"/>
                 </h:inputText>
                 <h:message styleClass="error-message" for="amount"/>
             </div>
             
             <div class="input-container">
                 <span class="labels">Schedule Payment Date</span>
-                
-                <span class="labels">(defaults to today)</span>
+                <p:calendar id="calendar" 
+                            styleClass="calendar"
+                            value="#{paymentsBean.scheduledDate}"/>
+                <p:watermark for="calendar" value="today" />  
             </div>
             
             <h:commandButton styleClass="button long" 

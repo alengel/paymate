@@ -7,6 +7,9 @@
 package payments;
 
 import java.io.Serializable;
+import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -21,11 +24,64 @@ public class PaymentsBean implements Serializable {
     
     private String recipient;
     private String currency;
-    private int amount;
+    private String amount;
+    private Date scheduledDate;
     
     public PaymentsBean(){
         
     }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public Date getScheduledDate() {
+        return scheduledDate;
+    }
+
+    public void setScheduledDate(Date scheduledDate) {
+        this.scheduledDate = scheduledDate;
+    }
     
+    public void makePayment(){
+        validateFormFields();
+    }
     
+    public void requestFunds(){
+        validateFormFields();
+    }
+    
+    public void validateFormFields(){
+        //check email exists
+    }
+    
+    @PostConstruct
+    public void postConstruct() {
+        System.out.println("PaymentsBean: PostConstruct");
+    }
+    
+    @PreDestroy
+    public void preDestroy() {
+        System.out.println("PaymentsBean: PreDestroy");
+    }
 }
