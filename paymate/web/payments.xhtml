@@ -40,7 +40,7 @@
             
             <div class="input-container">
                 <span>Select Currency</span>
-                <h:selectOneMenu styleClass="pay-currency" value="#{paymentsBean.currency}">
+                <h:selectOneMenu styleClass="pay-currency" required="true" value="#{paymentsBean.currency}">
                     <f:selectItem itemValue="GBP" itemLabel="£ - British GBP" />
                     <f:selectItem itemValue="EUR" itemLabel="€ - Euro" />
                     <f:selectItem itemValue="USD" itemLabel="$ - US Dollar" />
@@ -69,15 +69,19 @@
                 <p:watermark for="calendar" value="today" />  
             </div>
             
-            <h:commandButton styleClass="button long" 
-                             action="#{paymentsBean.makePayment}" 
-                             value="Make Payment">
-            </h:commandButton>
+            <h:messages styleClass="global-error" globalOnly="true" />
             
-            <h:commandButton styleClass="button long" 
-                             action="#{paymentsBean.requestFunds}" 
-                             value="Request Funds">
-            </h:commandButton>
+            <div class="button-container">
+                <h:commandButton styleClass="button long" 
+                                 action="#{paymentsBean.makePayment}" 
+                                 value="Make Payment">
+                </h:commandButton>
+
+                <h:commandButton styleClass="button long" 
+                                 action="#{paymentsBean.requestFunds}" 
+                                 value="Request Funds">
+                </h:commandButton>
+            </div>
             
             <h:commandButton styleClass="button left" type="reset" value="Cancel"></h:commandButton>
         
