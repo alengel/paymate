@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="stylesheet" href="resources/css/normalize.css"></link>
+        <link rel="stylesheet" href="resources/css/main.css"></link>
+        <link rel="stylesheet" href="resources/css/core.css"></link>
+        
+        <title>PayMate Registration</title>
+    </h:head>
+    <h:body styleClass="registration-page">
+        <h2 class="reg-header">PayMate Registration Form</h2>
+        <h:form styleClass="form registration-form" id="registration-form">
+            <span>You have been registered.</span>
+            <p class="registered">Please login with your new details.</p>
+            
+            <h:button styleClass="button long back" 
+                      outcome="login" 
+                      value="To Login Page">
+            </h:button>
+        </h:form>
+        
+        <h:link outcome="login" styleClass="mini-login-form">Back to Login</h:link>
+        
+    </h:body>
+</html>
+

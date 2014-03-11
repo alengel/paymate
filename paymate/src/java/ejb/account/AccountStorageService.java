@@ -1,4 +1,4 @@
-package ejb;
+package ejb.account;
 
 import entity.Account;
 import javax.ejb.Local;
@@ -7,6 +7,7 @@ import javax.ejb.Local;
  *
  * @author 119848
  */
+
 @Local
 public interface AccountStorageService {
     public Boolean checkAccountExists(String email);

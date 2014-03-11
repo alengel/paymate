@@ -1,6 +1,6 @@
 package login;
 
-import ejb.AccountStorageServiceBean;
+import ejb.account.AccountStorageServiceBean;
 import entity.Account;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;

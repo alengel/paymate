@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <link rel="stylesheet" href="resources/css/normalize.css"></link>
         <link rel="stylesheet" href="resources/css/main.css"></link>
@@ -29,12 +30,13 @@
             
             <div class="input-container">
                 <span class="labels">Password</span>
-                <h:inputSecret id="password" 
-                               label="Password" 
-                               required="true"
-                               requiredMessage="Please enter a password."
-                               value="#{registrationBean.password}">
-                </h:inputSecret>
+                <p:password id="password" 
+                            feedback="true"
+                            label="Password" 
+                            required="true"
+                            requiredMessage="Please enter a password."
+                            styleClass="password-field"
+                            value="#{registrationBean.password}"/>
                 <h:message styleClass="error-message" for="password"/>
             </div>
             
@@ -61,9 +63,7 @@
             <h:messages styleClass="global-error" globalOnly="true" />
         </h:form>
         
-        <h:form styleClass="mini-login-form">
-            <h:commandLink action="back">Back to Login</h:commandLink>
-        </h:form>
+        <h:link outcome="login" styleClass="mini-login-form">Back to Login</h:link>
         
     </h:body>
 </html>

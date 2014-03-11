@@ -6,7 +6,8 @@
 
 package payments;
 
-import ejb.AccountStorageServiceBean;
+import ejb.account.AccountStorageServiceBean;
+import ejb.payment.PaymentStorageServiceBean;
 import java.io.Serializable;
 import java.util.Date;
 import javax.annotation.PostConstruct;
@@ -26,6 +27,8 @@ import javax.inject.Named;
 @RequestScoped
 public class PaymentsBean implements Serializable {
     
+    private String type;
+    private String originEmail;
     private String recipient;
     private String currency;
     private String amount;
@@ -34,10 +37,29 @@ public class PaymentsBean implements Serializable {
     @EJB
     private AccountStorageServiceBean accountStore;
     
+    @EJB
+    private PaymentStorageServiceBean transactionStore;
+    
     public PaymentsBean(){
-        
+        originEmail = "alena@wa.com";
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getOriginEmail() {
+        return originEmail;
+    }
+
+    public void setOriginEmail(String originEmail) {
+        this.originEmail = originEmail;
+    }
+    
     public String getRecipient() {
         return recipient;
     }
@@ -75,6 +97,11 @@ public class PaymentsBean implements Serializable {
             return null;
         }
         
+        type = "payment";
+        
+        //Insert payment into the DB payments table
+        transactionStore.insertTransaction(type, originEmail, recipient, currency, 
+                amount, scheduledDate);
         return "success";
     }
     
@@ -83,11 +110,17 @@ public class PaymentsBean implements Serializable {
             return null;
         }
         
+        type = "request";
+        
         return "success";
     }
 
     public Boolean validateFormFields(){
         if(!checkIfAccountExists()){
+            return true;
+        }
+        
+        if(!checkIfOriginIsNotRecipient()){
             return true;
         }
         
@@ -107,6 +140,17 @@ public class PaymentsBean implements Serializable {
         facesContext.addMessage(null, new FacesMessage("The recipient does not have an account with PayMate."));
         
         return false;
+    }
+    
+    public Boolean checkIfOriginIsNotRecipient(){
+        if(originEmail.equals(recipient)){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage(null, new FacesMessage("You can't send funds to yourself."));
+
+            return false;
+        }
+        
+        return true;
     }
     
     public String backToPaymentsPage(){

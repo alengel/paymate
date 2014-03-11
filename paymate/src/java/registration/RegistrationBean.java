@@ -1,6 +1,6 @@
 package registration;
 
-import ejb.AccountStorageServiceBean;
+import ejb.account.AccountStorageServiceBean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

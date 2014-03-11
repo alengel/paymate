@@ -1,4 +1,4 @@
-package ejb;
+package ejb.account;
 
 import entity.Account;
 import javax.annotation.PostConstruct;

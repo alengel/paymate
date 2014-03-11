@@ -15,17 +15,17 @@
         <h2 class="header">PayMate</h2>
         <h:form>
             <div class="date">March 6th - 10:07</div>
-            <h:commandLink styleClass="logout" action="logout">Logout</h:commandLink>
+            <h:link styleClass="logout" outcome="logout">Logout</h:link>
             
-            <h:commandLink styleClass="tab notifications-link" action="notifications">Notifications</h:commandLink>
-            <h:commandLink styleClass="tab payments active" action="payments">Payments</h:commandLink>
+            <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
+            <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
         </h:form>
         
         <h:form styleClass="payments-form">
             <p class="introduction">Please fill in the details to make a payment or request funds.</p>
             
             <div class="input-container">
-                <span class="labels">Recipient</span>
+                <span class="labels">Recipient Email</span>
                 <h:inputText id="recipient" 
                              label="Recipient" 
                              required="true"
@@ -65,6 +65,7 @@
                 <span class="labels">Schedule Payment Date</span>
                 <p:calendar id="calendar" 
                             styleClass="calendar"
+                            pattern="dd/mm/yyyy"
                             value="#{paymentsBean.scheduledDate}"/>
                 <p:watermark for="calendar" value="today" />  
             </div>

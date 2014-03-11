@@ -47,18 +47,25 @@ a:hover {
 }
 
 input,
-.calendar input {
+.calendar input,
+.password-field {
     height: 30px;
     border-radius: 6px;
     border: 1px solid rgba(31, 166, 122, 0.7);
 }
 
-.calendar input {
+.calendar input,
+.password-field {
     height: 23px;
     margin-left: -9px;
     width: 204px;
     box-shadow: none;
     margin-bottom: 24px;
+}
+
+.password-field {
+    margin-bottom: 0;
+    margin-left: 0;
 }
 
 .reg-currency {
@@ -98,6 +105,10 @@ input,
 
 .registration-link a {
     text-decoration: underline;
+}
+
+.registered {
+    margin-bottom: 50px;
 }
 
 .error-message {
@@ -247,7 +258,7 @@ th {
 }
 
 .payments-page .recipient-field {
-    margin-left: 92px;
+    margin-left: 52px;
 }
 
 .payments-page .date-field {
