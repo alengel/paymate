@@ -30,18 +30,34 @@ public class AccountStorageServiceBean {
         return (long)result.getSingleResult() != 0;
     }
 
-    public synchronized Account getAccount(String email, String password) {
+    public synchronized Account getAccount(String email) {
         TypedQuery<Account> query = em.createQuery(
             "SELECT c FROM Account c WHERE c.email = :email", Account.class);
-        return query.setParameter("email", email).getSingleResult(); 
-        
-//        return em.createNamedQuery("getAccount").getSingleResult();
+        return query.setParameter("email", email).getSingleResult();         
     }
     
-    public synchronized void insertAccount(String email, String password, String currency, int balance) {
+    public synchronized void insertAccount(String email, String password, String currency, float balance) {
         Account account = new Account(email, password, currency, balance);
         
         em.persist(account);
+    }
+    
+    public synchronized void addAmount(String recipient, float amount){
+        Account recipientAccount = getAccount(recipient);
+        
+        float balance = recipientAccount.getBalance();
+        float newBalance = balance + amount;
+        
+        recipientAccount.setBalance(newBalance);
+    }
+    
+    public synchronized void deductAmount(String originEmail, float amount){
+        Account originAccount = getAccount(originEmail);
+        
+        float balance = originAccount.getBalance();
+        float newBalance = balance - amount;
+        
+        originAccount.setBalance(newBalance);
     }
 
     @PostConstruct

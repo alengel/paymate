@@ -23,7 +23,7 @@ public class PaymentStorageServiceBean {
     }
     
     public void insertTransaction(String type, String originEmail, String recipient, String currency, 
-                String amount, Date scheduledDate){
+                float amount, Date scheduledDate){
         
         //Get timestamp from WSDL
         Date paymentDate = new Date();

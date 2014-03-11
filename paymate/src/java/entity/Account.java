@@ -26,12 +26,13 @@ public class Account implements Serializable {
     @Column(unique=true) @NotNull String email;
     @NotNull String password;
     @NotNull String currency;
-    int balance = 1000000;
+    @NotNull float balance = 1000000;
+//  @NotNull String role = 'normal';
 
     public Account() {
     }
     
-    public Account(String email, String password, String currency, int balance){
+    public Account(String email, String password, String currency, Float balance){
         this.email = email;
         this.password = password;
         this.currency = currency;
@@ -70,22 +71,22 @@ public class Account implements Serializable {
         this.currency = currency;
     }
 
-    public int getBalance() {
+    public float getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 59 * hash + Objects.hashCode(this.email);
-        hash = 59 * hash + Objects.hashCode(this.password);
-        hash = 59 * hash + Objects.hashCode(this.currency);
-        hash = 59 * hash + this.balance;
+        hash = 67 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 67 * hash + Objects.hashCode(this.email);
+        hash = 67 * hash + Objects.hashCode(this.password);
+        hash = 67 * hash + Objects.hashCode(this.currency);
+        hash = 67 * hash + Float.floatToIntBits(this.balance);
         return hash;
     }
 
@@ -110,10 +111,10 @@ public class Account implements Serializable {
         if (!Objects.equals(this.currency, other.currency)) {
             return false;
         }
-        if (this.balance != other.balance) {
+        if (Float.floatToIntBits(this.balance) != Float.floatToIntBits(other.balance)) {
             return false;
         }
         return true;
     }
-    
+
 }

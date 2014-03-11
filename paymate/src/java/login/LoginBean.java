@@ -105,7 +105,7 @@ public class LoginBean implements Serializable {
         
         try
         {
-            account = accountStore.getAccount(email, password);
+            account = accountStore.getAccount(email);
             return account.getPassword().equals(password);
         }
         catch(Exception e)

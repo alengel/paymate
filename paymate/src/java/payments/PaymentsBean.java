@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package payments;
 
 import ejb.account.AccountStorageServiceBean;
@@ -31,7 +25,7 @@ public class PaymentsBean implements Serializable {
     private String originEmail;
     private String recipient;
     private String currency;
-    private String amount;
+    private float amount;
     private Date scheduledDate;
     
     @EJB
@@ -76,11 +70,11 @@ public class PaymentsBean implements Serializable {
         this.currency = currency;
     }
 
-    public String getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
@@ -102,6 +96,13 @@ public class PaymentsBean implements Serializable {
         //Insert payment into the DB payments table
         transactionStore.insertTransaction(type, originEmail, recipient, currency, 
                 amount, scheduledDate);
+        
+        //Deduct amount from origin account balance
+        deductAmountFromOrigin();
+        
+        //Add amount to recipient account balance
+        addAmountToRecipient();
+        
         return "success";
     }
     
@@ -113,6 +114,14 @@ public class PaymentsBean implements Serializable {
         type = "request";
         
         return "success";
+    }
+    
+    public void deductAmountFromOrigin(){
+        accountStore.deductAmount(originEmail, amount);
+    }
+    
+    public void addAmountToRecipient(){
+        accountStore.addAmount(recipient, amount);
     }
 
     public Boolean validateFormFields(){
@@ -151,10 +160,6 @@ public class PaymentsBean implements Serializable {
         }
         
         return true;
-    }
-    
-    public String backToPaymentsPage(){
-        return "payments";
     }
     
     @PostConstruct
