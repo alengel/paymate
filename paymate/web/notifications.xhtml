@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="resources/css/normalize.css"></link>
+        <link rel="stylesheet" href="resources/css/main.css"></link>
+        <link rel="stylesheet" href="resources/css/core.css"></link>
+        
+        <title>PayMate</title>
+    </h:head>
+    <h:body>
+        <h2 class="header">PayMate</h2>
+        <h:form>
+            <div class="date">March 6th - 10:07</div>
+            <h:commandLink styleClass="logout" action="logout">Logout</h:commandLink>
+            
+            <h:commandLink styleClass="tab notifications-link active" action="notifications">Notifications</h:commandLink>
+            <h:commandLink styleClass="tab payments" action="payments">Payments</h:commandLink>
+        </h:form>
+        
+        <h:dataTable value="#{paymentsBean.notifications}"
+                     var="payment"
+                     frame="border"
+                     styleClass="notifications-table"
+                     rowClasses="odd-row, even-row">
+                <h:column>
+                    <f:facet name="header">Date</f:facet>
+                     <h:outputText value="#{payment.paymentTimestamp}" >
+                        <f:convertDateTime pattern="MMM dd, YYYY" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Recipient</f:facet>
+                        #{payment.recipient}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Currency</f:facet>
+                        #{payment.currency}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Amount</f:facet>
+                        #{payment.amount}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Type</f:facet>
+                        #{payment.type}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Actions</f:facet>
+                    <h:panelGroup rendered="#{payment.type=='request'}">
+                        <commandButton class="button small reject-button">Reject</commandButton>
+                        <commandButton class="button small accept-button">Accept</commandButton>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{payment.type=='payment'}">
+                        n/a
+                    </h:panelGroup>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Status</f:facet>
+                        #{payment.status}
+                </h:column>
+            </h:dataTable>
+    </h:body>
+</html>
+

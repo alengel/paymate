@@ -2,8 +2,11 @@ package payments;
 
 import ejb.account.AccountStorageServiceBean;
 import ejb.payment.PaymentStorageServiceBean;
+import entity.Payment;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -86,6 +89,10 @@ public class PaymentsBean implements Serializable {
         this.scheduledDate = scheduledDate;
     }
     
+    public List<Payment> getNotifications() {
+        return transactionStore.getNotifications(originEmail);
+    }
+    
     public String makePayment(){
         if(validateFormFields()){
             return null;
@@ -94,8 +101,7 @@ public class PaymentsBean implements Serializable {
         type = "payment";
         
         //Insert payment into the DB payments table
-        transactionStore.insertTransaction(type, originEmail, recipient, currency, 
-                amount, scheduledDate);
+        insertTransaction();
         
         //Deduct amount from origin account balance
         deductAmountFromOrigin();
@@ -103,7 +109,7 @@ public class PaymentsBean implements Serializable {
         //Add amount to recipient account balance
         addAmountToRecipient();
         
-        return "success";
+        return "payment_success";
     }
     
     public String requestFunds(){
@@ -113,7 +119,15 @@ public class PaymentsBean implements Serializable {
         
         type = "request";
         
-        return "success";
+        //Insert payment into the DB payments table
+        insertTransaction();
+        
+        return "request_success";
+    }
+    
+    public void insertTransaction(){
+        transactionStore.insertTransaction(type, originEmail, recipient, currency, 
+                amount, scheduledDate);
     }
     
     public void deductAmountFromOrigin(){
