@@ -16,5 +16,9 @@ public interface PaymentStorageService {
             String recipient, String currency, String amount, Date scheduledDate);
     
     public List<Payment> getNotifications(String originEmail);
+    
+    public void processPayment(long id);
+    
+    public void updateStatus(long id, String status);
 }
 

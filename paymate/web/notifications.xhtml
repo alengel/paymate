@@ -18,16 +18,21 @@
         <h:link styleClass="tab notifications-link active" outcome="notifications">Notifications</h:link>
         <h:link styleClass="tab payments" outcome="payments">Payments</h:link>
         
-        <h:dataTable value="#{notificationsBean.notifications}"
-                     var="payment"
-                     frame="border"
+        <h:dataTable binding="#{notificationsBean.notificationsTable}"
+                     rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
-                     rowClasses="odd-row, even-row">
+                     value="#{notificationsBean.notifications}"
+                     var="payment">
+                <span id="#{payment.id}"></span>
                 <h:column>
                     <f:facet name="header">Date</f:facet>
                      <h:outputText value="#{payment.paymentTimestamp}" >
                         <f:convertDateTime pattern="MMM dd, YYYY" />
                     </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Origin</f:facet>
+                        #{payment.originEmail}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Recipient</f:facet>
@@ -53,24 +58,32 @@
                         #{payment.type}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Actions</f:facet>
-                    <h:panelGroup rendered="#{payment.type=='request'}">
+                    <f:facet name="header">Status</f:facet>
+                    <h:panelGroup rendered="#{payment.originEmail==notificationsBean.loggedInUser 
+                                              and payment.status=='pending'}">
                         <h:form>
-                            <h:commandButton value="Reject" class="button small reject-button"></h:commandButton>
-                            <h:commandButton value="Accept" class="button small accept-button"></h:commandButton>
+                            <h:commandButton actionListener="#{notificationsBean.rejectRequest}"
+                                             class="button small reject-button"
+                                             value="Reject">
+                            </h:commandButton>
+                            <h:commandButton actionListener="#{notificationsBean.acceptRequest}"
+                                             class="button small accept-button"
+                                             value="Accept">
+                            </h:commandButton>
                         </h:form>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.type=='payment'}">
-                        n/a
-                    </h:panelGroup>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Status</f:facet>
+                    <h:panelGroup rendered="#{(payment.originEmail!=notificationsBean.loggedInUser 
+                                              and payment.status=='pending') 
+                                              or payment.status=='completed' 
+                                              or payment.status=='accepted' 
+                                              or payment.status=='rejected'}">
                         #{payment.status}
+                    </h:panelGroup>
+                        
                 </h:column>
             </h:dataTable>
         <div class="balance-container">
-            <span>Account Balance:   </span>
+            <span class="balance-title">Balance:   </span>
             <h:outputText value="#{paymentsBean.accountBalance}"></h:outputText>
         </div>
     </h:body>

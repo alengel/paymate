@@ -22,6 +22,11 @@
         <h:form styleClass="payments-form">
             <p class="introduction">Please fill in the details to make a payment or request funds.</p>
             
+            <div class="balance-container">
+                <span class="balance-title">Balance   </span>
+                <h:outputText value="#{paymentsBean.accountBalance}"></h:outputText>
+            </div>
+            
             <div class="input-container">
                 <span class="labels">Recipient Email</span>
                 <h:inputText id="recipient" 
@@ -61,9 +66,9 @@
             
             <div class="input-container">
                 <span class="labels">Schedule Payment Date</span>
-                <p:calendar id="calendar" 
-                            styleClass="calendar"
+                <p:calendar id="calendar"
                             pattern="dd/mm/yyyy"
+                            styleClass="calendar"
                             value="#{paymentsBean.scheduledDate}"/>
                 <p:watermark for="calendar" value="today" />  
             </div>
@@ -71,18 +76,21 @@
             <h:messages styleClass="global-error" globalOnly="true" />
             
             <div class="button-container">
-                <h:commandButton styleClass="button long" 
-                                 action="#{paymentsBean.makePayment}" 
+                <h:commandButton action="#{paymentsBean.makePayment}" 
+                                 styleClass="button long"
                                  value="Make Payment">
                 </h:commandButton>
 
-                <h:commandButton styleClass="button long" 
-                                 action="#{paymentsBean.requestFunds}" 
+                <h:commandButton action="#{paymentsBean.requestFunds}" 
+                                 styleClass="button long"
                                  value="Request Funds">
                 </h:commandButton>
             </div>
             
-            <h:commandButton styleClass="button left" type="reset" value="Cancel"></h:commandButton>
+            <h:commandButton styleClass="button left" 
+                             type="reset" 
+                             value="Cancel">
+            </h:commandButton>
         
         </h:form>
         

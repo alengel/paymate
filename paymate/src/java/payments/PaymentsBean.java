@@ -119,7 +119,7 @@ public class PaymentsBean implements Serializable {
         type = "payment";
         
         //Insert payment into the DB payments table
-        insertTransaction();
+        insertTransaction(originEmail, recipient);
         
         //Deduct amount from origin account balance
         deductAmountFromOrigin();
@@ -138,12 +138,12 @@ public class PaymentsBean implements Serializable {
         type = "request";
         
         //Insert payment into the DB payments table
-        insertTransaction();
+        insertTransaction(recipient, originEmail);
         
         return "request_success";
     }
     
-    public void insertTransaction(){
+    public void insertTransaction(String originEmail, String recipient){
         paymentsStore.insertTransaction(type, originEmail, recipient, currency, 
                 amount, scheduledDate);
     }
@@ -167,8 +167,8 @@ public class PaymentsBean implements Serializable {
             return true;
         }
         
-        if(amount == 0.0){
-            createErrorMessage("Please enter a higher amount than 0.0");
+        if(amount == 0){
+            createErrorMessage("Please enter a higher amount than 0");
             return true;
         }
         

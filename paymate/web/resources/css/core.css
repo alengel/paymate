@@ -218,6 +218,7 @@ input,
 
 .notifications-table tr {
     border-bottom: rgb(31, 166, 122) 1px solid;
+    height: 36px;
 }
 
 .notifications-table td {
@@ -233,10 +234,24 @@ input,
 }
 
 .balance-container {
-    margin-left: 12px;
-    margin-top: 12px;
+    margin-left: 15px; 
+    margin-top: 12px; 
+    margin-bottom: 18px;
     font-weight: 600;
     color: rgb(31, 166, 122);
+}
+
+.balance-title {
+    margin-right: 48px;
+}
+
+.payments-page .balance-container{
+    margin-left: 0; 
+    margin-top: 0; 
+}
+
+.payments-page .balance-title {
+    margin-right: 156px;
 }
 
 .exchange {
@@ -268,7 +283,7 @@ th {
 }
 
 .introduction{
-    margin-bottom: 24px;
+    margin-bottom: 8px;
 }
 
 .pay-currency {
@@ -328,6 +343,7 @@ th {
     -moz-box-shadow:    none;
     box-shadow:        none;
     margin: 0;
+    padding-right: 9px;
 }
 
 .button.back {
