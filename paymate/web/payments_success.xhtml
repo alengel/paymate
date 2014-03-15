@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <link rel="stylesheet" href="resources/css/normalize.css"></link>
         <link rel="stylesheet" href="resources/css/main.css"></link>
@@ -13,13 +12,11 @@
     </h:head>
     <h:body styleClass="payments-page-response">
         <h2 class="header">PayMate</h2>
-        <h:form>
-            <div class="date">March 6th - 10:07</div>
-            <h:link styleClass="logout" outcome="logout">Logout</h:link>
-            
-            <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
-            <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
-        </h:form>
+        <div class="date">March 6th - 10:07</div>
+        <h:link styleClass="logout" outcome="logout">Logout</h:link>
+
+        <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
+        <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
         
         <h:form styleClass="payments-form">
             

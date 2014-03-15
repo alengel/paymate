@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -36,8 +37,10 @@ public class PaymentStorageServiceBean {
         em.persist(payment);
     }
     
-    public synchronized List<Payment> getNotifications(String email) {
-         return em.createNamedQuery("findAllPayments").getResultList();
+    public synchronized List<Payment> getNotifications(String originEmail) {
+        TypedQuery<Payment> query = em.createQuery(
+            "SELECT c FROM Payment c WHERE c.originEmail = :originEmail", Payment.class);
+        return query.setParameter("originEmail", originEmail).getResultList();        
     }
     
 }

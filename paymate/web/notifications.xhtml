@@ -12,15 +12,13 @@
     </h:head>
     <h:body>
         <h2 class="header">PayMate</h2>
-        <h:form>
-            <div class="date">March 6th - 10:07</div>
-            <h:commandLink styleClass="logout" action="logout">Logout</h:commandLink>
-            
-            <h:commandLink styleClass="tab notifications-link active" action="notifications">Notifications</h:commandLink>
-            <h:commandLink styleClass="tab payments" action="payments">Payments</h:commandLink>
-        </h:form>
+        <div class="date">March 6th - 10:07</div>
+        <h:link styleClass="logout" outcome="logout">Logout</h:link>
+
+        <h:link styleClass="tab notifications-link active" outcome="notifications">Notifications</h:link>
+        <h:link styleClass="tab payments" outcome="payments">Payments</h:link>
         
-        <h:dataTable value="#{paymentsBean.notifications}"
+        <h:dataTable value="#{notificationsBean.notifications}"
                      var="payment"
                      frame="border"
                      styleClass="notifications-table"
@@ -36,12 +34,19 @@
                         #{payment.recipient}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Currency</f:facet>
-                        #{payment.currency}
-                </h:column>
-                <h:column>
                     <f:facet name="header">Amount</f:facet>
-                        #{payment.amount}
+                    <h:panelGroup rendered="#{payment.currency=='GBP'}">
+                        £
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{payment.currency=='USD'}">
+                        $
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{payment.currency=='EUR'}">
+                        €
+                    </h:panelGroup>
+                    <h:outputText value="#{payment.amount}" >
+                        <f:convertNumber pattern="#0.00" />
+                    </h:outputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Type</f:facet>
@@ -50,8 +55,10 @@
                 <h:column>
                     <f:facet name="header">Actions</f:facet>
                     <h:panelGroup rendered="#{payment.type=='request'}">
-                        <commandButton class="button small reject-button">Reject</commandButton>
-                        <commandButton class="button small accept-button">Accept</commandButton>
+                        <h:form>
+                            <h:commandButton value="Reject" class="button small reject-button"></h:commandButton>
+                            <h:commandButton value="Accept" class="button small accept-button"></h:commandButton>
+                        </h:form>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{payment.type=='payment'}">
                         n/a
@@ -62,6 +69,10 @@
                         #{payment.status}
                 </h:column>
             </h:dataTable>
+        <div class="balance-container">
+            <span>Account Balance:   </span>
+            <h:outputText value="#{paymentsBean.accountBalance}"></h:outputText>
+        </div>
     </h:body>
 </html>
 

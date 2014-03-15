@@ -232,6 +232,13 @@ input,
    background-color:rgba(31, 166, 122, 0.1);
 }
 
+.balance-container {
+    margin-left: 12px;
+    margin-top: 12px;
+    font-weight: 600;
+    color: rgb(31, 166, 122);
+}
+
 .exchange {
     color: rgb(31, 166, 122);
     position: absolute;
@@ -315,7 +322,7 @@ th {
 }
 
 .button.small {
-    width: 55px;
+    width: 62px;
     border-radius: 6px;
     -webkit-box-shadow: none;
     -moz-box-shadow:    none;

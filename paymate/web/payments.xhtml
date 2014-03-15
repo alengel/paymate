@@ -13,13 +13,11 @@
     </h:head>
     <h:body styleClass="payments-page">
         <h2 class="header">PayMate</h2>
-        <h:form>
-            <div class="date">March 6th - 10:07</div>
-            <h:link styleClass="logout" outcome="logout">Logout</h:link>
-            
-            <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
-            <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
-        </h:form>
+        <div class="date">March 6th - 10:07</div>
+        <h:link styleClass="logout" outcome="logout">Logout</h:link>
+
+        <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
+        <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
         
         <h:form styleClass="payments-form">
             <p class="introduction">Please fill in the details to make a payment or request funds.</p>
@@ -56,7 +54,7 @@
                              styleClass="amount-field"
                              validatorMessage="The amount has to be a number, either 12 or 12.20"
                              value="#{paymentsBean.amount}">
-<!--                    <f:validateRegex pattern="\d+(\.\d\d|\d*)"/>-->
+                    <f:convertNumber pattern="#0.00" />
                 </h:inputText>
                 <h:message styleClass="error-message" for="amount"/>
             </div>

@@ -2,11 +2,9 @@ package payments;
 
 import ejb.account.AccountStorageServiceBean;
 import ejb.payment.PaymentStorageServiceBean;
-import entity.Payment;
+import entity.Account;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -35,10 +33,10 @@ public class PaymentsBean implements Serializable {
     private AccountStorageServiceBean accountStore;
     
     @EJB
-    private PaymentStorageServiceBean transactionStore;
+    private PaymentStorageServiceBean paymentsStore;
     
     public PaymentsBean(){
-        originEmail = "alena@wa.com";
+        originEmail = "user2@wa.com";
     }
 
     public String getType() {
@@ -89,8 +87,28 @@ public class PaymentsBean implements Serializable {
         this.scheduledDate = scheduledDate;
     }
     
-    public List<Payment> getNotifications() {
-        return transactionStore.getNotifications(originEmail);
+    public String getAccountBalance(){
+        Account account = accountStore.getAccount(originEmail);
+        float balance = account.getBalance();
+        String localCurrency = changeCurrencyStringToSymbol(account.getCurrency());
+        
+        return localCurrency + balance;
+    }
+    
+    private String changeCurrencyStringToSymbol(String currencyString){
+        String currencySymbol;
+        
+        switch (currencyString) {
+            case "GBP":  currencySymbol = "£";
+                     break;
+            case "USD":  currencySymbol = "$";
+                     break;
+            case "EUR":  currencySymbol = "€";
+                     break;
+            default: currencySymbol = "Invalid currency";
+                     break;            
+        }
+        return currencySymbol;
     }
     
     public String makePayment(){
@@ -126,7 +144,7 @@ public class PaymentsBean implements Serializable {
     }
     
     public void insertTransaction(){
-        transactionStore.insertTransaction(type, originEmail, recipient, currency, 
+        paymentsStore.insertTransaction(type, originEmail, recipient, currency, 
                 amount, scheduledDate);
     }
     
@@ -139,11 +157,18 @@ public class PaymentsBean implements Serializable {
     }
 
     public Boolean validateFormFields(){
-        if(!checkIfAccountExists()){
+        if(!accountStore.checkAccountExists(recipient)){
+            createErrorMessage("The recipient does not have an account with PayMate.");
             return true;
         }
         
-        if(!checkIfOriginIsNotRecipient()){
+        if(originEmail.equals(recipient)){
+            createErrorMessage("You can't send funds to yourself.");
+            return true;
+        }
+        
+        if(amount == 0.0){
+            createErrorMessage("Please enter a higher amount than 0.0");
             return true;
         }
         
@@ -154,26 +179,9 @@ public class PaymentsBean implements Serializable {
         return false;
     }
     
-    public Boolean checkIfAccountExists(){
-        if(accountStore.checkAccountExists(recipient)){
-            return true;
-        }
-        
+    public void createErrorMessage(String errorMessage){
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        facesContext.addMessage(null, new FacesMessage("The recipient does not have an account with PayMate."));
-        
-        return false;
-    }
-    
-    public Boolean checkIfOriginIsNotRecipient(){
-        if(originEmail.equals(recipient)){
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, new FacesMessage("You can't send funds to yourself."));
-
-            return false;
-        }
-        
-        return true;
+        facesContext.addMessage(null, new FacesMessage(errorMessage));
     }
     
     @PostConstruct

@@ -89,6 +89,22 @@
     </navigation-rule>
     
     <navigation-rule> 
+        <from-view-id>/payments_failure.xhtml</from-view-id> 
+        <navigation-case> 
+            <from-outcome>logout</from-outcome> 
+            <to-view-id>/login.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>notifications</from-outcome> 
+            <to-view-id>/notifications.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>payments</from-outcome> 
+            <to-view-id>/payments.xhtml</to-view-id> 
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule> 
         <from-view-id>/request_success.xhtml</from-view-id> 
         <navigation-case> 
             <from-outcome>logout</from-outcome> 
