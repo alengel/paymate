@@ -14,6 +14,7 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -35,7 +36,10 @@ public class NotificationsBean implements Serializable {
     private PaymentStorageServiceBean paymentsStore;
     
     public NotificationsBean(){
-        loggedInUser = "user3@wa.com";
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        System.out.println(request.getRemoteUser());
+        loggedInUser = request.getRemoteUser();
     }
 
     public String getLoggedInUser() {

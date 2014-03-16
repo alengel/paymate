@@ -1,7 +1,6 @@
 package login;
 
 import ejb.account.AccountStorageServiceBean;
-import entity.Account;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -10,9 +9,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -26,22 +24,6 @@ public class LoginBean implements Serializable {
     private String email;
     private String password;
     private String originalURL;
-
-    @PostConstruct
-    public void init() {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
-
-        if (originalURL == null) {
-            originalURL = externalContext.getRequestContextPath() + "/home.xhtml";
-        } else {
-            String originalQuery = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
-
-            if (originalQuery != null) {
-                originalURL += "?" + originalQuery;
-            }
-        }
-    }
     
     @EJB
     private AccountStorageServiceBean accountStore;
@@ -65,61 +47,37 @@ public class LoginBean implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-//    public void login() throws IOException {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        ExternalContext externalContext = context.getExternalContext();
-//        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-//
-//        try {
-//            request.login(email, password);
-//            Account account = accountStore.getAccount(email, password);
-//            externalContext.getSessionMap().put("account", account);
-//            externalContext.redirect(originalURL);
-//        } catch (ServletException e) {
-//            // Handle unknown username/password in request.login().
-//            context.addMessage(null, new FacesMessage("Unknown login"));
-//        }
-//    }
-//
-//    public void logout() throws IOException {
-//        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-//        externalContext.invalidateSession();
-//        externalContext.redirect(externalContext.getRequestContextPath() + "/login.xhtml");
-//    }
-    
+        
     public String login(){
-        //Check if email exists and password is correct
-        if(!checkEmail()){
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, new FacesMessage("Email or password are wrong."));
-
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        
+        try {
+            request.login(this.email, this.password);
+            return "success";
+        } catch (ServletException e) {
+            facesContext.addMessage(null, new FacesMessage("Login failed."));
             return null;
         }
-        
-        return "success";
     }
     
-    public Boolean checkEmail(){
-        Account account;
-        
-        try
-        {
-            account = accountStore.getAccount(email);
-            return account.getPassword().equals(password);
+    public String logout(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            //this method will disassociate the principal from the session (effectively logging him/her out)
+            request.logout();
+            return "login";
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage("Logout failed."));
+            return null;
         }
-        catch(Exception e)
-        {
-            
-        }
-            
-        return false;
     }
     
-//    @PostConstruct
-//    public void postConstruct() {
-//        System.out.println("LoginBean: PostConstruct");
-//    }
+    @PostConstruct
+    public void postConstruct() {
+        System.out.println("LoginBean: PostConstruct");
+    }
     
     @PreDestroy
     public void preDestroy() {

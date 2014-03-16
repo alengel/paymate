@@ -31,7 +31,7 @@ a:hover {
     margin-left: auto;
     margin-right: auto;
     padding: 24px;
-    width: 350px;
+    width: 354px;
 }
 
 .login-form {
@@ -59,7 +59,7 @@ input,
 .password-field {
     height: 23px;
     margin-left: -9px;
-    width: 204px;
+    width: 206px;
     box-shadow: none;
     margin-bottom: 24px;
     font-size: 1em;
@@ -67,7 +67,7 @@ input,
 
 .password-field {
     margin-bottom: 0;
-    margin-left: 0;
+    margin-left: 2px;
 }
 
 .reg-currency {
@@ -76,7 +76,7 @@ input,
 }
 
 .labels {
-    margin-right: 65px;
+    margin-right: 64px;
     margin-bottom: 12px;
 }
 
@@ -126,6 +126,12 @@ input,
 .notifications-page .global-error {
     margin-left: 468px;
     margin-top: -42px;
+}
+
+.no-notifications {
+    top: 134px;
+    left: 24px;
+    position: absolute;
 }
 
 .registration-page .global-error {

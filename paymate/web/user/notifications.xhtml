@@ -4,25 +4,32 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <link rel="stylesheet" href="resources/css/normalize.css"></link>
-        <link rel="stylesheet" href="resources/css/main.css"></link>
-        <link rel="stylesheet" href="resources/css/core.css"></link>
+        <link rel="stylesheet" href="../resources/css/normalize.css"></link>
+        <link rel="stylesheet" href="../resources/css/main.css"></link>
+        <link rel="stylesheet" href="../resources/css/core.css"></link>
         
         <title>PayMate</title>
     </h:head>
     <h:body styleClass="notifications-page">
         <h2 class="header">PayMate</h2>
         <div class="date">March 6th - 10:07</div>
-        <h:link styleClass="logout" outcome="logout">Logout</h:link>
+        <h:form>
+            <h:commandLink styleClass="logout" action="#{loginBean.logout()}">Logout</h:commandLink>
+        </h:form>
 
         <h:link styleClass="tab notifications-link active" outcome="notifications">Notifications</h:link>
         <h:link styleClass="tab payments" outcome="payments">Payments</h:link>
+        
+        <h:panelGroup styleClass="no-notifications" rendered="#{notificationsBean.notificationsTable.rowCount==0}">
+            You have no notifications.
+        </h:panelGroup>
         
         <h:dataTable binding="#{notificationsBean.notificationsTable}"
                      rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
                      value="#{notificationsBean.notifications}"
                      var="payment">
+                
                 <span id="#{payment.id}"></span>
                 <h:column>
                     <f:facet name="header">Date</f:facet>
@@ -32,11 +39,21 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Origin</f:facet>
+                    <h:panelGroup rendered="#{payment.originEmail==notificationsBean.loggedInUser}">
+                        you
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{payment.originEmail!=notificationsBean.loggedInUser}">
                         #{payment.originEmail}
+                    </h:panelGroup>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Recipient</f:facet>
+                    <h:panelGroup rendered="#{payment.recipient==notificationsBean.loggedInUser}">
+                        you
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{payment.recipient!=notificationsBean.loggedInUser}">
                         #{payment.recipient}
+                    </h:panelGroup>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Amount</f:facet>

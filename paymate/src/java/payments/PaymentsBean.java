@@ -38,7 +38,7 @@ public class PaymentsBean implements Serializable {
     private PaymentStorageServiceBean paymentsStore;
     
     public PaymentsBean(){
-        originEmail = "user2@wa.com";
+        originEmail = "alena@wa.com";
     }
 
     public String getType() {

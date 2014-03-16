@@ -4,16 +4,18 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <link rel="stylesheet" href="resources/css/normalize.css"></link>
-        <link rel="stylesheet" href="resources/css/main.css"></link>
-        <link rel="stylesheet" href="resources/css/core.css"></link>
+        <link rel="stylesheet" href="../resources/css/normalize.css"></link>
+        <link rel="stylesheet" href="../resources/css/main.css"></link>
+        <link rel="stylesheet" href="../resources/css/core.css"></link>
         
         <title>PayMate</title>
     </h:head>
     <h:body styleClass="payments-page-response">
         <h2 class="header">PayMate</h2>
         <div class="date">March 6th - 10:07</div>
-        <h:link styleClass="logout" outcome="logout">Logout</h:link>
+        <h:form>
+            <h:commandLink styleClass="logout" action="#{loginBean.logout()}">Logout</h:commandLink>
+        </h:form>
 
         <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
         <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
