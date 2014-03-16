@@ -67,10 +67,11 @@
             <div class="input-container">
                 <span class="labels">Schedule Payment Date</span>
                 <p:calendar id="calendar"
-                            pattern="dd/mm/yyyy"
+                            pattern="dd/MM/yyyy"
                             styleClass="calendar"
                             value="#{paymentsBean.scheduledDate}"/>
-                <p:watermark for="calendar" value="today" />  
+                <p:watermark for="calendar"
+                             value="#{paymentsBean.defaultScheduledDate}" />  
             </div>
             
             <h:messages styleClass="global-error" globalOnly="true" />

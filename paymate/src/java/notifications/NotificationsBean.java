@@ -7,9 +7,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 
@@ -33,7 +35,7 @@ public class NotificationsBean implements Serializable {
     private PaymentStorageServiceBean paymentsStore;
     
     public NotificationsBean(){
-        loggedInUser = "alena@wa.com";
+        loggedInUser = "user3@wa.com";
     }
 
     public String getLoggedInUser() {
@@ -60,6 +62,10 @@ public class NotificationsBean implements Serializable {
         Payment rowPayment = (Payment) notificationsTable.getRowData();
         float rowPaymentAmount = rowPayment.getAmount();
         
+        if(checkBalance(rowPaymentAmount)){
+            return;
+        }
+        
         accountStore.addAmount(rowPayment.getOriginEmail(), rowPaymentAmount);
         accountStore.deductAmount(rowPayment.getRecipient(), rowPaymentAmount);
         paymentsStore.updateStatus(rowPayment.getId(), "accepted");
@@ -68,5 +74,17 @@ public class NotificationsBean implements Serializable {
     public void rejectRequest(){
         Payment rowPayment = (Payment) notificationsTable.getRowData();
         paymentsStore.updateStatus(rowPayment.getId(), "rejected");
+    }
+    
+    public Boolean checkBalance(float rowRequestedAmount){
+        float currentBalance = accountStore.getAccount(loggedInUser).getBalance();
+        float tempBalance = currentBalance - rowRequestedAmount;
+        
+        if(tempBalance <= 0){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.addMessage(null, new FacesMessage("Your funds are too low to accept this request."));
+            return true;
+        }
+        return false;
     }
 }

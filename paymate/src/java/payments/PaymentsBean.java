@@ -4,6 +4,8 @@ import ejb.account.AccountStorageServiceBean;
 import ejb.payment.PaymentStorageServiceBean;
 import entity.Account;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -87,6 +89,12 @@ public class PaymentsBean implements Serializable {
         this.scheduledDate = scheduledDate;
     }
     
+    public String getDefaultScheduledDate(){
+        DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String todayDate = originalFormat.format(new Date());
+        return todayDate;
+    }
+    
     public String getAccountBalance(){
         Account account = accountStore.getAccount(originEmail);
         float balance = account.getBalance();
@@ -113,6 +121,9 @@ public class PaymentsBean implements Serializable {
     
     public String makePayment(){
         if(validateFormFields()){
+            return null;
+        }
+        if(checkBalance()){
             return null;
         }
         
@@ -176,6 +187,17 @@ public class PaymentsBean implements Serializable {
             scheduledDate = new Date();
         }
         
+        return false;
+    }
+    
+    public Boolean checkBalance(){
+        float currentBalance = accountStore.getAccount(originEmail).getBalance();
+        float tempBalance = currentBalance - amount;
+        
+        if(tempBalance <= 0){
+            createErrorMessage("Your funds are too low to make this payment.");
+            return true;
+        }
         return false;
     }
     

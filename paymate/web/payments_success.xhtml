@@ -20,6 +20,11 @@
         
         <h:form styleClass="payments-form">
             
+            <div class="balance-container">
+                <span class="balance-title">New Balance:   </span>
+                <h:outputText value="#{paymentsBean.accountBalance}"></h:outputText>
+            </div>
+
             <span>Your payment was successful.</span>
             
             <h:button styleClass="button long back" 

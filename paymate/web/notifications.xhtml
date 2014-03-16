@@ -10,7 +10,7 @@
         
         <title>PayMate</title>
     </h:head>
-    <h:body>
+    <h:body styleClass="notifications-page">
         <h2 class="header">PayMate</h2>
         <div class="date">March 6th - 10:07</div>
         <h:link styleClass="logout" outcome="logout">Logout</h:link>
@@ -86,6 +86,8 @@
             <span class="balance-title">Balance:   </span>
             <h:outputText value="#{paymentsBean.accountBalance}"></h:outputText>
         </div>
+        
+        <h:messages styleClass="global-error" globalOnly="true" />
     </h:body>
 </html>
 
