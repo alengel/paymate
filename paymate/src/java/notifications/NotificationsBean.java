@@ -70,8 +70,8 @@ public class NotificationsBean implements Serializable {
             return;
         }
         
-        accountStore.addAmount(rowPayment.getOriginEmail(), rowPaymentAmount);
-        accountStore.deductAmount(rowPayment.getRecipient(), rowPaymentAmount);
+        accountStore.addAmount(rowPayment.getRecipient(), rowPaymentAmount);
+        accountStore.deductAmount(rowPayment.getOriginEmail(), rowPaymentAmount);
         paymentsStore.updateStatus(rowPayment.getId(), "accepted");
     }
     
