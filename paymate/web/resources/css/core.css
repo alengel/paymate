@@ -270,6 +270,7 @@ input,
     position: absolute;
     top: 66px;
     left: 860px;
+    width: 200px;
 }
 
 .currency-table {

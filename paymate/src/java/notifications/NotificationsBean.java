@@ -38,7 +38,6 @@ public class NotificationsBean implements Serializable {
     public NotificationsBean(){
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-        System.out.println(request.getRemoteUser());
         loggedInUser = request.getRemoteUser();
     }
 

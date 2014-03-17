@@ -14,6 +14,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -38,7 +39,9 @@ public class PaymentsBean implements Serializable {
     private PaymentStorageServiceBean paymentsStore;
     
     public PaymentsBean(){
-        originEmail = "alena@wa.com";
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        originEmail = request.getRemoteUser();
     }
 
     public String getType() {

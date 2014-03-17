@@ -24,7 +24,7 @@ public class PaymentStorageServiceBean {
         
     }
     
-    public void insertTransaction(String type, String originEmail, String recipient, String currency, 
+    public synchronized void insertTransaction(String type, String originEmail, String recipient, String currency, 
                 float amount, Date scheduledDate){
         String status;
         //Get timestamp from WSDL
