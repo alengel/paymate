@@ -7,6 +7,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.ws.WebServiceRef;
+import timestamp.TimestampWSService;
 
 /**
  *
@@ -15,6 +18,8 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 public class PaymentStorageServiceBean {
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/TimestampWSService/TimestampWS.wsdl")
+    private TimestampWSService service;
     
     
     
@@ -29,6 +34,7 @@ public class PaymentStorageServiceBean {
         String status;
         //Get timestamp from WSDL
         Date paymentDate = new Date();
+        System.out.print(retrieveTimestamp());
         
         if(type.equals("payment")){
             status = "completed";
@@ -59,5 +65,9 @@ public class PaymentStorageServiceBean {
         
         payment.setStatus(status);
     }
-    
+
+    private XMLGregorianCalendar retrieveTimestamp() {
+        timestamp.TimestampWS port = service.getTimestampWSPort();
+        return port.retrieveTimestamp();
+    }
 }
