@@ -1,7 +1,6 @@
 package ejb.payment;
 
 import entity.Payment;
-import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -10,10 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.xml.ws.Response;
 import javax.xml.ws.WebServiceRef;
 import timestamp.TimestampWSService;
 
@@ -73,13 +69,4 @@ public class PaymentStorageServiceBean {
         return port.retrieveTimestamp().toGregorianCalendar().getTime();
     }
     
-    //Get currency rates from paymateRS
-    public String getCurrencies(){
-        Client client = ClientBuilder.newClient();
-        String currencies = client.target("http://localhost:8080/paymateRS/conversion/all")
-          .request(MediaType.APPLICATION_JSON)
-          .get(String.class);
-
-        return currencies;
-    }
 }

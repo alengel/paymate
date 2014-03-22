@@ -23,13 +23,11 @@ public class RegistrationBean implements Serializable {
     private String password;
     private String passwordVerification;
     private String currency;
-    private final int balance;
 
     @EJB
     private AccountStorageServiceBean accountStore;
 
     public RegistrationBean() {
-        balance = 1000000;
     }
    
     public String getEmail() {
@@ -76,7 +74,7 @@ public class RegistrationBean implements Serializable {
         }
         
         //Insert user account into the DB account table
-        accountStore.insertAccount(email, password, currency, balance);
+        accountStore.insertAccount(email, password, currency);
         return "success";
     }
     

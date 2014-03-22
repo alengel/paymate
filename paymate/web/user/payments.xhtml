@@ -48,7 +48,7 @@
             
             <div class="input-container">
                 <span>Select Currency</span>
-                <h:selectOneMenu styleClass="pay-currency" required="true" value="#{paymentsBean.currency}">
+                <h:selectOneMenu styleClass="pay-currency" value="#{paymentsBean.currency}">
                     <f:selectItem itemValue="GBP" itemLabel="£ - British GBP" />
                     <f:selectItem itemValue="EUR" itemLabel="€ - Euro" />
                     <f:selectItem itemValue="USD" itemLabel="$ - US Dollar" />
@@ -67,6 +67,14 @@
                     <f:convertNumber pattern="#0.00" />
                 </h:inputText>
                 <h:message styleClass="error-message" for="amount"/>
+            </div>
+            
+            <div class="input-container">
+                <span class="labels">Amount In #{paymentsBean.currency}</span>
+                <h:outputText id="converted-amount" 
+                              styleClass="converted-amount-field"
+                              value="123">
+                </h:outputText>
             </div>
             
             <div class="input-container">
@@ -111,19 +119,19 @@
             <tr class="odd-row">
                 <td>GBP</td>
                 <td>1</td>
-                <td></td>
-                <td></td>
+                <td>#{currencyBean.currencies.get("GBP").get("EUR")}</td>
+                <td>#{currencyBean.currencies.get("GBP").get("USD")}</td>
             </tr>
             <tr>
                 <td>EUR</td>
-                <td></td>
+                <td>#{currencyBean.currencies.get("EUR").get("GBP")}</td>
                 <td>1</td>
-                <td></td>
+                <td>#{currencyBean.currencies.get("EUR").get("USD")}</td>
             </tr>
             <tr class="odd-row">
                 <td>USD</td>
-                <td></td>
-                <td></td>
+                <td>#{currencyBean.currencies.get("USD").get("GBP")}</td>
+                <td>#{currencyBean.currencies.get("USD").get("EUR")}</td>
                 <td>1</td>
             </tr>
         </table>

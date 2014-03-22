@@ -314,6 +314,10 @@ th {
     margin-left: 100px;
 }
 
+.payments-page .converted-amount-field {
+    margin-left: 100px;
+}
+
 .payments-page select {
     margin-left: 115px;
 }

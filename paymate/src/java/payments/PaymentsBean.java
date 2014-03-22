@@ -7,8 +7,6 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -44,7 +42,7 @@ public class PaymentsBean implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         originEmail = request.getRemoteUser();
-    }
+    }    
 
     public String getType() {
         return type;
@@ -71,7 +69,10 @@ public class PaymentsBean implements Serializable {
     }
 
     public String getCurrency() {
-        return currency;
+        Account account = accountStore.getAccount(originEmail);
+        String defaultCurrency = account.getCurrency();
+        
+        return defaultCurrency;
     }
 
     public void setCurrency(String currency) {
@@ -97,16 +98,8 @@ public class PaymentsBean implements Serializable {
     public String getDefaultScheduledDate(){
         DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = originalFormat.format(new Date());
+        
         return todayDate;
-    }
-    
-    public String getCurrencies(){
-        String json = paymentsStore.getCurrencies();
-        
-        
-        
-        System.out.println();
-        return null;
     }
     
     public String getAccountBalance(){
@@ -212,6 +205,7 @@ public class PaymentsBean implements Serializable {
             createErrorMessage("Your funds are too low to make this payment.");
             return true;
         }
+        
         return false;
     }
     
