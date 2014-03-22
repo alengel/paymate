@@ -48,10 +48,13 @@
             
             <div class="input-container">
                 <span>Select Currency</span>
-                <h:selectOneMenu styleClass="pay-currency" value="#{paymentsBean.currency}">
-                    <f:selectItem itemValue="GBP" itemLabel="£ - British GBP" />
-                    <f:selectItem itemValue="EUR" itemLabel="€ - Euro" />
-                    <f:selectItem itemValue="USD" itemLabel="$ - US Dollar" />
+                <h:selectOneMenu id="currencies" 
+                                 styleClass="pay-currency" 
+                                 value="#{paymentsBean.currency}">
+                    <f:selectItems value="#{paymentsBean.currencies}"
+                                   var="newcurrency" 
+                                   itemValue="#{newcurrency}" 
+                                   itemLabel="#{newcurrency}"/>
                 </h:selectOneMenu>
             </div>
             
@@ -67,14 +70,6 @@
                     <f:convertNumber pattern="#0.00" />
                 </h:inputText>
                 <h:message styleClass="error-message" for="amount"/>
-            </div>
-            
-            <div class="input-container">
-                <span class="labels">Amount In #{paymentsBean.currency}</span>
-                <h:outputText id="converted-amount" 
-                              styleClass="converted-amount-field"
-                              value="123">
-                </h:outputText>
             </div>
             
             <div class="input-container">

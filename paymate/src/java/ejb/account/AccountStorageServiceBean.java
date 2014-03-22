@@ -86,14 +86,4 @@ public class AccountStorageServiceBean {
         
         originAccount.setBalance(newBalance);
     }
-
-    @PostConstruct
-    public void postConstruct() {
-        System.out.println("AccountStore: PostConstruct");
-    }
-
-    @PreDestroy
-    public void preDestroy() {
-        System.out.println("AccountStore: PreDestroy");
-    }
 }

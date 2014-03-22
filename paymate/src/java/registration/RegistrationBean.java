@@ -1,6 +1,7 @@
 package registration;
 
 import ejb.account.AccountStorageServiceBean;
+import ejb.currencies.CurrencyStorageServiceBean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -26,6 +27,9 @@ public class RegistrationBean implements Serializable {
 
     @EJB
     private AccountStorageServiceBean accountStore;
+    
+    @EJB
+    private CurrencyStorageServiceBean currencyStore;
 
     public RegistrationBean() {
     }
@@ -62,6 +66,17 @@ public class RegistrationBean implements Serializable {
         this.currency = currency;
     }
     
+    public float getBalanceInChosenCurrency(){
+        float gbpBalance = 1000000;
+        
+        if(currency.equals("GBP")){
+            return gbpBalance;
+        }
+        
+        String convertedBalance = currencyStore.getConvertedAmount("GBP", currency, gbpBalance);
+        return Float.parseFloat(convertedBalance);
+    }
+    
     public String register() {
         //Check if user already exists
         if(checkIfAccountExists()){
@@ -74,7 +89,7 @@ public class RegistrationBean implements Serializable {
         }
         
         //Insert user account into the DB account table
-        accountStore.insertAccount(email, password, currency);
+        accountStore.insertAccount(email, password, currency, getBalanceInChosenCurrency());
         return "success";
     }
     

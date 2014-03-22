@@ -1,6 +1,7 @@
 package payments;
 
 import ejb.account.AccountStorageServiceBean;
+import ejb.currencies.CurrencyStorageServiceBean;
 import ejb.payment.PaymentStorageServiceBean;
 import entity.Account;
 import java.io.Serializable;
@@ -29,8 +30,10 @@ public class PaymentsBean implements Serializable {
     private String originEmail;
     private String recipient;
     private String currency;
+    private String[] currencies;
     private float amount;
     private Date scheduledDate;
+    CurrencyBean currencyBean;
     
     @EJB
     private AccountStorageServiceBean accountStore;
@@ -42,6 +45,9 @@ public class PaymentsBean implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         originEmail = request.getRemoteUser();
+        
+        currencyBean = new CurrencyBean();
+        currencies = new String[]{"GBP", "EUR", "USD"};
     }    
 
     public String getType() {
@@ -67,7 +73,15 @@ public class PaymentsBean implements Serializable {
     public void setRecipient(String recipient) {
         this.recipient = recipient;
     }
+    
+    public String[] getCurrencies(){
+        return currencies;
+    }
 
+    public void setCurrencies(String[] currencies) {
+        this.currencies = currencies;
+    }
+    
     public String getCurrency() {
         Account account = accountStore.getAccount(originEmail);
         String defaultCurrency = account.getCurrency();
@@ -105,25 +119,17 @@ public class PaymentsBean implements Serializable {
     public String getAccountBalance(){
         Account account = accountStore.getAccount(originEmail);
         float balance = account.getBalance();
-        String localCurrency = changeCurrencyStringToSymbol(account.getCurrency());
+        String localCurrency = currencyBean.changeCurrencyStringToSymbol(account.getCurrency());
         
         return localCurrency + balance;
     }
     
-    private String changeCurrencyStringToSymbol(String currencyString){
-        String currencySymbol;
+    private void setConvertedAmount(){
+        String localCurrency = accountStore.getAccount(originEmail).getCurrency();
+        float convertedAmount = currencyBean.calculateAmountInChosenCurrency(localCurrency, 
+                currency, amount);
         
-        switch (currencyString) {
-            case "GBP":  currencySymbol = "£";
-                     break;
-            case "USD":  currencySymbol = "$";
-                     break;
-            case "EUR":  currencySymbol = "€";
-                     break;
-            default: currencySymbol = "Invalid currency";
-                     break;            
-        }
-        return currencySymbol;
+        amount = convertedAmount;
     }
     
     public String makePayment(){
@@ -135,6 +141,8 @@ public class PaymentsBean implements Serializable {
         }
         
         type = "payment";
+        
+        setConvertedAmount();
         
         //Insert payment into the DB payments table
         insertTransaction(originEmail, recipient);
@@ -154,6 +162,8 @@ public class PaymentsBean implements Serializable {
         }
         
         type = "request";
+        
+        setConvertedAmount();
         
         //Insert payment into the DB payments table
         insertTransaction(recipient, originEmail);

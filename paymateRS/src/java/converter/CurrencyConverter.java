@@ -33,11 +33,23 @@ public class CurrencyConverter {
     @GET
     @Path("{currencyOne}/{currencyTwo}")
     @Produces({MediaType.APPLICATION_JSON})
-    public ExchangeRate getForeignCurrency(@PathParam("currencyOne") String currencyOne, 
-                                         @PathParam("currencyTwo") String currencyTwo){
+    public ExchangeRate getExchangeRate(@PathParam("currencyOne") String currencyOne, 
+                                  @PathParam("currencyTwo") String currencyTwo){
         
-        //Return an exchange rate for the two passed in currencies
+        //Return the exchange rate for the two passed in currencies
         return currencies.getExchangeRate(currencyOne, currencyTwo);
+    }
+    
+    @GET
+    @Path("{currencyOne}/{currencyTwo}/{currencyTwoValue}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getForeignCurrency(@PathParam("currencyOne") String currencyOne, 
+                                           @PathParam("currencyTwo") String currencyTwo,
+                                           @PathParam("currencyTwoValue") String currencyTwoValue){
+        
+        //Return the exchange rate for the two passed in currencies
+        Float convertedValue = currencies.getConvertedAmount(currencyOne, currencyTwo, currencyTwoValue);
+        return convertedValue.toString();
     }
     
 }

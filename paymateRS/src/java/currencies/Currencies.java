@@ -49,4 +49,13 @@ public class Currencies {
 
         return new ExchangeRate(from, to, convertedRate);
     }
+    
+    //Return the converted rate
+    public Float getConvertedAmount(String from, String to, String value){
+        HashMap<String, Float> localRate = rates.get(from);
+        Float foreignRate = localRate.get(to);
+        Float convertedRate = foreignRate * Float.parseFloat(value);;
+                
+        return convertedRate;
+    }
 }

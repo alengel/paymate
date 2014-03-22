@@ -2,11 +2,9 @@ package payments;
 
 import com.google.gson.Gson;
 import ejb.currencies.CurrencyStorageServiceBean;
-import ejb.payment.PaymentStorageServiceBean;
 import java.io.Serializable;
 import java.util.HashMap;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
@@ -15,20 +13,42 @@ import javax.inject.Named;
  */
 
 @Named
-@RequestScoped
+@SessionScoped
 public class CurrencyBean implements Serializable{
     
-    @EJB
-    private CurrencyStorageServiceBean currencyStore;
-    
+    public CurrencyBean(){}
+      
     public HashMap<String,HashMap<String, Float>> getCurrencies(){
         Gson gson = new Gson(); 
-        String json = currencyStore.getCurrencies();
-        System.out.print(json);
-        HashMap<String,HashMap<String, Float>> map = new HashMap<String,HashMap<String, Float>>();
-        map = (HashMap<String,HashMap<String, Float>>) gson.fromJson(json, map.getClass());
-        System.out.print(map);
-        return map;
+        String currencies = CurrencyStorageServiceBean.getCurrencies();
+        HashMap<String,HashMap<String, Float>> currenciesMap = new HashMap<String,HashMap<String, Float>>();
+        currenciesMap = (HashMap<String,HashMap<String, Float>>) gson.fromJson(currencies, currenciesMap.getClass());
+        return currenciesMap;
+    }
+    
+    public String changeCurrencyStringToSymbol(String currencyString){
+        String currencySymbol;
+        
+        switch (currencyString) {
+            case "GBP":  currencySymbol = "£";
+                     break;
+            case "USD":  currencySymbol = "$";
+                     break;
+            case "EUR":  currencySymbol = "€";
+                     break;
+            default: currencySymbol = "Invalid currency";
+                     break;            
+        }
+        return currencySymbol;
+    }
+    
+    public float calculateAmountInChosenCurrency(String localCurrency, String foreignCurrency, float amount){
+        if(localCurrency.equals(foreignCurrency)){
+            return amount;
+        }
+        //System.out.print("store" + currencyStore);
+        String convertedAmount = CurrencyStorageServiceBean.getConvertedAmount(localCurrency, foreignCurrency, amount);
+        return Float.parseFloat(convertedAmount);
     }
     
 }
