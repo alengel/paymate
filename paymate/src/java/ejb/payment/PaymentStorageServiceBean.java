@@ -1,13 +1,19 @@
 package ejb.payment;
 
 import entity.Payment;
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.xml.datatype.XMLGregorianCalendar;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.xml.ws.Response;
 import javax.xml.ws.WebServiceRef;
 import timestamp.TimestampWSService;
 
@@ -21,8 +27,6 @@ public class PaymentStorageServiceBean {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/TimestampWSService/TimestampWS.wsdl")
     private TimestampWSService service;
     
-    
-    
     @PersistenceContext EntityManager em;
     
     public PaymentStorageServiceBean() {
@@ -32,9 +36,6 @@ public class PaymentStorageServiceBean {
     public synchronized void insertTransaction(String type, String originEmail, String recipient, String currency, 
                 float amount, Date scheduledDate){
         String status;
-        //Get timestamp from WSDL
-        Date paymentDate = new Date();
-        System.out.print(retrieveTimestamp());
         
         if(type.equals("payment")){
             status = "completed";
@@ -42,7 +43,7 @@ public class PaymentStorageServiceBean {
             status = "pending";
         }
         
-        Payment payment = new Payment(paymentDate, type, originEmail, recipient, currency, 
+        Payment payment = new Payment(getTimestamp(), type, originEmail, recipient, currency, 
                 amount, scheduledDate, status);
         
         em.persist(payment);
@@ -66,8 +67,19 @@ public class PaymentStorageServiceBean {
         payment.setStatus(status);
     }
 
-    private XMLGregorianCalendar retrieveTimestamp() {
+    //Get timestamp from paymateWS
+    public Date getTimestamp() {
         timestamp.TimestampWS port = service.getTimestampWSPort();
-        return port.retrieveTimestamp();
+        return port.retrieveTimestamp().toGregorianCalendar().getTime();
+    }
+    
+    //Get currency rates from paymateRS
+    public String getCurrencies(){
+        Client client = ClientBuilder.newClient();
+        String currencies = client.target("http://localhost:8080/paymateRS/conversion/all")
+          .request(MediaType.APPLICATION_JSON)
+          .get(String.class);
+
+        return currencies;
     }
 }

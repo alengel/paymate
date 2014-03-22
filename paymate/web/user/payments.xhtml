@@ -9,13 +9,16 @@
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
         
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
+        
         <title>PayMate</title>
     </h:head>
     <h:body styleClass="payments-page">
         <h2 class="header">PayMate</h2>
-        <div class="date">March 6th - 10:07</div>
+        <div class="date">#{notificationsBean.currentDate}</div>
+        
         <h:form>
-            <h:commandLink styleClass="logout" action="#{loginBean.logout()}">Logout</h:commandLink>
+            <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{notificationsBean.loggedInUser}</h:commandLink>
         </h:form>
 
         <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
@@ -98,25 +101,33 @@
         </h:form>
         
         <div class="exchange">Current Exchange Rates</div>
-        <h:dataTable styleClass="currency-table">
-            <h:column>
-                <f:facet name="header">Currencies</f:facet>
-                USD
-                GBP
-                EUR
-            </h:column>
-            <h:column>
-                <f:facet name="header">USD</f:facet>
-            </h:column>
-            <h:column>
-                <f:facet name="header">GBP</f:facet>
-                1.50
-            </h:column>
-            <h:column>
-                <f:facet name="header">EUR</f:facet>
-                1.30
-            </h:column>
-        </h:dataTable>
+        <table class="currency-table">
+            <tr>
+                <th></th>
+                <th>GBP</th>
+                <th>EUR</th>
+                <th>USD</th>
+            </tr>
+            <tr class="odd-row">
+                <td>GBP</td>
+                <td>1</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>EUR</td>
+                <td></td>
+                <td>1</td>
+                <td></td>
+            </tr>
+            <tr class="odd-row">
+                <td>USD</td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+            </tr>
+        </table>
+        
     </h:body>
 </html>
 

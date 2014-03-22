@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -96,6 +98,15 @@ public class PaymentsBean implements Serializable {
         DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = originalFormat.format(new Date());
         return todayDate;
+    }
+    
+    public String getCurrencies(){
+        String json = paymentsStore.getCurrencies();
+        
+        
+        
+        System.out.println();
+        return null;
     }
     
     public String getAccountBalance(){
