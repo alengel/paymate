@@ -12,7 +12,7 @@ import javax.ejb.Local;
 public interface AccountStorageService {
     public Boolean checkAccountExists(String email);
     
-    public void insertAccount(String email, String password, String currency);
+    public void insertAccount(String email, String password, String currency, float balance);
     
     public Account getAccount(String email);
     

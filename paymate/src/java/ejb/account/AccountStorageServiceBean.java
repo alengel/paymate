@@ -43,20 +43,15 @@ public class AccountStorageServiceBean {
         return query.setParameter("email", email).getSingleResult();         
     }
     
-    public synchronized void insertAccount(String email, String password, String currency) {
+    public synchronized void insertAccount(String email, String password, String currency, float balance) {
         String hashedPassword = hashPassword(password);
-        float balance = getBalanceInChosenCurrency(currency);
         Account account = new Account(email, hashedPassword, currency, balance);
         AccountGroup accountGroup = new AccountGroup(email, "user");
         
         em.persist(account);
         em.persist(accountGroup);
     }
-    
-    public float getBalanceInChosenCurrency(String currency){
-        return 1000000;
-    }
-    
+   
     public String hashPassword(String password){
         try {
             //Password Hash Code from Lab Class - Week 8 by George Parisis
