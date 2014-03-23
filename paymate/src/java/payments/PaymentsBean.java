@@ -126,10 +126,14 @@ public class PaymentsBean implements Serializable {
     
     private void setConvertedAmount(){
         String localCurrency = accountStore.getAccount(originEmail).getCurrency();
-        float convertedAmount = currencyBean.calculateAmountInChosenCurrency(localCurrency, 
+        
+        if(!localCurrency.equals(currency)){
+            float convertedAmount = currencyBean.calculateAmountInChosenCurrency(localCurrency, 
                 currency, amount);
         
-        amount = convertedAmount;
+            amount = convertedAmount;
+        }
+        
     }
     
     public String makePayment(){
@@ -171,8 +175,13 @@ public class PaymentsBean implements Serializable {
         return "request_success";
     }
     
-    public void insertTransaction(String originEmail, String recipient){
-        paymentsStore.insertTransaction(type, originEmail, recipient, currency, 
+    public void insertTransaction(String originEmail, String recipientEmail){
+        Account origin = accountStore.getAccount(originEmail);
+        Account recipient2 = accountStore.getAccount(recipientEmail);
+        System.out.print("alena");
+        System.out.print(origin.getId());
+        System.out.print(recipient2.getId());
+        paymentsStore.insertTransaction(type, origin, recipient2, currency, 
                 amount, scheduledDate);
     }
     

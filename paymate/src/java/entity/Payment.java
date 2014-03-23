@@ -3,11 +3,16 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
@@ -23,8 +28,10 @@ public class Payment implements Serializable {
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
     @NotNull @Temporal(javax.persistence.TemporalType.DATE) Date paymentTimestamp;
     @NotNull String type;
-    @NotNull String originEmail;
-    @NotNull String recipient;
+    @OneToOne Account origin;
+    @OneToOne Account recipient;
+    //@NotNull long originId;
+    //@NotNull long recipientId;
     @NotNull String currency;
     @NotNull float amount;
     @Temporal(javax.persistence.TemporalType.DATE) Date scheduledDate;
@@ -34,11 +41,11 @@ public class Payment implements Serializable {
         
     }
 
-    public Payment(Date paymentTimestamp, String type, String originEmail, String recipient, 
+    public Payment(Date paymentTimestamp, String type, Account origin, Account recipient, 
             String currency, float amount, Date scheduledDate, String status) {
         this.paymentTimestamp = paymentTimestamp;
         this.type = type;
-        this.originEmail = originEmail;
+        this.origin = origin;
         this.recipient = recipient;
         this.currency = currency;
         this.amount = amount;
@@ -70,19 +77,19 @@ public class Payment implements Serializable {
         this.type = type;
     }
 
-    public String getOriginEmail() {
-        return originEmail;
+    public Account getOrigin() {
+        return origin;
     }
 
-    public void setOriginEmail(String originEmail) {
-        this.originEmail = originEmail;
+    public void setOrigin(Account origin) {
+        this.origin = origin;
     }
 
-    public String getRecipient() {
+    public Account getRecipient() {
         return recipient;
     }
 
-    public void setRecipient(String recipient) {
+    public void setRecipient(Account recipient) {
         this.recipient = recipient;
     }
 
@@ -121,15 +128,15 @@ public class Payment implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 83 * hash + Objects.hashCode(this.paymentTimestamp);
-        hash = 83 * hash + Objects.hashCode(this.type);
-        hash = 83 * hash + Objects.hashCode(this.originEmail);
-        hash = 83 * hash + Objects.hashCode(this.recipient);
-        hash = 83 * hash + Objects.hashCode(this.currency);
-        hash = 83 * hash + Float.floatToIntBits(this.amount);
-        hash = 83 * hash + Objects.hashCode(this.scheduledDate);
-        hash = 83 * hash + Objects.hashCode(this.status);
+        hash = 29 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 29 * hash + Objects.hashCode(this.paymentTimestamp);
+        hash = 29 * hash + Objects.hashCode(this.type);
+        hash = 29 * hash + Objects.hashCode(this.origin);
+        hash = 29 * hash + Objects.hashCode(this.recipient);
+        hash = 29 * hash + Objects.hashCode(this.currency);
+        hash = 29 * hash + Float.floatToIntBits(this.amount);
+        hash = 29 * hash + Objects.hashCode(this.scheduledDate);
+        hash = 29 * hash + Objects.hashCode(this.status);
         return hash;
     }
 
@@ -151,7 +158,7 @@ public class Payment implements Serializable {
         if (!Objects.equals(this.type, other.type)) {
             return false;
         }
-        if (!Objects.equals(this.originEmail, other.originEmail)) {
+        if (!Objects.equals(this.origin, other.origin)) {
             return false;
         }
         if (!Objects.equals(this.recipient, other.recipient)) {
@@ -172,4 +179,5 @@ public class Payment implements Serializable {
         return true;
     }
 
+    
 }

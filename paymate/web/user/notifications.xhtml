@@ -42,20 +42,20 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Origin</f:facet>
-                    <h:panelGroup rendered="#{payment.originEmail==notificationsBean.loggedInUser}">
+                    <h:panelGroup rendered="#{payment.origin.email==notificationsBean.loggedInUser}">
                         you
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.originEmail!=notificationsBean.loggedInUser}">
-                        #{payment.originEmail}
+                    <h:panelGroup rendered="#{payment.origin.email!=notificationsBean.loggedInUser}">
+                        #{payment.origin.email}
                     </h:panelGroup>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Recipient</f:facet>
-                    <h:panelGroup rendered="#{payment.recipient==notificationsBean.loggedInUser}">
+                    <h:panelGroup rendered="#{payment.recipient.email==notificationsBean.loggedInUser}">
                         you
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.recipient!=notificationsBean.loggedInUser}">
-                        #{payment.recipient}
+                    <h:panelGroup rendered="#{payment.recipient.email!=notificationsBean.loggedInUser}">
+                        #{payment.recipient.email}
                     </h:panelGroup>
                 </h:column>
                 <h:column>
@@ -79,7 +79,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Status</f:facet>
-                    <h:panelGroup rendered="#{payment.originEmail==notificationsBean.loggedInUser 
+                    <h:panelGroup rendered="#{payment.origin.email==notificationsBean.loggedInUser 
                                               and payment.status=='pending'}">
                         <h:form>
                             <h:commandButton actionListener="#{notificationsBean.rejectRequest}"
@@ -92,7 +92,7 @@
                             </h:commandButton>
                         </h:form>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{(payment.originEmail!=notificationsBean.loggedInUser 
+                    <h:panelGroup rendered="#{(payment.origin.email!=notificationsBean.loggedInUser 
                                               and payment.status=='pending') 
                                               or payment.status=='completed' 
                                               or payment.status=='accepted' 

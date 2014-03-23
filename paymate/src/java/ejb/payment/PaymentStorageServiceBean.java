@@ -1,5 +1,7 @@
 package ejb.payment;
 
+import entity.Account;
+import static entity.Account_.id;
 import entity.Payment;
 import java.util.Date;
 import java.util.List;
@@ -7,9 +9,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.MediaType;
 import javax.xml.ws.WebServiceRef;
 import timestamp.TimestampWSService;
 
@@ -29,8 +28,9 @@ public class PaymentStorageServiceBean {
         
     }
     
-    public synchronized void insertTransaction(String type, String originEmail, String recipient, String currency, 
-                float amount, Date scheduledDate){
+    public synchronized void insertTransaction(String type, Account origin, 
+            Account recipient, String currency, float amount, Date scheduledDate){
+        
         String status;
         
         if(type.equals("payment")){
@@ -39,16 +39,16 @@ public class PaymentStorageServiceBean {
             status = "pending";
         }
         
-        Payment payment = new Payment(getTimestamp(), type, originEmail, recipient, currency, 
+        Payment payment = new Payment(getTimestamp(), type, origin, recipient, currency, 
                 amount, scheduledDate, status);
         
         em.persist(payment);
     }
     
-    public synchronized List<Payment> getNotifications(String originEmail) {
+    public synchronized List<Payment> getNotifications(Account origin) {
         TypedQuery<Payment> query = em.createQuery(
-            "SELECT c FROM Payment c WHERE c.originEmail = :originEmail OR c.recipient = :originEmail", Payment.class);
-        return query.setParameter("originEmail", originEmail).getResultList();        
+            "SELECT c FROM Payment c WHERE c.origin = :originId OR c.recipient = :originId", Payment.class);
+        return query.setParameter("originId", origin).getResultList();        
     }
     
     public synchronized Payment processPayment(long id){

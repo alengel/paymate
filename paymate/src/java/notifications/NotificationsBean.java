@@ -2,6 +2,7 @@ package notifications;
 
 import ejb.account.AccountStorageServiceBean;
 import ejb.payment.PaymentStorageServiceBean;
+import entity.Account;
 import entity.Payment;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -64,7 +65,8 @@ public class NotificationsBean implements Serializable {
     }
     
     public List<Payment> getNotifications() {
-        return paymentsStore.getNotifications(loggedInUser);
+        Account origin = accountStore.getAccount(loggedInUser);
+        return paymentsStore.getNotifications(origin);
     }
 
     public void acceptRequest(){
@@ -75,8 +77,8 @@ public class NotificationsBean implements Serializable {
             return;
         }
         
-        accountStore.addAmount(rowPayment.getRecipient(), rowPaymentAmount);
-        accountStore.deductAmount(rowPayment.getOriginEmail(), rowPaymentAmount);
+//        accountStore.addAmount(rowPayment.getRecipientId(), rowPaymentAmount);
+//        accountStore.deductAmount(rowPayment.getOriginId(), rowPaymentAmount);
         paymentsStore.updateStatus(rowPayment.getId(), "accepted");
     }
     

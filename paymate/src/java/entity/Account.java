@@ -27,7 +27,6 @@ public class Account implements Serializable {
     @NotNull String password;
     @NotNull String currency;
     @NotNull float balance = 1000000;
-//  @NotNull String role = 'normal';
 
     public Account() {
     }

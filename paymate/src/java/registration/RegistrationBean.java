@@ -27,9 +27,6 @@ public class RegistrationBean implements Serializable {
 
     @EJB
     private AccountStorageServiceBean accountStore;
-    
-    @EJB
-    private CurrencyStorageServiceBean currencyStore;
 
     public RegistrationBean() {
     }
@@ -73,7 +70,7 @@ public class RegistrationBean implements Serializable {
             return gbpBalance;
         }
         
-        String convertedBalance = currencyStore.getConvertedAmount("GBP", currency, gbpBalance);
+        String convertedBalance = CurrencyStorageServiceBean.getConvertedAmount("GBP", currency, gbpBalance);
         return Float.parseFloat(convertedBalance);
     }
     

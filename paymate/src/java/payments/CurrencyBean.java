@@ -43,10 +43,6 @@ public class CurrencyBean implements Serializable{
     }
     
     public float calculateAmountInChosenCurrency(String localCurrency, String foreignCurrency, float amount){
-        if(localCurrency.equals(foreignCurrency)){
-            return amount;
-        }
-        //System.out.print("store" + currencyStore);
         String convertedAmount = CurrencyStorageServiceBean.getConvertedAmount(localCurrency, foreignCurrency, amount);
         return Float.parseFloat(convertedAmount);
     }
