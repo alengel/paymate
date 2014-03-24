@@ -1,4 +1,4 @@
-package ejb.currencies;
+package ejb.beans;
 
 import java.io.Serializable;
 import javax.ejb.Stateless;

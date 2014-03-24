@@ -1,9 +1,9 @@
-package notifications;
+package jsf.beans;
 
-import ejb.account.AccountStorageServiceBean;
-import ejb.payment.PaymentStorageServiceBean;
-import entity.Account;
-import entity.Payment;
+import ejb.beans.AccountStorageServiceBean;
+import ejb.beans.PaymentStorageServiceBean;
+import entities.Account;
+import entities.Payment;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -77,8 +77,6 @@ public class NotificationsBean implements Serializable {
             return;
         }
         
-//        accountStore.addAmount(rowPayment.getRecipientId(), rowPaymentAmount);
-//        accountStore.deductAmount(rowPayment.getOriginId(), rowPaymentAmount);
         paymentsStore.updateStatus(rowPayment.getId(), "accepted");
     }
     

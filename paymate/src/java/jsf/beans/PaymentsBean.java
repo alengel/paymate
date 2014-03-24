@@ -1,9 +1,10 @@
-package payments;
+package jsf.beans;
 
-import ejb.account.AccountStorageServiceBean;
-import ejb.currencies.CurrencyStorageServiceBean;
-import ejb.payment.PaymentStorageServiceBean;
-import entity.Account;
+import jsf.beans.CurrencyBean;
+import ejb.beans.AccountStorageServiceBean;
+import ejb.beans.CurrencyStorageServiceBean;
+import ejb.beans.PaymentStorageServiceBean;
+import entities.Account;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +12,9 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
+import javax.ejb.EJBTransactionRolledbackException;
+import javax.ejb.TransactionAttribute;
+import static javax.ejb.TransactionAttributeType.REQUIRED;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -132,32 +136,29 @@ public class PaymentsBean implements Serializable {
                 currency, amount);
         
             amount = convertedAmount;
-        }
-        
+        }        
     }
     
     public String makePayment(){
-        if(validateFormFields()){
+        
+        try {
+            if(validateFormFields()){
+                return null;
+            }
+            if(checkBalance()){
+                return null;
+            }
+
+            type = "payment";
+
+            makePayment(originEmail, recipient);
+
+            return "payment_success";
+        }
+        catch (EJBTransactionRolledbackException exception) {
+            createErrorMessage("Oops, something went wrong. Please try again.");
             return null;
         }
-        if(checkBalance()){
-            return null;
-        }
-        
-        type = "payment";
-        
-        setConvertedAmount();
-        
-        //Insert payment into the DB payments table
-        insertTransaction(originEmail, recipient);
-        
-        //Deduct amount from origin account balance
-        deductAmountFromOrigin();
-        
-        //Add amount to recipient account balance
-        addAmountToRecipient();
-        
-        return "payment_success";
     }
     
     public String requestFunds(){
@@ -167,30 +168,20 @@ public class PaymentsBean implements Serializable {
         
         type = "request";
         
-        setConvertedAmount();
-        
-        //Insert payment into the DB payments table
-        insertTransaction(recipient, originEmail);
+        makePayment(recipient, originEmail);
         
         return "request_success";
     }
     
-    public void insertTransaction(String originEmail, String recipientEmail){
+    public void makePayment(String originEmail, String recipientEmail){
         Account origin = accountStore.getAccount(originEmail);
         Account recipient2 = accountStore.getAccount(recipientEmail);
-        System.out.print("alena");
-        System.out.print(origin.getId());
-        System.out.print(recipient2.getId());
-        paymentsStore.insertTransaction(type, origin, recipient2, currency, 
+        
+        setConvertedAmount();
+        
+        //Insert payment into the DB payments table
+        paymentsStore.makePayment(type, origin, recipient2, currency, 
                 amount, scheduledDate);
-    }
-    
-    public void deductAmountFromOrigin(){
-        accountStore.deductAmount(originEmail, amount);
-    }
-    
-    public void addAmountToRecipient(){
-        accountStore.addAmount(recipient, amount);
     }
 
     public Boolean validateFormFields(){

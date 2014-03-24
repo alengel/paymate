@@ -1,6 +1,6 @@
-package login;
+package jsf.beans;
 
-import ejb.account.AccountStorageServiceBean;
+import ejb.beans.AccountStorageServiceBean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

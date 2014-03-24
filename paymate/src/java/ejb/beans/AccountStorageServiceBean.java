@@ -1,7 +1,7 @@
-package ejb.account;
+package ejb.beans;
 
-import entity.Account;
-import entity.AccountGroup;
+import entities.Account;
+import entities.AccountGroup;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import static javax.ejb.TransactionAttributeType.REQUIRED;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -24,7 +26,9 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class AccountStorageServiceBean {
     
-    @PersistenceContext EntityManager em;
+    
+    @PersistenceContext(unitName = "paymatePU")
+    EntityManager em;
     
     public AccountStorageServiceBean() {
         
@@ -68,22 +72,5 @@ public class AccountStorageServiceBean {
             return null;
         }
     }
-    
-    public synchronized void addAmount(String recipient, float amount){
-        Account recipientAccount = getAccount(recipient);
-        
-        float balance = recipientAccount.getBalance();
-        float newBalance = balance + amount;
-        
-        recipientAccount.setBalance(newBalance);
-    }
-    
-    public synchronized void deductAmount(String originEmail, float amount){
-        Account originAccount = getAccount(originEmail);
-        
-        float balance = originAccount.getBalance();
-        float newBalance = balance - amount;
-        
-        originAccount.setBalance(newBalance);
-    }
+   
 }

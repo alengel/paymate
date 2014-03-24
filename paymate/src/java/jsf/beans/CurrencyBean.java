@@ -1,7 +1,7 @@
-package payments;
+package jsf.beans;
 
 import com.google.gson.Gson;
-import ejb.currencies.CurrencyStorageServiceBean;
+import ejb.beans.CurrencyStorageServiceBean;
 import java.io.Serializable;
 import java.util.HashMap;
 import javax.enterprise.context.SessionScoped;

@@ -1,6 +1,6 @@
-package ejb.account;
+package ejb.interfaces;
 
-import entity.Account;
+import entities.Account;
 import javax.ejb.Local;
 
 /**

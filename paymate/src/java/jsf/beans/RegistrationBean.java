@@ -1,7 +1,7 @@
-package registration;
+package jsf.beans;
 
-import ejb.account.AccountStorageServiceBean;
-import ejb.currencies.CurrencyStorageServiceBean;
+import ejb.beans.AccountStorageServiceBean;
+import ejb.beans.CurrencyStorageServiceBean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

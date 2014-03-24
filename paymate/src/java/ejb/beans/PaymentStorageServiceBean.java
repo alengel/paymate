@@ -1,11 +1,15 @@
-package ejb.payment;
+package ejb.beans;
 
-import entity.Account;
-import static entity.Account_.id;
-import entity.Payment;
+import ejb.beans.AccountStorageServiceBean;
+import entities.Account;
+import static entities.Account_.id;
+import entities.Payment;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import static javax.ejb.TransactionAttributeType.REQUIRED;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -22,19 +26,27 @@ public class PaymentStorageServiceBean {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/TimestampWSService/TimestampWS.wsdl")
     private TimestampWSService service;
     
-    @PersistenceContext EntityManager em;
+    @PersistenceContext(unitName = "paymatePU")
+    EntityManager em;
+    
+    @EJB
+    private AccountStorageServiceBean accountStore;
     
     public PaymentStorageServiceBean() {
         
     }
     
-    public synchronized void insertTransaction(String type, Account origin, 
+    @TransactionAttribute(REQUIRED)
+    public synchronized void makePayment(String type, Account origin, 
             Account recipient, String currency, float amount, Date scheduledDate){
         
         String status;
         
         if(type.equals("payment")){
             status = "completed";
+            
+            addAmount(recipient.getEmail(), amount);
+            deductAmount(origin.getEmail(), amount);
         } else {
             status = "pending";
         }
@@ -43,6 +55,25 @@ public class PaymentStorageServiceBean {
                 amount, scheduledDate, status);
         
         em.persist(payment);
+        em.flush();
+    }
+    
+    public synchronized void addAmount(String recipient, float amount){
+        Account recipientAccount = accountStore.getAccount(recipient);
+        
+        float balance = recipientAccount.getBalance();
+        float newBalance = balance + amount;
+        
+        recipientAccount.setBalance(newBalance);
+    }
+    
+    public synchronized void deductAmount(String originEmail, float amount){
+        Account originAccount = accountStore.getAccount(originEmail);
+        
+        float balance = originAccount.getBalance();
+        float newBalance = balance - amount;
+        
+        originAccount.setBalance(newBalance);
     }
     
     public synchronized List<Payment> getNotifications(Account origin) {

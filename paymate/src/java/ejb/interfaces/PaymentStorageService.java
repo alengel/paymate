@@ -1,7 +1,7 @@
-package ejb.payment;
+package ejb.interfaces;
 
-import entity.Account;
-import entity.Payment;
+import entities.Account;
+import entities.Payment;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -13,7 +13,7 @@ import javax.ejb.Local;
 
 @Local
 public interface PaymentStorageService {
-    public void insertTransaction(String type, Account origin, 
+    public void makePayment(String type, Account origin, 
             Account recipient, String currency, String amount, Date scheduledDate);
     
     public List<Payment> getNotifications(long originId);

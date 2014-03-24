@@ -1,4 +1,4 @@
-package ejb.currencies;
+package ejb.interfaces;
 
 import javax.ejb.Local;
 
