@@ -3,11 +3,11 @@ package jsf.admin.beans;
 import ejb.beans.AccountStorageServiceBean;
 import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
+import entities.Payment;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.inject.Named;
 import jsf.user.beans.UtilityBean;
@@ -18,12 +18,12 @@ import jsf.user.beans.UtilityBean;
  */
 
 @Named
-@ManagedBean
-@RequestScoped
+@SessionScoped
 public class AccountsBean implements Serializable {
     
     private HtmlDataTable accountsTable;
-    private final UtilityBean utility;
+    private HtmlDataTable accountTransactionsTable;
+    private Account selected;
     
     @EJB
     private AccountStorageServiceBean accountStore;
@@ -32,7 +32,6 @@ public class AccountsBean implements Serializable {
     private PaymentStorageServiceBean paymentsStore;
     
     public AccountsBean(){
-        utility = new UtilityBean();
     }
 
     public HtmlDataTable getAccountsTable() {
@@ -43,7 +42,24 @@ public class AccountsBean implements Serializable {
         this.accountsTable = accountsTable;
     }
     
+    public HtmlDataTable getAccountTransactionsTable() {
+        return accountTransactionsTable;
+    }
+
+    public void setAccountTransactionsTable(HtmlDataTable accountTransactionsTable) {
+        this.accountTransactionsTable = accountTransactionsTable;
+    }
+    
     public List<Account> getAccounts() {
         return accountStore.getAccounts();
+    }
+
+    public String viewTransactionsByUser(){
+        selected = (Account) accountsTable.getRowData();
+        return "account_transactions";
+    }
+    
+    public List<Payment> getAccountTransactions() {
+        return paymentsStore.getTransactions(selected);
     }
 }

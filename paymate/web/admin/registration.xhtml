@@ -5,17 +5,34 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <link rel="stylesheet" href="resources/css/normalize.css"></link>
-        <link rel="stylesheet" href="resources/css/main.css"></link>
-        <link rel="stylesheet" href="resources/css/core.css"></link>
+        <link rel="stylesheet" href="../resources/css/normalize.css"></link>
+        <link rel="stylesheet" href="../resources/css/main.css"></link>
+        <link rel="stylesheet" href="../resources/css/core.css"></link>
         
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
         
-        <title>PayMate Registration</title>
+        <title>PayMate Admin Registration</title>
     </h:head>
-    <h:body styleClass="registration-page">
-        <h2 class="reg-header">PayMate Registration</h2>
-        <h:form styleClass="form registration-form" id="registration-form">
+    <h:body styleClass="admin-registration-page">
+        <h2 class="header">PayMate Admin</h2>
+        <div class="date">#{utilityBean.currentDate}</div>
+        <h:form>
+            <h:commandLink action="#{loginBean.logout()}" 
+                           styleClass="logout">logout #{utilityBean.loggedInUser}
+            </h:commandLink>
+        </h:form>
+       
+        <h:link styleClass="tab accounts-link" 
+                outcome="accounts">Accounts
+        </h:link>
+        <h:link styleClass="tab transactions-link" 
+                outcome="transactions">Transactions
+        </h:link>
+        <h:link styleClass="tab registration-tab active" 
+                outcome="registration">Admin Registration
+        </h:link>
+        
+        <h:form styleClass="admin-registration registration-form" id="registration-form">
             
             <div class="input-container">
                 <span class="labels email">Email</span>
@@ -53,20 +70,11 @@
                 <h:message styleClass="error-message" for="passwordVerification"/>
             </div>
             
-            <span>Select Currency </span>
-            <h:selectOneMenu styleClass="reg-currency" value="#{registrationBean.currency}">
-                <f:selectItem itemValue="GBP" itemLabel="£ - British GBP" />
-                <f:selectItem itemValue="EUR" itemLabel="€ - Euro" />
-                <f:selectItem itemValue="USD" itemLabel="$ - US Dollar" />
-            </h:selectOneMenu>
-            
             <h:commandButton styleClass="button" action="#{registrationBean.register}" value="Register"></h:commandButton>
             <h:commandButton styleClass="button" type="reset" value="Reset"></h:commandButton>
             <h:messages styleClass="global-error" globalOnly="true" />
         </h:form>
-        
-        <h:link outcome="login" styleClass="mini-login-form">Back to Login</h:link>
-        
+                
     </h:body>
 </html>
 

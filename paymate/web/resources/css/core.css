@@ -203,9 +203,14 @@ input,
     text-decoration: none;
 }
 
-.notifications-link {
+.notifications-link,
+.accounts-link {
     margin-left: 12px;
     margin-right: 1px;
+}
+
+.registration-tab {
+    margin-left: 1px;
 }
 
 .tab:hover {
@@ -358,6 +363,20 @@ th {
     width: 130px;
 }
 
+.button.t-long {
+    width: 156px;
+    margin: 0;
+    float: none;
+}
+
+.button.x-long {
+    width: 162px;
+    float: none;
+    position: relative;
+    left: 650px;
+
+}
+
 .button.small {
     width: 62px;
     border-radius: 6px;
@@ -407,4 +426,23 @@ th {
     background-color: #FFFFFF;
     border: 1px solid red;
     color: red;
+}
+
+.button.x-long.less-left {
+    left: 592px;
+    top: 24px;
+}
+
+.admin-registration {
+    border: 1px solid rgba(31, 166, 122, 0.7);
+    width: 762px;
+    margin-left: 12px;
+    margin-top: 4px;
+    padding: 24px;
+    height: 210px;
+}
+
+.admin-registration-page .global-error {
+    margin-top: 76px;
+    margin-left: -42px;
 }

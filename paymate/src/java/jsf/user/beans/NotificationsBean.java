@@ -5,10 +5,10 @@ import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
 import entities.Payment;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.html.HtmlDataTable;
 import javax.inject.Named;
 
@@ -18,7 +18,6 @@ import javax.inject.Named;
  */
 
 @Named
-@ManagedBean
 @RequestScoped
 public class NotificationsBean implements Serializable {
     
@@ -45,7 +44,7 @@ public class NotificationsBean implements Serializable {
     
     public List<Payment> getNotifications() {
         Account origin = accountStore.getAccount(utility.getLoggedInUser());
-        return paymentsStore.getNotifications(origin);
+        return paymentsStore.getTransactions(origin);
     }
 
     public void acceptRequest(){
@@ -74,4 +73,5 @@ public class NotificationsBean implements Serializable {
         }
         return false;
     }
+
 }

@@ -53,7 +53,12 @@ public class AccountStorageServiceBean {
     
     public synchronized void insertAccount(String email, String password, String currency, float balance) {
         String hashedPassword = hashPassword(password);
-        String defaultRole = "admin";
+        String defaultRole = "user";
+        
+        if(currency == null){
+            defaultRole = "admin";
+        }
+        
         Account account = new Account(email, hashedPassword, currency, balance, defaultRole, new Date());
         AccountGroup accountGroup = new AccountGroup(email, defaultRole);
         

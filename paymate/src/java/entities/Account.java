@@ -26,8 +26,8 @@ public class Account implements Serializable {
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
     @Column(unique=true) @NotNull String email;
     @NotNull String password;
-    @NotNull String currency;
-    @NotNull float balance;
+    String currency;
+    float balance;
     @NotNull String permissionRole;
     @NotNull @Temporal(javax.persistence.TemporalType.DATE) Date registrationDate;
     @Temporal(javax.persistence.TemporalType.DATE) Date lastLoggedIn;
@@ -43,6 +43,14 @@ public class Account implements Serializable {
         this.balance = balance;
         this.permissionRole = permissionRole;
         this.registrationDate = registrationDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
     
     public String getEmail() {

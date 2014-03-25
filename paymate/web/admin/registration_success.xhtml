@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <link rel="stylesheet" href="../resources/css/normalize.css"></link>
+        <link rel="stylesheet" href="../resources/css/main.css"></link>
+        <link rel="stylesheet" href="../resources/css/core.css"></link>
+        
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
+        
+        <title>PayMate Admin Registration</title>
+    </h:head>
+    <h:body styleClass="admin-registration-page">
+        <h2 class="header">PayMate Admin</h2>
+        <div class="date">#{utilityBean.currentDate}</div>
+        <h:form>
+            <h:commandLink action="#{loginBean.logout()}" 
+                           styleClass="logout">logout #{utilityBean.loggedInUser}
+            </h:commandLink>
+        </h:form>
+       
+        <h:link styleClass="tab accounts-link" 
+                outcome="accounts">Accounts
+        </h:link>
+        <h:link styleClass="tab transactions-link" 
+                outcome="transactions">Transactions
+        </h:link>
+        <h:link styleClass="tab registration-tab active" 
+                outcome="registration">Admin Registration
+        </h:link>
+        
+        <div class="admin-registration registration-form" id="registration-form">
+            <span>You have registered an admin.</span>
+            <p class="registered">Don't forget to let them know their details.</p>
+            
+            <h:button styleClass="button x-long less-left" 
+                      outcome="registration" 
+                      value="Back to Registration">
+            </h:button>
+        </div>
+        
+    </h:body>
+</html>
+

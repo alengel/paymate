@@ -74,10 +74,15 @@ public class PaymentStorageServiceBean {
         originAccount.setBalance(newBalance);
     }
     
-    public synchronized List<Payment> getNotifications(Account origin) {
+    public synchronized List<Payment> getTransactions(Account origin) {
         TypedQuery<Payment> query = em.createQuery(
             "SELECT c FROM Payment c WHERE c.origin = :originId OR c.recipient = :originId", Payment.class);
         return query.setParameter("originId", origin).getResultList();        
+    }
+    
+    public synchronized List<Payment> getAllTransactions() {
+        TypedQuery<Payment> query = em.createQuery("SELECT p FROM Payment p", Payment.class);
+        return query.getResultList();      
     }
     
     public synchronized Payment processPayment(long id){

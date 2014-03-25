@@ -18,6 +18,8 @@ public interface PaymentStorageService {
     
     public List<Payment> getNotifications(long originId);
     
+    public List<Payment> getAllTransactions();
+    
     public void processPayment(long id);
     
     public void updateStatus(long id, String status);

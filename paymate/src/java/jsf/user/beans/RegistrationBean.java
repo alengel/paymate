@@ -85,9 +85,23 @@ public class RegistrationBean implements Serializable {
             return null;
         }
         
-        //Insert user account into the DB account table
-        accountStore.insertAccount(email, password, currency, getBalanceInChosenCurrency());
+        if(utility.getLoggedInUser() != null){
+            insertAdmin();
+        } else {
+            insertUser();
+        }
+        
         return "success";
+    }
+    
+    public void insertUser(){
+        //Insert regular user account into the DB account table
+        accountStore.insertAccount(email, password, currency, getBalanceInChosenCurrency());
+    }
+    
+    public void insertAdmin(){
+        //Insert admin user account into the DB account table
+        accountStore.insertAccount(email, password, null, 0);
     }
     
     public Boolean checkPasswordsMatch(){

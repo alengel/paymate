@@ -21,10 +21,10 @@
             </h:commandLink>
         </h:form>
        
-        <h:link styleClass="tab accounts-link" 
+        <h:link styleClass="tab accounts-link active" 
                 outcome="accounts">Accounts
         </h:link>
-        <h:link styleClass="tab transactions-link active" 
+        <h:link styleClass="tab transactions-link" 
                 outcome="transactions">Transactions
         </h:link>
         <h:link styleClass="tab registration-tab" 
@@ -32,14 +32,14 @@
         </h:link>
         
         <h:panelGroup styleClass="no-notifications" 
-                      rendered="#{transactionsBean.transactionsTable.rowCount==0}">
-            There are no transactions yet.
+                      rendered="#{accountsBean.accountTransactionsTable.rowCount==0}">
+            This account has no transactions yet.
         </h:panelGroup>
         
-        <h:dataTable binding="#{transactionsBean.transactionsTable}"
+        <h:dataTable binding="#{accountsBean.accountTransactionsTable}"
                      rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
-                     value="#{transactionsBean.allTransactions}"
+                     value="#{accountsBean.accountTransactions}"
                      var="transaction">
                 
                 <span id="#{transaction.id}"></span>
@@ -78,10 +78,14 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Status</f:facet>
-                    #{transaction.status}    
+                        #{transaction.status}  
                 </h:column>
             </h:dataTable>
-       
+        
+            <h:button styleClass="button x-long" 
+                      outcome="accounts" 
+                      value="Back to All Accounts">
+            </h:button>
     </h:body>
 </html>
 
