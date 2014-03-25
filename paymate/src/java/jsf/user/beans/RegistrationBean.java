@@ -1,4 +1,4 @@
-package jsf.beans;
+package jsf.user.beans;
 
 import ejb.beans.AccountStorageServiceBean;
 import ejb.beans.CurrencyStorageServiceBean;
@@ -7,8 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -24,11 +22,13 @@ public class RegistrationBean implements Serializable {
     private String password;
     private String passwordVerification;
     private String currency;
+    private final UtilityBean utility;
 
     @EJB
     private AccountStorageServiceBean accountStore;
 
     public RegistrationBean() {
+        utility = new UtilityBean();
     }
    
     public String getEmail() {
@@ -94,18 +94,14 @@ public class RegistrationBean implements Serializable {
         if(password.equals(passwordVerification)){
             return true;
         } else {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, new FacesMessage("Passwords don't match."));
-            
+            utility.createErrorMessage("Passwords don't match.");
             return false;
         }        
     }
     
     public Boolean checkIfAccountExists(){
         if(accountStore.checkAccountExists(email)){
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, new FacesMessage("Email already exists"));
-            
+            utility.createErrorMessage("Email already exists");
             return true;
         }
         

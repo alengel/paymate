@@ -1,4 +1,4 @@
-package jsf.beans;
+package jsf.user.beans;
 
 import ejb.beans.AccountStorageServiceBean;
 import java.io.Serializable;
@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ManagedBean;
 import javax.servlet.ServletException;
@@ -23,13 +22,13 @@ public class LoginBean implements Serializable {
     
     private String email;
     private String password;
-    private String originalURL;
+    private final UtilityBean utility;
     
     @EJB
     private AccountStorageServiceBean accountStore;
     
     public LoginBean(){
-        
+        utility = new UtilityBean();
     }
 
     public String getEmail() {
@@ -54,9 +53,18 @@ public class LoginBean implements Serializable {
         
         try {
             request.login(this.email, this.password);
-            return "success";
+            
+            accountStore.updateLastLoginDate(email);
+            String accountRole = accountStore.getAccountRole(email).getGroupName();
+            
+            if (accountRole.equals("admin")){
+                return "admin";
+            } else {
+                return "user";
+            }
+            
         } catch (ServletException e) {
-            facesContext.addMessage(null, new FacesMessage("Login failed."));
+            utility.createErrorMessage("Username or password are incorrect.");
             return null;
         }
     }
@@ -65,11 +73,10 @@ public class LoginBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
-            //this method will disassociate the principal from the session (effectively logging him/her out)
             request.logout();
             return "login";
         } catch (ServletException e) {
-            context.addMessage(null, new FacesMessage("Logout failed."));
+            utility.createErrorMessage("Something went wrong. You were NOT logged out.");
             return null;
         }
     }

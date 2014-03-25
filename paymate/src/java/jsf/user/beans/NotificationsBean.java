@@ -1,21 +1,16 @@
-package jsf.beans;
+package jsf.user.beans;
 
 import ejb.beans.AccountStorageServiceBean;
 import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
 import entities.Payment;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.html.HtmlDataTable;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -27,8 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestScoped
 public class NotificationsBean implements Serializable {
     
-    private String loggedInUser;
     private HtmlDataTable notificationsTable;
+    private final UtilityBean utility;
     
     @EJB
     private AccountStorageServiceBean accountStore;
@@ -37,23 +32,7 @@ public class NotificationsBean implements Serializable {
     private PaymentStorageServiceBean paymentsStore;
     
     public NotificationsBean(){
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-        loggedInUser = request.getRemoteUser();
-    }
-
-    public String getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    public void setLoggedInUser(String loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
-    
-    public String getCurrentDate(){
-        DateFormat originalFormat = new SimpleDateFormat("MMM dd, yyyy");
-        String currentDate = originalFormat.format(paymentsStore.getTimestamp());
-        return currentDate;
+        utility = new UtilityBean();
     }
 
     public HtmlDataTable getNotificationsTable() {
@@ -65,7 +44,7 @@ public class NotificationsBean implements Serializable {
     }
     
     public List<Payment> getNotifications() {
-        Account origin = accountStore.getAccount(loggedInUser);
+        Account origin = accountStore.getAccount(utility.getLoggedInUser());
         return paymentsStore.getNotifications(origin);
     }
 
@@ -86,12 +65,11 @@ public class NotificationsBean implements Serializable {
     }
     
     public Boolean checkBalance(float rowRequestedAmount){
-        float currentBalance = accountStore.getAccount(loggedInUser).getBalance();
+        float currentBalance = accountStore.getAccount(utility.getLoggedInUser()).getBalance();
         float tempBalance = currentBalance - rowRequestedAmount;
         
         if(tempBalance <= 0){
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null, new FacesMessage("Your funds are too low to accept this request."));
+            utility.createErrorMessage("Your funds are too low to accept this request.");
             return true;
         }
         return false;

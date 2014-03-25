@@ -1,4 +1,4 @@
-package jsf.beans;
+package jsf.user.beans;
 
 import com.google.gson.Gson;
 import ejb.beans.CurrencyStorageServiceBean;

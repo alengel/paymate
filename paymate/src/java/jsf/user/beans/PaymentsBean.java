@@ -1,8 +1,6 @@
-package jsf.beans;
+package jsf.user.beans;
 
-import jsf.beans.CurrencyBean;
 import ejb.beans.AccountStorageServiceBean;
-import ejb.beans.CurrencyStorageServiceBean;
 import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
 import java.io.Serializable;
@@ -13,10 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
-import javax.ejb.TransactionAttribute;
-import static javax.ejb.TransactionAttributeType.REQUIRED;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -31,13 +26,13 @@ import javax.servlet.http.HttpServletRequest;
 public class PaymentsBean implements Serializable {
     
     private String type;
-    private String originEmail;
     private String recipient;
     private String currency;
     private String[] currencies;
     private float amount;
     private Date scheduledDate;
     CurrencyBean currencyBean;
+    UtilityBean utility;
     
     @EJB
     private AccountStorageServiceBean accountStore;
@@ -46,9 +41,7 @@ public class PaymentsBean implements Serializable {
     private PaymentStorageServiceBean paymentsStore;
     
     public PaymentsBean(){
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-        originEmail = request.getRemoteUser();
+        utility = new UtilityBean();
         
         currencyBean = new CurrencyBean();
         currencies = new String[]{"GBP", "EUR", "USD"};
@@ -60,14 +53,6 @@ public class PaymentsBean implements Serializable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getOriginEmail() {
-        return originEmail;
-    }
-
-    public void setOriginEmail(String originEmail) {
-        this.originEmail = originEmail;
     }
     
     public String getRecipient() {
@@ -87,7 +72,7 @@ public class PaymentsBean implements Serializable {
     }
     
     public String getCurrency() {
-        Account account = accountStore.getAccount(originEmail);
+        Account account = accountStore.getAccount(utility.getLoggedInUser());
         String defaultCurrency = account.getCurrency();
         
         return defaultCurrency;
@@ -121,7 +106,7 @@ public class PaymentsBean implements Serializable {
     }
     
     public String getAccountBalance(){
-        Account account = accountStore.getAccount(originEmail);
+        Account account = accountStore.getAccount(utility.getLoggedInUser());
         float balance = account.getBalance();
         String localCurrency = currencyBean.changeCurrencyStringToSymbol(account.getCurrency());
         
@@ -129,7 +114,7 @@ public class PaymentsBean implements Serializable {
     }
     
     private void setConvertedAmount(){
-        String localCurrency = accountStore.getAccount(originEmail).getCurrency();
+        String localCurrency = accountStore.getAccount(utility.getLoggedInUser()).getCurrency();
         
         if(!localCurrency.equals(currency)){
             float convertedAmount = currencyBean.calculateAmountInChosenCurrency(localCurrency, 
@@ -151,12 +136,12 @@ public class PaymentsBean implements Serializable {
 
             type = "payment";
 
-            makePayment(originEmail, recipient);
+            makePayment(utility.getLoggedInUser(), recipient);
 
             return "payment_success";
         }
         catch (EJBTransactionRolledbackException exception) {
-            createErrorMessage("Oops, something went wrong. Please try again.");
+            utility.createErrorMessage("Oops, something went wrong. Please try again.");
             return null;
         }
     }
@@ -168,7 +153,7 @@ public class PaymentsBean implements Serializable {
         
         type = "request";
         
-        makePayment(recipient, originEmail);
+        makePayment(recipient, utility.getLoggedInUser());
         
         return "request_success";
     }
@@ -186,17 +171,17 @@ public class PaymentsBean implements Serializable {
 
     public Boolean validateFormFields(){
         if(!accountStore.checkAccountExists(recipient)){
-            createErrorMessage("The recipient does not have an account with PayMate.");
+            utility.createErrorMessage("The recipient does not have an account with PayMate.");
             return true;
         }
         
-        if(originEmail.equals(recipient)){
-            createErrorMessage("You can't send funds to yourself.");
+        if(utility.getLoggedInUser().equals(recipient)){
+            utility.createErrorMessage("You can't send funds to yourself.");
             return true;
         }
         
         if(amount == 0){
-            createErrorMessage("Please enter a higher amount than 0");
+            utility.createErrorMessage("Please enter a higher amount than 0");
             return true;
         }
         
@@ -208,20 +193,15 @@ public class PaymentsBean implements Serializable {
     }
     
     public Boolean checkBalance(){
-        float currentBalance = accountStore.getAccount(originEmail).getBalance();
+        float currentBalance = accountStore.getAccount(utility.getLoggedInUser()).getBalance();
         float tempBalance = currentBalance - amount;
         
         if(tempBalance <= 0){
-            createErrorMessage("Your funds are too low to make this payment.");
+            utility.createErrorMessage("Your funds are too low to make this payment.");
             return true;
         }
         
         return false;
-    }
-    
-    public void createErrorMessage(String errorMessage){
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        facesContext.addMessage(null, new FacesMessage(errorMessage));
     }
     
     @PostConstruct

@@ -15,10 +15,10 @@
     <h:body styleClass="payments-page-response">
         <h2 class="header">PayMate</h2>
         <h:form>
-            <div class="date">#{notificationsBean.currentDate}</div>
+            <div class="date">#{utilityBean.currentDate}</div>
         
             <h:form>
-                <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{notificationsBean.loggedInUser}</h:commandLink>
+                <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
             </h:form>
             
             <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>

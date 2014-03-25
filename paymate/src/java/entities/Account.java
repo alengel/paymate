@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,37 +17,34 @@ import javax.validation.constraints.NotNull;
  * @author 119848
  */
 
+@Entity
 @NamedQuery(
     name="getAccountWithEmail",
     query="SELECT COUNT(c) FROM Account c WHERE c.email = :email"
 )
-
-@Entity
 public class Account implements Serializable {
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
     @Column(unique=true) @NotNull String email;
     @NotNull String password;
     @NotNull String currency;
-    @NotNull float balance = 1000000;
+    @NotNull float balance;
+    @NotNull String permissionRole;
+    @NotNull @Temporal(javax.persistence.TemporalType.DATE) Date registrationDate;
+    @Temporal(javax.persistence.TemporalType.DATE) Date lastLoggedIn;
 
     public Account() {
     }
-    
-    public Account(String email, String password, String currency, Float balance){
+
+    public Account(String email, String password, String currency, float balance, 
+            String permissionRole, Date registrationDate) {
         this.email = email;
         this.password = password;
         this.currency = currency;
         this.balance = balance;
+        this.permissionRole = permissionRole;
+        this.registrationDate = registrationDate;
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
+    
     public String getEmail() {
         return email;
     }
@@ -78,14 +77,41 @@ public class Account implements Serializable {
         this.balance = balance;
     }
 
+    public String getPermissionRole() {
+        return permissionRole;
+    }
+
+    public void setPermissionRole(String permissionRole) {
+        this.permissionRole = permissionRole;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public Date getLastLoggedIn() {
+        return lastLoggedIn;
+    }
+
+    public void setLastLoggedIn(Date lastLoggedIn) {
+        this.lastLoggedIn = lastLoggedIn;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 67 * hash + Objects.hashCode(this.email);
-        hash = 67 * hash + Objects.hashCode(this.password);
-        hash = 67 * hash + Objects.hashCode(this.currency);
-        hash = 67 * hash + Float.floatToIntBits(this.balance);
+        int hash = 3;
+        hash = 23 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 23 * hash + Objects.hashCode(this.email);
+        hash = 23 * hash + Objects.hashCode(this.password);
+        hash = 23 * hash + Objects.hashCode(this.currency);
+        hash = 23 * hash + Float.floatToIntBits(this.balance);
+        hash = 23 * hash + Objects.hashCode(this.permissionRole);
+        hash = 23 * hash + Objects.hashCode(this.registrationDate);
+        hash = 23 * hash + Objects.hashCode(this.lastLoggedIn);
         return hash;
     }
 
@@ -111,6 +137,15 @@ public class Account implements Serializable {
             return false;
         }
         if (Float.floatToIntBits(this.balance) != Float.floatToIntBits(other.balance)) {
+            return false;
+        }
+        if (!Objects.equals(this.permissionRole, other.permissionRole)) {
+            return false;
+        }
+        if (!Objects.equals(this.registrationDate, other.registrationDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastLoggedIn, other.lastLoggedIn)) {
             return false;
         }
         return true;

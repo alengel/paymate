@@ -1,8 +1,6 @@
 package ejb.beans;
 
-import ejb.beans.AccountStorageServiceBean;
 import entities.Account;
-import static entities.Account_.id;
 import entities.Payment;
 import java.util.Date;
 import java.util.List;

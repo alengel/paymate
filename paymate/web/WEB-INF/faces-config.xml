@@ -11,8 +11,13 @@
             <to-view-id>/registration.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
-            <from-outcome>success</from-outcome> 
+            <from-outcome>user</from-outcome> 
             <to-view-id>/user/notifications.xhtml</to-view-id>
+            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>admin</from-outcome> 
+            <to-view-id>/admin/accounts.xhtml</to-view-id>
             <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
@@ -127,6 +132,44 @@
         <navigation-case> 
             <from-outcome>payments</from-outcome> 
             <to-view-id>/user/payments.xhtml</to-view-id> 
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule> 
+        <from-view-id>/admin/accounts.xhtml</from-view-id> 
+        <navigation-case> 
+            <from-outcome>login</from-outcome> 
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>accounts</from-outcome> 
+            <to-view-id>/admin/accounts.xhtml</to-view-id>
+            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>transactions</from-outcome> 
+            <to-view-id>/admin/transactions.xhtml</to-view-id>
+            <redirect></redirect> 
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule> 
+        <from-view-id>/admin/transactions.xhtml</from-view-id> 
+        <navigation-case> 
+            <from-outcome>login</from-outcome> 
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>accounts</from-outcome> 
+            <to-view-id>/admin/accounts.xhtml</to-view-id>
+            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>transactions</from-outcome> 
+            <to-view-id>/admin/transactions.xhtml</to-view-id>
+            <redirect></redirect> 
         </navigation-case>
     </navigation-rule>
     

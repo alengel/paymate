@@ -14,10 +14,10 @@
     </h:head>
     <h:body styleClass="notifications-page">
         <h2 class="header">PayMate</h2>
-        <div class="date">#{notificationsBean.currentDate}</div>
+        <div class="date">#{utilityBean.currentDate}</div>
         
         <h:form>
-            <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{notificationsBean.loggedInUser}</h:commandLink>
+            <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
         </h:form>
         
         <h:link styleClass="tab notifications-link active" outcome="notifications">Notifications</h:link>
@@ -42,19 +42,19 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Origin</f:facet>
-                    <h:panelGroup rendered="#{payment.origin.email==notificationsBean.loggedInUser}">
+                    <h:panelGroup rendered="#{payment.origin.email==utilityBean.loggedInUser}">
                         you
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.origin.email!=notificationsBean.loggedInUser}">
+                    <h:panelGroup rendered="#{payment.origin.email!=utilityBean.loggedInUser}">
                         #{payment.origin.email}
                     </h:panelGroup>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Recipient</f:facet>
-                    <h:panelGroup rendered="#{payment.recipient.email==notificationsBean.loggedInUser}">
+                    <h:panelGroup rendered="#{payment.recipient.email==utilityBean.loggedInUser}">
                         you
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.recipient.email!=notificationsBean.loggedInUser}">
+                    <h:panelGroup rendered="#{payment.recipient.email!=utilityBean.loggedInUser}">
                         #{payment.recipient.email}
                     </h:panelGroup>
                 </h:column>
@@ -79,7 +79,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Status</f:facet>
-                    <h:panelGroup rendered="#{payment.origin.email==notificationsBean.loggedInUser 
+                    <h:panelGroup rendered="#{payment.origin.email==utilityBean.loggedInUser 
                                               and payment.status=='pending'}">
                         <h:form>
                             <h:commandButton actionListener="#{notificationsBean.rejectRequest}"
@@ -92,7 +92,7 @@
                             </h:commandButton>
                         </h:form>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{(payment.origin.email!=notificationsBean.loggedInUser 
+                    <h:panelGroup rendered="#{(payment.origin.email!=utilityBean.loggedInUser 
                                               and payment.status=='pending') 
                                               or payment.status=='completed' 
                                               or payment.status=='accepted' 

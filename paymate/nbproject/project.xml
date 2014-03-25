@@ -29,6 +29,7 @@
             </test-roots>
         </data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>Admin</word>
             <word>EUR</word>
             <word>GBP</word>
             <word>PayMate</word>
