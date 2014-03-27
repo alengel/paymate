@@ -11,11 +11,11 @@ import javax.ws.rs.core.MediaType;
  */
 
 @Stateless
-public class CurrencyStorageServiceBean {
+public class CurrencyServiceBean {
     
-    public CurrencyStorageServiceBean(){}
+    public CurrencyServiceBean(){}
     
-    //Get currency rates from paymateRS
+    //Get all currency rates from paymateRS
     public static String getCurrencies(){
         Client client = ClientBuilder.newClient();
         String currencies = client.target("http://localhost:8080/paymateRS/conversion/all")
@@ -25,7 +25,8 @@ public class CurrencyStorageServiceBean {
         return currencies;
     }
     
-    public static String getConvertedAmount(String localCurrency, String foreignCurrency, float value){
+    //Pass in local and foreign currency, plus value to get the converted amount
+    public static Float getConvertedAmount(String localCurrency, String foreignCurrency, float value){
         String amountString = Float.toString(value);
         
         Client client = ClientBuilder.newClient();
@@ -34,6 +35,6 @@ public class CurrencyStorageServiceBean {
           .request(MediaType.APPLICATION_JSON)
           .get(String.class);
 
-        return convertedAmount;
+        return Float.parseFloat(convertedAmount);
     }
 }

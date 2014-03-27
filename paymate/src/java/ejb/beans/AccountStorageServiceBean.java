@@ -11,10 +11,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import static javax.ejb.TransactionAttributeType.REQUIRED;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import jsf.shared.beans.UtilityBean;
 
 /**
  *
@@ -24,12 +27,13 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class AccountStorageServiceBean {
     
+    private final UtilityBean utility;
     
     @PersistenceContext(unitName = "paymatePU")
     EntityManager em;
     
     public AccountStorageServiceBean() {
-        
+        utility = new UtilityBean();
     }
     
     public synchronized Boolean checkAccountExists(String email){
@@ -51,12 +55,21 @@ public class AccountStorageServiceBean {
         return query.setParameter("email", email).getSingleResult();         
     }
     
-    public synchronized void insertAccount(String email, String password, String currency, float balance) {
-        String hashedPassword = hashPassword(password);
-        String defaultRole = "user";
+    @TransactionAttribute(REQUIRED)
+    public synchronized void insertAccount(String email, String password, String currency) {
         
-        if(currency == null){
+        float balance;
+        String defaultRole;
+        String hashedPassword = hashPassword(password);
+        
+        if(utility.getLoggedInUser() != null){
+            //Admin user defaults
             defaultRole = "admin";
+            balance = 0;
+        } else {
+            //Regular user defaults
+            defaultRole = "user";
+            balance = getBalanceInChosenCurrency(currency);
         }
         
         Account account = new Account(email, hashedPassword, currency, balance, defaultRole, new Date());
@@ -64,6 +77,7 @@ public class AccountStorageServiceBean {
         
         em.persist(account);
         em.persist(accountGroup);
+        em.flush();
     }
     
     public synchronized List<Account> getAccounts() {
@@ -93,6 +107,17 @@ public class AccountStorageServiceBean {
             Logger.getLogger(Account.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+    
+    public float getBalanceInChosenCurrency(String currency){
+        float gbpBalance = 1000000;
+        String defaultCurrency = "GBP";
+        
+        if(currency.equals(defaultCurrency)){
+            return gbpBalance;
+        }
+        
+        return CurrencyServiceBean.getConvertedAmount(defaultCurrency, currency, gbpBalance);
     }
    
 }

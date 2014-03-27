@@ -1,7 +1,7 @@
 package jsf.user.beans;
 
 import com.google.gson.Gson;
-import ejb.beans.CurrencyStorageServiceBean;
+import ejb.beans.CurrencyServiceBean;
 import java.io.Serializable;
 import java.util.HashMap;
 import javax.enterprise.context.SessionScoped;
@@ -20,7 +20,7 @@ public class CurrencyBean implements Serializable{
       
     public HashMap<String,HashMap<String, Float>> getCurrencies(){
         Gson gson = new Gson(); 
-        String currencies = CurrencyStorageServiceBean.getCurrencies();
+        String currencies = CurrencyServiceBean.getCurrencies();
         HashMap<String,HashMap<String, Float>> currenciesMap = new HashMap<String,HashMap<String, Float>>();
         currenciesMap = (HashMap<String,HashMap<String, Float>>) gson.fromJson(currencies, currenciesMap.getClass());
         return currenciesMap;
@@ -41,10 +41,5 @@ public class CurrencyBean implements Serializable{
         }
         return currencySymbol;
     }
-    
-    public float calculateAmountInChosenCurrency(String localCurrency, String foreignCurrency, float amount){
-        String convertedAmount = CurrencyStorageServiceBean.getConvertedAmount(localCurrency, foreignCurrency, amount);
-        return Float.parseFloat(convertedAmount);
-    }
-    
+
 }

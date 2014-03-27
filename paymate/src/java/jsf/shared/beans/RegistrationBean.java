@@ -1,7 +1,6 @@
-package jsf.user.beans;
+package jsf.shared.beans;
 
 import ejb.beans.AccountStorageServiceBean;
-import ejb.beans.CurrencyStorageServiceBean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -63,17 +62,6 @@ public class RegistrationBean implements Serializable {
         this.currency = currency;
     }
     
-    public float getBalanceInChosenCurrency(){
-        float gbpBalance = 1000000;
-        
-        if(currency.equals("GBP")){
-            return gbpBalance;
-        }
-        
-        String convertedBalance = CurrencyStorageServiceBean.getConvertedAmount("GBP", currency, gbpBalance);
-        return Float.parseFloat(convertedBalance);
-    }
-    
     public String register() {
         //Check if user already exists
         if(checkIfAccountExists()){
@@ -85,23 +73,14 @@ public class RegistrationBean implements Serializable {
             return null;
         }
         
-        if(utility.getLoggedInUser() != null){
-            insertAdmin();
-        } else {
-            insertUser();
-        }
+        insertUser();
         
         return "success";
     }
     
     public void insertUser(){
         //Insert regular user account into the DB account table
-        accountStore.insertAccount(email, password, currency, getBalanceInChosenCurrency());
-    }
-    
-    public void insertAdmin(){
-        //Insert admin user account into the DB account table
-        accountStore.insertAccount(email, password, null, 0);
+        accountStore.insertAccount(email, password, currency);
     }
     
     public Boolean checkPasswordsMatch(){

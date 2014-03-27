@@ -1,11 +1,11 @@
 package jsf.user.beans;
 
+import jsf.shared.beans.UtilityBean;
 import ejb.beans.AccountStorageServiceBean;
 import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
 import entities.Payment;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;

@@ -1,5 +1,6 @@
 package jsf.user.beans;
 
+import jsf.shared.beans.UtilityBean;
 import ejb.beans.AccountStorageServiceBean;
 import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
@@ -12,9 +13,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -113,17 +112,6 @@ public class PaymentsBean implements Serializable {
         return localCurrency + balance;
     }
     
-    private void setConvertedAmount(){
-        String localCurrency = accountStore.getAccount(utility.getLoggedInUser()).getCurrency();
-        
-        if(!localCurrency.equals(currency)){
-            float convertedAmount = currencyBean.calculateAmountInChosenCurrency(localCurrency, 
-                currency, amount);
-        
-            amount = convertedAmount;
-        }        
-    }
-    
     public String makePayment(){
         
         try {
@@ -161,9 +149,7 @@ public class PaymentsBean implements Serializable {
     public void makePayment(String originEmail, String recipientEmail){
         Account origin = accountStore.getAccount(originEmail);
         Account recipient2 = accountStore.getAccount(recipientEmail);
-        
-        setConvertedAmount();
-        
+                
         //Insert payment into the DB payments table
         paymentsStore.makePayment(type, origin, recipient2, currency, 
                 amount, scheduledDate);

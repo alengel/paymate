@@ -1,12 +1,11 @@
-package jsf.user.beans;
+package jsf.shared.beans;
 
-import ejb.beans.PaymentStorageServiceBean;
+import ejb.beans.TimestampServiceBean;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -17,14 +16,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @Named
-@ManagedBean
 @RequestScoped
 public class UtilityBean {
     
     String loggedInUser;
     
     @EJB
-    private PaymentStorageServiceBean paymentsStore;
+    private TimestampServiceBean timestampService;
     
     public UtilityBean() {
         
@@ -47,7 +45,7 @@ public class UtilityBean {
     
     public String getCurrentDate(){
         DateFormat originalFormat = new SimpleDateFormat("MMM dd, yyyy");
-        String currentDate = originalFormat.format(paymentsStore.getTimestamp());
+        String currentDate = originalFormat.format(timestampService.getTimestamp());
         return currentDate;
     }
 }

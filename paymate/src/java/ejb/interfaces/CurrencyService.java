@@ -8,6 +8,6 @@ import javax.ejb.Local;
  */
 
 @Local
-public interface CurrencyStorageService {
+public interface CurrencyService {
     public String getCurrencies();
 }

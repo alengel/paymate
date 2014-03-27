@@ -1,5 +1,6 @@
-package jsf.user.beans;
+package jsf.shared.beans;
 
+import jsf.shared.beans.UtilityBean;
 import ejb.beans.AccountStorageServiceBean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;

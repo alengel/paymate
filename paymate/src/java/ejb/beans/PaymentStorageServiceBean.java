@@ -11,8 +11,6 @@ import static javax.ejb.TransactionAttributeType.REQUIRED;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.xml.ws.WebServiceRef;
-import timestamp.TimestampWSService;
 
 /**
  *
@@ -21,14 +19,18 @@ import timestamp.TimestampWSService;
 
 @Stateless
 public class PaymentStorageServiceBean {
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/TimestampWSService/TimestampWS.wsdl")
-    private TimestampWSService service;
     
     @PersistenceContext(unitName = "paymatePU")
     EntityManager em;
     
     @EJB
     private AccountStorageServiceBean accountStore;
+    
+    @EJB
+    private TimestampServiceBean timestampService;
+    
+    @EJB
+    private CurrencyServiceBean currencyService;
     
     public PaymentStorageServiceBean() {
         
@@ -42,15 +44,16 @@ public class PaymentStorageServiceBean {
         
         if(type.equals("payment")){
             status = "completed";
+            float convertedAmount = convertAmountIntoLocalCurrency(origin.getEmail(), currency, amount);
             
-            addAmount(recipient.getEmail(), amount);
-            deductAmount(origin.getEmail(), amount);
+            addAmount(recipient.getEmail(), convertedAmount);
+            deductAmount(origin.getEmail(), convertedAmount);
         } else {
             status = "pending";
         }
         
-        Payment payment = new Payment(getTimestamp(), type, origin, recipient, currency, 
-                amount, scheduledDate, status);
+        Payment payment = new Payment(timestampService.getTimestamp(), type, 
+                origin, recipient, currency, amount, scheduledDate, status);
         
         em.persist(payment);
         em.flush();
@@ -74,6 +77,19 @@ public class PaymentStorageServiceBean {
         originAccount.setBalance(newBalance);
     }
     
+    private float convertAmountIntoLocalCurrency(String origin, String currency, float amount){
+        String localCurrency = accountStore.getAccount(origin).getCurrency();
+        
+        if(!localCurrency.equals(currency)){
+            float convertedAmount = CurrencyServiceBean.getConvertedAmount(localCurrency, 
+                currency, amount);
+        
+            amount = convertedAmount;
+        }
+        
+        return amount;
+    }
+    
     public synchronized List<Payment> getTransactions(Account origin) {
         TypedQuery<Payment> query = em.createQuery(
             "SELECT c FROM Payment c WHERE c.origin = :originId OR c.recipient = :originId", Payment.class);
@@ -95,12 +111,6 @@ public class PaymentStorageServiceBean {
         Payment payment = processPayment(id);
         
         payment.setStatus(status);
-    }
-
-    //Get timestamp from paymateWS
-    public Date getTimestamp() {
-        timestamp.TimestampWS port = service.getTimestampWSPort();
-        return port.retrieveTimestamp().toGregorianCalendar().getTime();
     }
     
 }

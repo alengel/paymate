@@ -15,7 +15,7 @@ public interface AccountStorageService {
     
     public void updateLastLoginDate(String email);
     
-    public void insertAccount(String email, String password, String currency, float balance);
+    public void insertAccount(String email, String password, String currency);
     
     public Account getAccount(String email);
     
