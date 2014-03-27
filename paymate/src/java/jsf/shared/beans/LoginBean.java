@@ -1,6 +1,5 @@
 package jsf.shared.beans;
 
-import jsf.shared.beans.UtilityBean;
 import ejb.beans.AccountStorageServiceBean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -8,7 +7,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author 119848
  */
 
-@ManagedBean
+@Named
 @RequestScoped
 public class LoginBean implements Serializable {
     

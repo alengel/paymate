@@ -10,7 +10,6 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.inject.Named;
-import jsf.shared.beans.UtilityBean;
 
 /**
  *
