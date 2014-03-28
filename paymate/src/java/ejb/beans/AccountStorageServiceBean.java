@@ -1,6 +1,7 @@
 package ejb.beans;
 
 import dao.DAOFactory;
+import dao.JdbcAccountDAO;
 import entities.Account;
 import entities.AccountGroup;
 import java.io.UnsupportedEncodingException;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
@@ -35,7 +37,9 @@ public class AccountStorageServiceBean {
     EntityManager em;
     
     private final UtilityBean utility;
-    DAOFactory dao = DAOFactory.getDAOFactory(1);
+    
+    @EJB
+    private JdbcAccountDAO dao;
     
     public AccountStorageServiceBean() {
         utility = new UtilityBean();
@@ -86,7 +90,7 @@ public class AccountStorageServiceBean {
     }
     
     public synchronized List<Account> getAccounts() throws SQLException{
-        return dao.getAccountDAO().getAccounts();
+        return dao.getAccounts();
 //        TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a", Account.class);
 //        return query.getResultList();
     }
