@@ -1,11 +1,15 @@
 package ejb.beans;
 
+import dao.DAOFactory;
 import entities.Account;
 import entities.AccountGroup;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,10 +31,11 @@ import jsf.shared.beans.UtilityBean;
 @Stateless
 public class AccountStorageServiceBean {
     
-    private final UtilityBean utility;
-    
     @PersistenceContext(unitName = "paymatePU")
     EntityManager em;
+    
+    private final UtilityBean utility;
+    DAOFactory dao = DAOFactory.getDAOFactory(1);
     
     public AccountStorageServiceBean() {
         utility = new UtilityBean();
@@ -80,9 +85,10 @@ public class AccountStorageServiceBean {
         em.flush();
     }
     
-    public synchronized List<Account> getAccounts() {
-        TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a", Account.class);
-        return query.getResultList();
+    public synchronized List<Account> getAccounts() throws SQLException{
+        return dao.getAccountDAO().getAccounts();
+//        TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a", Account.class);
+//        return query.getResultList();
     }
     
     public synchronized void updateLastLoginDate(String email){

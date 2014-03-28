@@ -5,6 +5,7 @@ import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
 import entities.Payment;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -49,7 +50,7 @@ public class AccountsBean implements Serializable {
         this.accountTransactionsTable = accountTransactionsTable;
     }
     
-    public List<Account> getAccounts() {
+    public List<Account> getAccounts() throws SQLException {
         return accountStore.getAccounts();
     }
 
