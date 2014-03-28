@@ -1,8 +1,12 @@
 package ejb.beans;
 
+import com.sun.xml.ws.client.ClientTransportException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.xml.ws.WebServiceRef;
+import jsf.shared.beans.LoginBean;
 import timestamp.TimestampWSService;
 
 /**
@@ -22,8 +26,15 @@ public class TimestampServiceBean {
     
     //Get timestamp from paymateWS
     public Date getTimestamp() {
-        timestamp.TimestampWS port = service.getTimestampWSPort();
-        return port.retrieveTimestamp().toGregorianCalendar().getTime();
+        
+        try {
+            timestamp.TimestampWS port = service.getTimestampWSPort();
+            return port.retrieveTimestamp().toGregorianCalendar().getTime();
+        } catch (ClientTransportException exception) {
+            //If web service is not available, default to new Date() here.
+            Logger.getLogger(TimestampServiceBean.class.getName()).log(Level.SEVERE, null, exception);
+            return new Date();
+        }
     }
-    
+     
 }

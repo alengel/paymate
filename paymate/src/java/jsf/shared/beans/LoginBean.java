@@ -1,7 +1,10 @@
 package jsf.shared.beans;
 
 import ejb.beans.AccountStorageServiceBean;
+import entities.Account;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -63,7 +66,9 @@ public class LoginBean implements Serializable {
                 return "user";
             }
             
-        } catch (ServletException e) {
+        } catch (ServletException exception) {
+            Logger.getLogger(LoginBean.class.getName()).log(Level.WARNING, null, exception);
+            
             utility.createErrorMessage("Username or password are incorrect.");
             return null;
         }
@@ -72,10 +77,14 @@ public class LoginBean implements Serializable {
     public String logout(){
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        
         try {
             request.logout();
             return "login";
-        } catch (ServletException e) {
+            
+        } catch (ServletException exception) {
+            Logger.getLogger(LoginBean.class.getName()).log(Level.WARNING, null, exception);
+            
             utility.createErrorMessage("Something went wrong. You were NOT logged out.");
             return null;
         }
