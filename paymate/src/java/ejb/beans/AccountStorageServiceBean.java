@@ -1,7 +1,9 @@
 package ejb.beans;
 
+import dao.AccountDao;
 import dao.DAOFactory;
-import dao.JdbcAccountDAO;
+import dao.JdbcAccountDao;
+import dao.JdbcFactory;
 import entities.Account;
 import entities.AccountGroup;
 import java.io.UnsupportedEncodingException;
@@ -21,6 +23,7 @@ import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import jsf.shared.beans.UtilityBean;
@@ -39,29 +42,32 @@ public class AccountStorageServiceBean {
     private final UtilityBean utility;
     
     @EJB
-    private JdbcAccountDAO dao;
+    private JdbcAccountDao dao;
     
     public AccountStorageServiceBean() {
-        utility = new UtilityBean();
+        utility = new UtilityBean();        
     }
     
-    public synchronized Boolean checkAccountExists(String email){
-        Query result = em.createNamedQuery("getAccountWithEmail")
-          .setParameter("email", email);
+    public synchronized Boolean checkAccountExists(String email) throws SQLException{
         
-        return (long)result.getSingleResult() != 0;
+        try {
+            getAccount(email);
+            return true;
+        } catch(PersistenceException e) {
+            return false;
+        }
     }
 
-    public synchronized Account getAccount(String email) {
-        TypedQuery<Account> query = em.createQuery(
-            "SELECT c FROM Account c WHERE c.email = :email", Account.class);
-        return query.setParameter("email", email).getSingleResult();         
+    public synchronized Account getAccount(String email) throws SQLException, PersistenceException {
+        return dao.getAccount(email);
     }
     
-    public synchronized AccountGroup getAccountRole(String email) {
-        TypedQuery<AccountGroup> query = em.createQuery(
-            "SELECT c FROM AccountGroup c WHERE c.email = :email", AccountGroup.class);
-        return query.setParameter("email", email).getSingleResult();         
+    public synchronized List<Account> getAccounts() throws SQLException{
+        return dao.getAccounts();
+    }
+    
+    public synchronized AccountGroup getAccountRole(String email) throws SQLException {
+        return dao.getAccountRole(email);
     }
     
     @TransactionAttribute(REQUIRED)
@@ -81,25 +87,12 @@ public class AccountStorageServiceBean {
             balance = getBalanceInChosenCurrency(currency);
         }
         
-        Account account = new Account(email, hashedPassword, currency, balance, defaultRole, new Date());
-        AccountGroup accountGroup = new AccountGroup(email, defaultRole);
-        
-        em.persist(account);
-        em.persist(accountGroup);
-        em.flush();
+        dao.insertAccount(email, hashedPassword, defaultRole, currency, balance);
     }
     
-    public synchronized List<Account> getAccounts() throws SQLException{
-        return dao.getAccounts();
-//        TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a", Account.class);
-//        return query.getResultList();
-    }
     
-    public synchronized void updateLastLoginDate(String email){
-        TypedQuery<Account> query = em.createQuery(
-            "SELECT a FROM Account a WHERE a.email = :email", Account.class);
-        
-        query.setParameter("email", email).getSingleResult().setLastLoggedIn(new Date());
+    public synchronized void updateLastLoginDate(String email) throws SQLException{
+        dao.getAccount(email).setLastLoggedIn(new Date());
     }
    
     public String hashPassword(String password) {

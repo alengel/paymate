@@ -6,6 +6,7 @@ import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
 import entities.Payment;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -42,12 +43,12 @@ public class NotificationsBean implements Serializable {
         this.notificationsTable = notificationsTable;
     }
     
-    public List<Payment> getNotifications() {
+    public List<Payment> getNotifications() throws SQLException {
         Account origin = accountStore.getAccount(utility.getLoggedInUser());
         return paymentsStore.getTransactions(origin);
     }
 
-    public void acceptRequest(){
+    public void acceptRequest() throws SQLException{
         Payment rowPayment = (Payment) notificationsTable.getRowData();
         float rowPaymentAmount = rowPayment.getAmount();
         
@@ -63,7 +64,7 @@ public class NotificationsBean implements Serializable {
         paymentsStore.updateStatus(rowPayment.getId(), "rejected");
     }
     
-    public Boolean checkBalance(float rowRequestedAmount){
+    public Boolean checkBalance(float rowRequestedAmount) throws SQLException{
         float currentBalance = accountStore.getAccount(utility.getLoggedInUser()).getBalance();
         float tempBalance = currentBalance - rowRequestedAmount;
         

@@ -5,6 +5,7 @@ import ejb.beans.AccountStorageServiceBean;
 import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class PaymentsBean implements Serializable {
         this.currencies = currencies;
     }
     
-    public String getCurrency() {
+    public String getCurrency() throws SQLException {
         Account account = accountStore.getAccount(utility.getLoggedInUser());
         String defaultCurrency = account.getCurrency();
         
@@ -104,7 +105,7 @@ public class PaymentsBean implements Serializable {
         return todayDate;
     }
     
-    public String getAccountBalance(){
+    public String getAccountBalance() throws SQLException{
         Account account = accountStore.getAccount(utility.getLoggedInUser());
         float balance = account.getBalance();
         String localCurrency = currencyBean.changeCurrencyStringToSymbol(account.getCurrency());
@@ -112,7 +113,7 @@ public class PaymentsBean implements Serializable {
         return localCurrency + balance;
     }
     
-    public String makePayment(){
+    public String makePayment() throws SQLException{
         
         try {
             if(validateFormFields()){
@@ -134,7 +135,7 @@ public class PaymentsBean implements Serializable {
         }
     }
     
-    public String requestFunds(){
+    public String requestFunds() throws SQLException{
         if(validateFormFields()){
             return null;
         }
@@ -146,7 +147,7 @@ public class PaymentsBean implements Serializable {
         return "request_success";
     }
     
-    public void makePayment(String originEmail, String recipientEmail){
+    public void makePayment(String originEmail, String recipientEmail) throws SQLException{
         Account origin = accountStore.getAccount(originEmail);
         Account recipient2 = accountStore.getAccount(recipientEmail);
                 
@@ -155,7 +156,7 @@ public class PaymentsBean implements Serializable {
                 amount, scheduledDate);
     }
 
-    public Boolean validateFormFields(){
+    public Boolean validateFormFields() throws SQLException{
         if(!accountStore.checkAccountExists(recipient)){
             utility.createErrorMessage("The recipient does not have an account with PayMate.");
             return true;
@@ -178,7 +179,7 @@ public class PaymentsBean implements Serializable {
         return false;
     }
     
-    public Boolean checkBalance(){
+    public Boolean checkBalance() throws SQLException{
         float currentBalance = accountStore.getAccount(utility.getLoggedInUser()).getBalance();
         float tempBalance = currentBalance - amount;
         

@@ -14,7 +14,7 @@ public abstract class DAOFactory {
     
     public static final int JDBC = 1;
     
-    public abstract AccountDAO getAccountDAO();
+    public abstract AccountDao getAccountDAO();
 //    public abstract PaymentDAO getPaymentDAO();
     
     public static DAOFactory getDAOFactory(int whichFactory) {

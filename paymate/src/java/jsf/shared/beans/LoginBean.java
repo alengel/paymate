@@ -3,6 +3,7 @@ package jsf.shared.beans;
 import ejb.beans.AccountStorageServiceBean;
 import entities.Account;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -50,7 +51,7 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
         
-    public String login(){
+    public String login() throws SQLException{
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         

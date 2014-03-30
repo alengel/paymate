@@ -1,8 +1,5 @@
 package dao;
 
-import java.sql.*;
-import java.util.Properties;
-
 /**
  *
  * @author 119848
@@ -26,7 +23,7 @@ public class JdbcFactory extends DAOFactory{
 //    }
     
     @Override
-    public AccountDAO getAccountDAO() {
-        return new JdbcAccountDAO();
+    public AccountDao getAccountDAO() {
+        return new JdbcAccountDao();
     }
 }

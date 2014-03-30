@@ -2,6 +2,7 @@ package jsf.shared.beans;
 
 import ejb.beans.AccountStorageServiceBean;
 import java.io.Serializable;
+import java.sql.SQLException;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -62,7 +63,7 @@ public class RegistrationBean implements Serializable {
         this.currency = currency;
     }
     
-    public String register() {
+    public String register() throws SQLException {
         //Check if user already exists
         if(checkIfAccountExists()){
             return null;
@@ -92,7 +93,7 @@ public class RegistrationBean implements Serializable {
         }        
     }
     
-    public Boolean checkIfAccountExists(){
+    public Boolean checkIfAccountExists() throws SQLException{
         if(accountStore.checkAccountExists(email)){
             utility.createErrorMessage("Email already exists");
             return true;

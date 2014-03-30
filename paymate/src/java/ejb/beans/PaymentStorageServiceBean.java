@@ -2,6 +2,7 @@ package ejb.beans;
 
 import entities.Account;
 import entities.Payment;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -38,7 +39,7 @@ public class PaymentStorageServiceBean {
     
     @TransactionAttribute(REQUIRED)
     public synchronized void makePayment(String type, Account origin, 
-            Account recipient, String currency, float amount, Date scheduledDate){
+            Account recipient, String currency, float amount, Date scheduledDate) throws SQLException{
         
         String status;
         
@@ -59,7 +60,7 @@ public class PaymentStorageServiceBean {
         em.flush();
     }
     
-    public synchronized void addAmount(String recipient, float amount){
+    public synchronized void addAmount(String recipient, float amount) throws SQLException{
         Account recipientAccount = accountStore.getAccount(recipient);
         
         float balance = recipientAccount.getBalance();
@@ -68,7 +69,7 @@ public class PaymentStorageServiceBean {
         recipientAccount.setBalance(newBalance);
     }
     
-    public synchronized void deductAmount(String originEmail, float amount){
+    public synchronized void deductAmount(String originEmail, float amount) throws SQLException{
         Account originAccount = accountStore.getAccount(originEmail);
         
         float balance = originAccount.getBalance();
@@ -77,7 +78,7 @@ public class PaymentStorageServiceBean {
         originAccount.setBalance(newBalance);
     }
     
-    private float convertAmountIntoLocalCurrency(String origin, String currency, float amount){
+    private float convertAmountIntoLocalCurrency(String origin, String currency, float amount) throws SQLException{
         String localCurrency = accountStore.getAccount(origin).getCurrency();
         
         if(!localCurrency.equals(currency)){
