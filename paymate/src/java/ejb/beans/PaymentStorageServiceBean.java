@@ -1,5 +1,7 @@
 package ejb.beans;
 
+import dao.JdbcAccountDao;
+import dao.JdbcPaymentDao;
 import entities.Account;
 import entities.Payment;
 import java.sql.SQLException;
@@ -9,9 +11,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -20,18 +19,15 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 public class PaymentStorageServiceBean {
-    
-    @PersistenceContext(unitName = "paymatePU")
-    EntityManager em;
-    
-    @EJB
-    private AccountStorageServiceBean accountStore;
-    
+
     @EJB
     private TimestampServiceBean timestampService;
+
+    @EJB
+    private JdbcPaymentDao paymentDao;
     
     @EJB
-    private CurrencyServiceBean currencyService;
+    private JdbcAccountDao accountDao;
     
     public PaymentStorageServiceBean() {
         
@@ -39,9 +35,10 @@ public class PaymentStorageServiceBean {
     
     @TransactionAttribute(REQUIRED)
     public synchronized void makePayment(String type, Account origin, 
-            Account recipient, String currency, float amount, Date scheduledDate) throws SQLException{
+            Account recipient, String currency, float amount, Date scheduledDate) throws SQLException {
         
         String status;
+        Date timestamp = timestampService.getTimestamp();
         
         if(type.equals("payment")){
             status = "completed";
@@ -53,15 +50,28 @@ public class PaymentStorageServiceBean {
             status = "pending";
         }
         
-        Payment payment = new Payment(timestampService.getTimestamp(), type, 
-                origin, recipient, currency, amount, scheduledDate, status);
-        
-        em.persist(payment);
-        em.flush();
+        paymentDao.insertTransaction(timestamp, type, origin, recipient, currency, 
+                amount, scheduledDate, status);
     }
     
-    public synchronized void addAmount(String recipient, float amount) throws SQLException{
-        Account recipientAccount = accountStore.getAccount(recipient);
+    public synchronized List<Payment> getTransactions(Account origin) {
+        return paymentDao.getTransactionsByAccount(origin);
+    }
+    
+    public synchronized List<Payment> getAllTransactions() {
+        return paymentDao.getAllTransactions();
+    }
+    
+    public synchronized Payment getTransaction(long id){
+        return paymentDao.getTransaction(id);
+    }
+    
+    public synchronized void updateStatus(long id, String status){
+        paymentDao.updateStatus(id, status);
+    }
+    
+    public synchronized void addAmount(String recipient, float amount) throws SQLException {
+        Account recipientAccount = accountDao.getAccount(recipient);
         
         float balance = recipientAccount.getBalance();
         float newBalance = balance + amount;
@@ -69,8 +79,8 @@ public class PaymentStorageServiceBean {
         recipientAccount.setBalance(newBalance);
     }
     
-    public synchronized void deductAmount(String originEmail, float amount) throws SQLException{
-        Account originAccount = accountStore.getAccount(originEmail);
+    public synchronized void deductAmount(String originEmail, float amount) throws SQLException {
+        Account originAccount = accountDao.getAccount(originEmail);
         
         float balance = originAccount.getBalance();
         float newBalance = balance - amount;
@@ -78,8 +88,8 @@ public class PaymentStorageServiceBean {
         originAccount.setBalance(newBalance);
     }
     
-    private float convertAmountIntoLocalCurrency(String origin, String currency, float amount) throws SQLException{
-        String localCurrency = accountStore.getAccount(origin).getCurrency();
+    private float convertAmountIntoLocalCurrency(String origin, String currency, float amount) throws SQLException {
+        String localCurrency = accountDao.getAccount(origin).getCurrency();
         
         if(!localCurrency.equals(currency)){
             float convertedAmount = CurrencyServiceBean.getConvertedAmount(localCurrency, 
@@ -89,29 +99,5 @@ public class PaymentStorageServiceBean {
         }
         
         return amount;
-    }
-    
-    public synchronized List<Payment> getTransactions(Account origin) {
-        TypedQuery<Payment> query = em.createQuery(
-            "SELECT c FROM Payment c WHERE c.origin = :originId OR c.recipient = :originId", Payment.class);
-        return query.setParameter("originId", origin).getResultList();        
-    }
-    
-    public synchronized List<Payment> getAllTransactions() {
-        TypedQuery<Payment> query = em.createQuery("SELECT p FROM Payment p", Payment.class);
-        return query.getResultList();      
-    }
-    
-    public synchronized Payment processPayment(long id){
-        TypedQuery<Payment> query = em.createQuery(
-            "SELECT c FROM Payment c WHERE c.id = :id", Payment.class);
-        return query.setParameter("id", id).getSingleResult();
-    }
-    
-    public synchronized void updateStatus(long id, String status){
-        Payment payment = processPayment(id);
-        
-        payment.setStatus(status);
-    }
-    
+    }  
 }

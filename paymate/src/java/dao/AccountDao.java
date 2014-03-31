@@ -4,6 +4,7 @@ import entities.Account;
 import entities.AccountGroup;
 import java.sql.SQLException;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.List;
 public interface AccountDao {
     public List<Account> getAccounts() throws SQLException;
     
-    public Account getAccount(String email) throws SQLException;
+    public Account getAccount(String email) throws Exception;
     
     public AccountGroup getAccountRole(String email) throws SQLException;
     

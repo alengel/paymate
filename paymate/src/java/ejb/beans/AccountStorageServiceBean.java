@@ -1,17 +1,12 @@
 package ejb.beans;
 
-import dao.AccountDao;
-import dao.DAOFactory;
 import dao.JdbcAccountDao;
-import dao.JdbcFactory;
 import entities.Account;
 import entities.AccountGroup;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -21,11 +16,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.NoResultException;
 import jsf.shared.beans.UtilityBean;
 
 /**
@@ -36,38 +27,34 @@ import jsf.shared.beans.UtilityBean;
 @Stateless
 public class AccountStorageServiceBean {
     
-    @PersistenceContext(unitName = "paymatePU")
-    EntityManager em;
-    
     private final UtilityBean utility;
     
     @EJB
-    private JdbcAccountDao dao;
+    private JdbcAccountDao accountDao;
     
     public AccountStorageServiceBean() {
         utility = new UtilityBean();        
     }
     
-    public synchronized Boolean checkAccountExists(String email) throws SQLException{
-        
+    public synchronized Boolean checkAccountExists(String email) throws SQLException{    
         try {
-            getAccount(email);
+            accountDao.getAccount(email);
             return true;
-        } catch(PersistenceException e) {
+        } catch(SQLException e) {
             return false;
         }
-    }
+    }   
 
-    public synchronized Account getAccount(String email) throws SQLException, PersistenceException {
-        return dao.getAccount(email);
+    public synchronized Account getAccount(String email) throws SQLException {
+        return accountDao.getAccount(email);
     }
     
     public synchronized List<Account> getAccounts() throws SQLException{
-        return dao.getAccounts();
+        return accountDao.getAccounts();
     }
     
     public synchronized AccountGroup getAccountRole(String email) throws SQLException {
-        return dao.getAccountRole(email);
+        return accountDao.getAccountRole(email);
     }
     
     @TransactionAttribute(REQUIRED)
@@ -87,12 +74,12 @@ public class AccountStorageServiceBean {
             balance = getBalanceInChosenCurrency(currency);
         }
         
-        dao.insertAccount(email, hashedPassword, defaultRole, currency, balance);
+        accountDao.insertAccount(email, hashedPassword, defaultRole, currency, balance);
     }
     
     
-    public synchronized void updateLastLoginDate(String email) throws SQLException{
-        dao.getAccount(email).setLastLoggedIn(new Date());
+    public synchronized void updateLastLoginDate(String email) throws SQLException {
+        accountDao.getAccount(email).setLastLoggedIn(new Date());
     }
    
     public String hashPassword(String password) {
