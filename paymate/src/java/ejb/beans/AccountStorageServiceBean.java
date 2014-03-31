@@ -1,8 +1,10 @@
 package ejb.beans;
 
 import dao.JdbcAccountDao;
+import dao.JdbcPaymentDao;
 import entities.Account;
 import entities.AccountGroup;
+import entities.Payment;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -31,6 +33,9 @@ public class AccountStorageServiceBean {
     
     @EJB
     private JdbcAccountDao accountDao;
+    
+    @EJB
+    private JdbcPaymentDao paymentDao;
     
     public AccountStorageServiceBean() {
         utility = new UtilityBean();        
@@ -81,7 +86,7 @@ public class AccountStorageServiceBean {
     public synchronized void updateLastLoginDate(String email) throws SQLException {
         accountDao.getAccount(email).setLastLoggedIn(new Date());
     }
-   
+    
     public String hashPassword(String password) {
         try {
             //Password Hash Code from Lab Class - Week 8 by George Parisis
@@ -109,5 +114,4 @@ public class AccountStorageServiceBean {
         
         return CurrencyServiceBean.getConvertedAmount(defaultCurrency, currency, gbpBalance);
     }
-   
 }

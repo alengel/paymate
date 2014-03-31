@@ -128,10 +128,12 @@
         <navigation-case> 
             <from-outcome>notifications</from-outcome> 
             <to-view-id>/user/notifications.xhtml</to-view-id> 
+            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>payments</from-outcome> 
             <to-view-id>/user/payments.xhtml</to-view-id> 
+            <redirect></redirect> 
         </navigation-case>
     </navigation-rule>
     

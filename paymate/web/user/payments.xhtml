@@ -75,6 +75,7 @@
             <div class="input-container">
                 <span class="labels">Schedule Payment Date</span>
                 <p:calendar id="calendar"
+                            mindate="#{paymentsBean.defaultScheduledDate}"
                             pattern="dd/MM/yyyy"
                             styleClass="calendar"
                             value="#{paymentsBean.scheduledDate}"/>

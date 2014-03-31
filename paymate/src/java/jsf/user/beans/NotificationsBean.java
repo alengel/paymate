@@ -56,7 +56,7 @@ public class NotificationsBean implements Serializable {
             return;
         }
         
-        paymentsStore.updateStatus(rowPayment.getId(), "accepted");
+        paymentsStore.updateBalances(rowPayment);
     }
     
     public void rejectRequest(){

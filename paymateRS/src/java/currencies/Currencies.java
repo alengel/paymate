@@ -54,8 +54,8 @@ public class Currencies {
     public Float getConvertedAmount(String from, String to, String value){
         HashMap<String, Float> localRate = rates.get(from);
         Float foreignRate = localRate.get(to);
-        Float convertedRate = foreignRate * Float.parseFloat(value);;
-                
+        Float convertedRate = foreignRate * Float.parseFloat(value);
+        
         return convertedRate;
     }
 }

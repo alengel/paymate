@@ -35,17 +35,20 @@ public class PaymentStorageServiceBean {
     
     @TransactionAttribute(REQUIRED)
     public synchronized void makePayment(String type, Account origin, 
-            Account recipient, String currency, float amount, Date scheduledDate) throws SQLException {
+            Account recipient, String currency, float amount, Date scheduledDate) 
+            throws SQLException {
         
         String status;
         Date timestamp = timestampService.getTimestamp();
+        Date today = new Date();
         
         if(type.equals("payment")){
-            status = "completed";
-            float convertedAmount = convertAmountIntoLocalCurrency(origin.getEmail(), currency, amount);
-            
-            addAmount(recipient.getEmail(), convertedAmount);
-            deductAmount(origin.getEmail(), convertedAmount);
+            if(scheduledDate.after(today)){
+                status = "scheduled";
+            } else {
+                status = "completed";
+                calculateBalances(origin, recipient, currency, amount);
+            }
         } else {
             status = "pending";
         }
@@ -70,34 +73,65 @@ public class PaymentStorageServiceBean {
         paymentDao.updateStatus(id, status);
     }
     
-    public synchronized void addAmount(String recipient, float amount) throws SQLException {
+    @TransactionAttribute(REQUIRED)
+    public synchronized void updateBalances(Payment payment) throws SQLException {
+        
+        calculateBalances(payment.getOrigin(), payment.getRecipient(),
+            payment.getCurrency(), payment.getAmount());
+
+        updateStatus(payment.getId(), "accepted");
+    }
+    
+    public synchronized void addAmount(String recipient, float amount) 
+            throws SQLException {
+        
         Account recipientAccount = accountDao.getAccount(recipient);
         
         float balance = recipientAccount.getBalance();
+        System.out.print("recipient old balance " + balance);
         float newBalance = balance + amount;
-        
+        System.out.print("recipient balance " + newBalance);
         recipientAccount.setBalance(newBalance);
     }
     
-    public synchronized void deductAmount(String originEmail, float amount) throws SQLException {
+    public synchronized void deductAmount(String originEmail, float amount) 
+            throws SQLException {
+        
         Account originAccount = accountDao.getAccount(originEmail);
         
         float balance = originAccount.getBalance();
+        System.out.print("origin old balance " + balance);
         float newBalance = balance - amount;
-        
+        System.out.print("origin balance " + newBalance);
         originAccount.setBalance(newBalance);
     }
     
-    private float convertAmountIntoLocalCurrency(String origin, String currency, float amount) throws SQLException {
-        String localCurrency = accountDao.getAccount(origin).getCurrency();
+    private float convertAmountIntoLocalCurrency(String email, String currency, 
+            float amount) throws SQLException {
         
-        if(!localCurrency.equals(currency)){
-            float convertedAmount = CurrencyServiceBean.getConvertedAmount(localCurrency, 
-                currency, amount);
+        String localCurrency = accountDao.getAccount(email).getCurrency();
         
-            amount = convertedAmount;
+        if(localCurrency.equals(currency)){
+            return amount;
+        } else {
+            return CurrencyServiceBean.getConvertedAmount(currency,
+                    localCurrency, amount);
         }
+    }
+    
+    public void calculateBalances(Account origin, Account recipient,
+            String currency, float amount) throws SQLException{
         
-        return amount;
-    }  
+        float convertedOriginAmount = convertAmountIntoLocalCurrency(
+                origin.getEmail(), 
+                currency, 
+                amount);
+        float convertedRecipientAmount = convertAmountIntoLocalCurrency(
+                recipient.getEmail(), 
+                currency, 
+                amount);
+        
+        deductAmount(origin.getEmail(), convertedOriginAmount);
+        addAmount(recipient.getEmail(), convertedRecipientAmount);
+    }
 }

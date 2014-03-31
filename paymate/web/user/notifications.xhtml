@@ -92,6 +92,12 @@
                             </h:commandButton>
                         </h:form>
                     </h:panelGroup>
+                    <h:panelGroup rendered="#{payment.status=='scheduled'}">
+                        #{payment.status} on <br/>
+                        <h:outputText value="#{payment.scheduledDate}" >
+                            <f:convertDateTime pattern="MMM dd, YYYY" />
+                        </h:outputText>
+                    </h:panelGroup>
                     <h:panelGroup rendered="#{(payment.origin.email!=utilityBean.loggedInUser 
                                               and payment.status=='pending') 
                                               or payment.status=='completed' 

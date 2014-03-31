@@ -44,8 +44,8 @@ public class CurrencyConverter {
     @Path("{currencyOne}/{currencyTwo}/{currencyTwoValue}")
     @Produces({MediaType.APPLICATION_JSON})
     public String getForeignCurrency(@PathParam("currencyOne") String currencyOne, 
-                                           @PathParam("currencyTwo") String currencyTwo,
-                                           @PathParam("currencyTwoValue") String currencyTwoValue){
+                                     @PathParam("currencyTwo") String currencyTwo,
+                                     @PathParam("currencyTwoValue") String currencyTwoValue){
         
         //Return the exchange rate for the two passed in currencies
         Float convertedValue = currencies.getConvertedAmount(currencyOne, currencyTwo, currencyTwoValue);

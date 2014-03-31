@@ -2,6 +2,7 @@ package dao;
 
 import entities.Account;
 import entities.AccountGroup;
+import entities.Payment;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +76,7 @@ public class JdbcAccountDao implements AccountDao {
     
     @Override
     public void insertAccount(String email, String hashedPassword, 
-            String defaultRole, String currency, float balance){
+            String defaultRole, String currency, float balance) {
         
         Account account = new Account(email, hashedPassword, currency, balance, defaultRole, new Date());
         AccountGroup accountGroup = new AccountGroup(email, defaultRole);
@@ -84,5 +85,12 @@ public class JdbcAccountDao implements AccountDao {
         em.persist(accountGroup);
         em.flush();
     }
-
+    
+    @Override
+    public void updateBalance(Account account, float balance) {
+        System.out.print(account);
+        System.out.print(balance);
+        
+        em.setProperty("balance", balance);
+    }
 }

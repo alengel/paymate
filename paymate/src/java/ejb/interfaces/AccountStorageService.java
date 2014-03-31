@@ -1,6 +1,7 @@
 package ejb.interfaces;
 
 import entities.Account;
+import entities.Payment;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -24,7 +25,7 @@ public interface AccountStorageService {
     public void deductAmount(String originEmail, float amount);
     
     public void addAmount(String recipient, float amount);
-    
+        
     // Admin User Calls    
     public List<Account> getAccounts();
 }
