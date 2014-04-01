@@ -62,9 +62,13 @@ public class JdbcAccountDao implements AccountDao {
     
     @Override
     public Account getAccount(String email) throws SQLException {
-        TypedQuery<Account> query = em.createQuery(
-            "SELECT a FROM Account a WHERE a.email = :email", Account.class);
-        return query.setParameter("email", email).getSingleResult(); 
+        try {
+            TypedQuery<Account> query = em.createQuery(
+                "SELECT a FROM Account a WHERE a.email = :email", Account.class);
+            return query.setParameter("email", email).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
     
     @Override

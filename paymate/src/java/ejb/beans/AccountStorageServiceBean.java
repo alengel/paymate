@@ -42,12 +42,7 @@ public class AccountStorageServiceBean {
     }
     
     public synchronized Boolean checkAccountExists(String email) throws SQLException{    
-        try {
-            accountDao.getAccount(email);
-            return true;
-        } catch(SQLException e) {
-            return false;
-        }
+        return accountDao.getAccount(email) != null;
     }   
 
     public synchronized Account getAccount(String email) throws SQLException {

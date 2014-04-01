@@ -72,7 +72,7 @@ input,
 
 .reg-currency {
     width: 214px;
-    float: right;
+    margin-left: 24px;
 }
 
 .labels {
