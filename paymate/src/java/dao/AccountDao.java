@@ -2,10 +2,8 @@ package dao;
 
 import entities.Account;
 import entities.AccountGroup;
-import entities.Payment;
 import java.sql.SQLException;
 import java.util.List;
-import javax.persistence.PersistenceException;
 
 /**
  *

@@ -1,6 +1,7 @@
 package ejb.beans;
 
 import dao.JdbcAccountDao;
+import dao.JdbcFactory;
 import dao.JdbcPaymentDao;
 import entities.Account;
 import entities.AccountGroup;
@@ -34,11 +35,8 @@ public class AccountStorageServiceBean {
     @EJB
     private JdbcAccountDao accountDao;
     
-    @EJB
-    private JdbcPaymentDao paymentDao;
-    
     public AccountStorageServiceBean() {
-        utility = new UtilityBean();        
+        utility = new UtilityBean();  
     }
     
     public synchronized Boolean checkAccountExists(String email) throws SQLException{    
