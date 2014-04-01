@@ -88,9 +88,8 @@ public class PaymentStorageServiceBean {
         Account recipientAccount = accountDao.getAccount(recipient);
         
         float balance = recipientAccount.getBalance();
-        System.out.print("recipient old balance " + balance);
         float newBalance = balance + amount;
-        System.out.print("recipient balance " + newBalance);
+
         recipientAccount.setBalance(newBalance);
     }
     
@@ -100,9 +99,8 @@ public class PaymentStorageServiceBean {
         Account originAccount = accountDao.getAccount(originEmail);
         
         float balance = originAccount.getBalance();
-        System.out.print("origin old balance " + balance);
         float newBalance = balance - amount;
-        System.out.print("origin balance " + newBalance);
+
         originAccount.setBalance(newBalance);
     }
     
@@ -133,5 +131,9 @@ public class PaymentStorageServiceBean {
         
         deductAmount(origin.getEmail(), convertedOriginAmount);
         addAmount(recipient.getEmail(), convertedRecipientAmount);
+    }
+    
+    public String[] getAvailableCurrencies(){
+        return CurrencyServiceBean.getAvailableCurrencies();
     }
 }

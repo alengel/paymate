@@ -15,7 +15,20 @@ public class CurrencyServiceBean {
     
     public CurrencyServiceBean(){}
     
-    //Get all currency rates from paymateRS
+    public static String[] getAvailableCurrencies(){
+        Client client = ClientBuilder.newClient();
+        String currenciesString = client.target("http://localhost:8080/paymateRS/conversion/available")
+          .request(MediaType.APPLICATION_JSON)
+          .get(String.class);
+        
+        String[] currencies = currenciesString.replace("[", "")
+                                              .replace("]", "")
+                                              .split(", ");
+        
+        return currencies;
+    }
+
+    //Get all currency conversion rates from paymateRS
     public static String getCurrencies(){
         Client client = ClientBuilder.newClient();
         String currencies = client.target("http://localhost:8080/paymateRS/conversion/all")

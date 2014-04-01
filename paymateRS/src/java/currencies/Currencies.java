@@ -1,6 +1,8 @@
 package currencies;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -10,24 +12,12 @@ import java.util.HashMap;
 public class Currencies {
     
     private final HashMap<String, HashMap<String, Float>> rates;
+    private final ArrayList<String> currencies;
     
     public Currencies() {
         //Create a HashMap that stores all the currency rates
         rates = new HashMap<>();
-        
-        //USD rates
-        HashMap usdRates = new HashMap<>();
-        usdRates.put("EUR", 0.72f);
-        usdRates.put("GBP", 0.60f);
-        
-        rates.put("USD", usdRates);
-        
-        // EUR rates        
-        HashMap eurRates = new HashMap<>();
-        eurRates.put("USD", 1.38f);
-        eurRates.put("GBP", 0.83f);
-        
-        rates.put("EUR", eurRates);
+        currencies = new ArrayList<>();
         
         // GBP rates        
         HashMap gbpRates = new HashMap<>();
@@ -35,6 +25,27 @@ public class Currencies {
         gbpRates.put("EUR", 1.19f);
         
         rates.put("GBP", gbpRates);
+        currencies.add("GBP");
+        
+        // EUR rates        
+        HashMap eurRates = new HashMap<>();
+        eurRates.put("USD", 1.38f);
+        eurRates.put("GBP", 0.83f);
+        
+        rates.put("EUR", eurRates);
+        currencies.add("EUR");
+        
+        //USD rates
+        HashMap usdRates = new HashMap<>();
+        usdRates.put("EUR", 0.72f);
+        usdRates.put("GBP", 0.60f);
+        
+        rates.put("USD", usdRates);
+        currencies.add("USD");   
+    }
+    
+    public List getAvailableCurrencies(){
+        return currencies;
     }
 
     //Return all rates at once

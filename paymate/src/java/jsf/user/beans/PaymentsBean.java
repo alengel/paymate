@@ -42,9 +42,7 @@ public class PaymentsBean implements Serializable {
     
     public PaymentsBean(){
         utility = new UtilityBean();
-        
         currencyBean = new CurrencyBean();
-        currencies = new String[]{"GBP", "EUR", "USD"};
     }    
 
     public String getType() {
@@ -64,7 +62,7 @@ public class PaymentsBean implements Serializable {
     }
     
     public String[] getCurrencies(){
-        return currencies;
+        return paymentsStore.getAvailableCurrencies();
     }
 
     public void setCurrencies(String[] currencies) {

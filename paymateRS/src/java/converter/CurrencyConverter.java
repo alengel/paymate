@@ -31,6 +31,14 @@ public class CurrencyConverter {
     }
     
     @GET
+    @Path("available")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getAvailableCurrencies(){
+        //Return all available currency rates as a string
+        return currencies.getAvailableCurrencies().toString();
+    }
+    
+    @GET
     @Path("{currencyOne}/{currencyTwo}")
     @Produces({MediaType.APPLICATION_JSON})
     public ExchangeRate getExchangeRate(@PathParam("currencyOne") String currencyOne, 
