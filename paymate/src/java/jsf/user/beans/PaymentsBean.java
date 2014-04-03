@@ -167,12 +167,17 @@ public class PaymentsBean implements Serializable {
         }
         
         if(amount == 0){
-            utility.createErrorMessage("Please enter a higher amount than 0");
+            utility.createErrorMessage("Please enter a higher amount than 0.");
             return true;
         }
         
         if(scheduledDate == null){
             scheduledDate = new Date();
+        }
+        
+        if(scheduledDate.before(new Date())){
+            utility.createErrorMessage("Please enter a date from today onwards.");
+            return true;
         }
         
         return false;
