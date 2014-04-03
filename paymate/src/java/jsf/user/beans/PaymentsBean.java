@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -175,12 +176,20 @@ public class PaymentsBean implements Serializable {
             scheduledDate = new Date();
         }
         
-        if(scheduledDate.before(new Date())){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        if(scheduledDate.before(getYesterdaysDate())){
             utility.createErrorMessage("Please enter a date from today onwards.");
             return true;
         }
         
         return false;
+    }
+    
+    private Date getYesterdaysDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);    
+        return calendar.getTime();
     }
     
     public Boolean checkBalance() throws SQLException{
