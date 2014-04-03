@@ -65,9 +65,10 @@
                              required="true"
                              requiredMessage="Please enter an amount."
                              styleClass="amount-field"
-                             validatorMessage="The amount has to be a number, either 12 or 12.20"
+                             validatorMessage="Please enter a positive number (12 or 12.20)"
                              value="#{paymentsBean.amount}">
                     <f:convertNumber pattern="#0.00" />
+                    <f:validateLongRange minimum="0" />
                 </h:inputText>
                 <h:message styleClass="error-message" for="amount"/>
             </div>

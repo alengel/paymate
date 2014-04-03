@@ -62,7 +62,8 @@ public class PaymentsBean implements Serializable {
     }
     
     public String[] getCurrencies(){
-        return paymentsStore.getAvailableCurrencies();
+        currencies = paymentsStore.getAvailableCurrencies();
+        return currencies;
     }
 
     public void setCurrencies(String[] currencies) {
