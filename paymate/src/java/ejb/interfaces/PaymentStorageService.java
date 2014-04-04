@@ -2,6 +2,7 @@ package ejb.interfaces;
 
 import entities.Account;
 import entities.Payment;
+import entities.ScheduledPayment;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ public interface PaymentStorageService {
     public void schedulePayment(Account origin, Account recipient, 
             String currency, float amount, Date scheduledDate, String frequency);
     
-    public List<Payment> getNotifications(long originId);
+    public List<Payment> getTransactions();
     
     public List<Payment> getAllTransactions();
     
@@ -29,5 +30,7 @@ public interface PaymentStorageService {
     public void updateStatus(long id, String status);
     
     public void updateBalances(Payment payment) throws SQLException;
+    
+    public List<ScheduledPayment> getRecurringPayments(long originId);
 }
 

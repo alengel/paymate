@@ -80,6 +80,10 @@ public class PaymentStorageServiceBean {
         return paymentDao.getTransactionsByAccount(origin);
     }
     
+    public synchronized List<ScheduledPayment> getRecurringPayments(Account origin) {
+        return scheduledPaymentDao.getAllRecurringPayments(origin);
+    }
+    
     public synchronized List<Payment> getAllTransactions() {
         return paymentDao.getAllTransactions();
     }

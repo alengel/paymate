@@ -20,9 +20,10 @@
             <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
         </h:form>
         
-        <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
-        <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
-        <h:link styleClass="tab requests" outcome="requests">Requests</h:link>
+        <h:link styleClass="tab notifications-link" outcome="notifications">History</h:link>
+        <h:link styleClass="tab scheduled" outcome="recurring">Recurring</h:link>
+        <h:link styleClass="tab payments" outcome="payments">Make Payment</h:link>
+        <h:link styleClass="tab requests" outcome="requests">Request Funds</h:link>
         
         <div class="payments-form">
             

@@ -467,6 +467,10 @@ th {
     top: 24px;
 }
 
+.button.cancel {
+    float: none;
+}
+
 .admin-registration {
     border: 1px solid rgba(31, 166, 122, 0.7);
     width: 762px;

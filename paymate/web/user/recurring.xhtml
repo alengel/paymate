@@ -20,25 +20,25 @@
             <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
         </h:form>
         
-        <h:link styleClass="tab notifications-link active" outcome="notifications">History</h:link>
-        <h:link styleClass="tab scheduled" outcome="recurring">Recurring</h:link>
+        <h:link styleClass="tab notifications-link" outcome="notifications">History</h:link>
+        <h:link styleClass="tab scheduled active" outcome="recurring">Recurring</h:link>
         <h:link styleClass="tab payments" outcome="payments">Make Payment</h:link>
         <h:link styleClass="tab requests" outcome="requests">Request Funds</h:link>
         
-        <h:panelGroup styleClass="no-notifications" rendered="#{notificationsBean.notificationsTable.rowCount==0}">
-            You have no notifications.
+        <h:panelGroup styleClass="no-notifications" rendered="#{recurringBean.recurringPaymentsTable.rowCount==0}">
+            You have no recurring payments set up.
         </h:panelGroup>
         
-        <h:dataTable binding="#{notificationsBean.notificationsTable}"
+        <h:dataTable binding="#{recurringBean.recurringPaymentsTable}"
                      rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
-                     value="#{notificationsBean.notifications}"
+                     value="#{recurringBean.recurringPayments}"
                      var="payment">
                 
                 <span id="#{payment.id}"></span>
                 <h:column>
-                    <f:facet name="header">Date</f:facet>
-                     <h:outputText value="#{payment.paymentTimestamp}" >
+                    <f:facet name="header">Start Date</f:facet>
+                    <h:outputText value="#{payment.startDate}" >
                         <f:convertDateTime pattern="MMM dd, YYYY" />
                     </h:outputText>
                 </h:column>
@@ -76,38 +76,26 @@
                     </h:outputText>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Type</f:facet>
-                        #{payment.type}
+                    <f:facet name="header">Frequency</f:facet>
+                    <h:outputText value="#{payment.frequency}" >
+                        <f:convertDateTime pattern="MMM dd, YYYY" />
+                    </h:outputText>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Status</f:facet>
-                    <h:panelGroup rendered="#{payment.origin.email==utilityBean.loggedInUser 
-                                              and payment.status=='pending'}">
-                        <h:form>
-                            <h:commandButton actionListener="#{notificationsBean.rejectRequest}"
-                                             class="button small reject-button"
-                                             value="Reject">
-                            </h:commandButton>
-                            <h:commandButton actionListener="#{notificationsBean.acceptRequest}"
-                                             class="button small accept-button"
-                                             value="Accept">
-                            </h:commandButton>
-                        </h:form>
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.status=='scheduled'}">
-                        #{payment.status} on <br/>
-                        <h:outputText value="#{payment.scheduledDate}" >
-                            <f:convertDateTime pattern="MMM dd, YYYY" />
-                        </h:outputText>
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{(payment.origin.email!=utilityBean.loggedInUser 
-                                              and payment.status=='pending') 
-                                              or payment.status=='completed' 
-                                              or payment.status=='accepted' 
-                                              or payment.status=='rejected'}">
-                        #{payment.status}
-                    </h:panelGroup>
-                        
+                    <f:facet name="header">Next Payment</f:facet>
+                    <h:outputText value="#{payment.nextScheduledDate}" >
+                        <f:convertDateTime pattern="MMM dd, YYYY" />
+                    </h:outputText>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Cancel</f:facet>
+                    <h:form>
+                        <h:commandButton actionListener="#{recurringBean.cancelPayments()}"
+                                         class="button cancel small reject-button"
+                                         value="Cancel">
+                        </h:commandButton>
+                    </h:form>
                 </h:column>
             </h:dataTable>
         <div class="balance-container">

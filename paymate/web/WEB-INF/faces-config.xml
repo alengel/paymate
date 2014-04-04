@@ -58,6 +58,35 @@
             <to-view-id>/user/notifications.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/user/recurring.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>payments</from-outcome> 
+            <to-view-id>/user/payments.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>requests</from-outcome> 
+            <to-view-id>/user/requests.xhtml</to-view-id> 
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule> 
+        <from-view-id>/user/recurring.xhtml</from-view-id> 
+        <navigation-case> 
+            <from-outcome>login</from-outcome> 
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>notifications</from-outcome> 
+            <to-view-id>/user/notifications.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/user/recurring.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
             <from-outcome>payments</from-outcome> 
             <to-view-id>/user/payments.xhtml</to-view-id> 
         </navigation-case>
@@ -77,6 +106,10 @@
         <navigation-case> 
             <from-outcome>notifications</from-outcome> 
             <to-view-id>/user/notifications.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/user/recurring.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>payment_success</from-outcome> 
@@ -104,6 +137,10 @@
             <to-view-id>/user/notifications.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/user/recurring.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
             <from-outcome>payments</from-outcome> 
             <to-view-id>/user/payments.xhtml</to-view-id> 
         </navigation-case>
@@ -125,6 +162,10 @@
             <to-view-id>/user/notifications.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/user/recurring.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
             <from-outcome>payments</from-outcome> 
             <to-view-id>/user/payments.xhtml</to-view-id> 
         </navigation-case>
@@ -144,6 +185,10 @@
         <navigation-case> 
             <from-outcome>notifications</from-outcome> 
             <to-view-id>/user/notifications.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/user/recurring.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>payments</from-outcome> 
@@ -170,6 +215,10 @@
             <from-outcome>notifications</from-outcome> 
             <to-view-id>/user/notifications.xhtml</to-view-id> 
             <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/user/recurring.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>payments</from-outcome> 
