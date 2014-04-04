@@ -11,8 +11,6 @@
         
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
         
-        <script src="../js/radiobutton.js"></script>
-        
         <title>PayMate</title>
     </h:head>
     <h:body styleClass="payments-page">
@@ -24,11 +22,11 @@
         </h:form>
 
         <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
-        <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
-        <h:link styleClass="tab requests" outcome="requests">Requests</h:link>
+        <h:link styleClass="tab payments" outcome="payments">Payments</h:link>
+        <h:link styleClass="tab requests active" outcome="requests">Requests</h:link>
         
         <h:form styleClass="payments-form">
-            <p class="introduction">Please fill in the details to make a payment.</p>
+            <p class="introduction">Please fill in the details to request funds.</p>
             
             <div class="balance-container">
                 <span class="balance-title">Balance   </span>
@@ -76,47 +74,12 @@
                 <h:message styleClass="error-message" for="amount"/>
             </div>
             
-            <div class="divider"></div>
-            
-            <div class="input-container-radio">
-                <input id="once" type="radio" name="frequency" value="once" checked="checked">
-                    <span>One-off payment</span>
-                </input>
-                <input id="recurring" type="radio" name="frequency" value="recurring">
-                    <span>Recurring payments</span>
-                </input>
-            </div>
-            
-            <div class="input-container">
-                <span class="datelabels labels">Schedule Payment Date</span>
-                <p:calendar id="calendar"
-                            mindate="#{paymentsBean.defaultScheduledDate}"
-                            pattern="dd/MM/yyyy"
-                            styleClass="calendar"
-                            value="#{paymentsBean.scheduledDate}"/>
-                <p:watermark for="calendar"
-                             value="#{paymentsBean.defaultScheduledDate}" />  
-            </div>
-            
-            <div class="recurring hidden">
-                <div class="input-container">
-                    <span>Select Frequency</span>
-                    <h:selectOneMenu id="frequency" 
-                                     styleClass="frequency-select" 
-                                     value="#{paymentsBean.frequency}">
-                        <f:selectItem itemLabel="daily" itemValue="D"/>
-                        <f:selectItem itemLabel="weekly" itemValue="W"/>
-                        <f:selectItem itemLabel="monthly" itemValue="M"/>
-                    </h:selectOneMenu>
-                </div>
-            </div>
-            
             <h:messages styleClass="global-error" globalOnly="true" />
             
             <div class="button-container">
-                <h:commandButton action="#{paymentsBean.makePayment}" 
+                <h:commandButton action="#{paymentsBean.requestFunds}" 
                                  styleClass="button long"
-                                 value="Make Payment">
+                                 value="Request Funds">
                 </h:commandButton>
                 
                 <h:commandButton styleClass="button" 
@@ -124,7 +87,7 @@
                                 value="Reset">
                </h:commandButton>
             </div>
-        
+            
         </h:form>
         
         <div class="exchange">Current Exchange Rates</div>

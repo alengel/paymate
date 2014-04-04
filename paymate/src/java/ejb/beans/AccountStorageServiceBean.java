@@ -1,8 +1,8 @@
 package ejb.beans;
 
-import dao.JdbcAccountDao;
-import dao.JdbcFactory;
-import dao.JdbcPaymentDao;
+import dao.JpaAccountDao;
+import dao.JpaFactory;
+import dao.JpaPaymentDao;
 import entities.Account;
 import entities.AccountGroup;
 import entities.Payment;
@@ -33,7 +33,7 @@ public class AccountStorageServiceBean {
     private final UtilityBean utility;
     
     @EJB
-    private JdbcAccountDao accountDao;
+    private JpaAccountDao accountDao;
     
     public AccountStorageServiceBean() {
         utility = new UtilityBean();  

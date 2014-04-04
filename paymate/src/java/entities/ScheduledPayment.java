@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -18,33 +17,28 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
-@NamedQuery(name="findAllPayments", query="SELECT c FROM Payment c ")
-public class Payment implements Serializable {
+public class ScheduledPayment implements Serializable {
     
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
-    @NotNull @Temporal(javax.persistence.TemporalType.DATE) Date paymentTimestamp;
-    @NotNull String type;
     @OneToOne Account origin;
     @OneToOne Account recipient;
     @NotNull String currency;
     @NotNull float amount;
-    @Temporal(javax.persistence.TemporalType.DATE) Date scheduledDate;
-    @NotNull String status;
+    @Temporal(javax.persistence.TemporalType.DATE) Date nextScheduledDate;
+    @Temporal(javax.persistence.TemporalType.DATE) Date startDate;
+    String frequency;
 
-    public Payment() {
-        
+    public ScheduledPayment() {
     }
 
-    public Payment(Date paymentTimestamp, String type, Account origin, Account recipient, 
-            String currency, float amount, Date scheduledDate, String status) {
-        this.paymentTimestamp = paymentTimestamp;
-        this.type = type;
+    public ScheduledPayment(Account origin, Account recipient, String currency, float amount, Date nextScheduledDate, Date startDate, String frequency) {
         this.origin = origin;
         this.recipient = recipient;
         this.currency = currency;
         this.amount = amount;
-        this.scheduledDate = scheduledDate;
-        this.status = status;
+        this.nextScheduledDate = nextScheduledDate;
+        this.startDate = startDate;
+        this.frequency = frequency;
     }
 
     public long getId() {
@@ -53,22 +47,6 @@ public class Payment implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Date getPaymentTimestamp() {
-        return paymentTimestamp;
-    }
-
-    public void setPaymentTimestamp(Date paymentTimestamp) {
-        this.paymentTimestamp = paymentTimestamp;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Account getOrigin() {
@@ -103,34 +81,41 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public Date getScheduledDate() {
-        return scheduledDate;
+    public Date getNextScheduledDate() {
+        return nextScheduledDate;
     }
 
-    public void setScheduledDate(Date scheduledDate) {
-        this.scheduledDate = scheduledDate;
+    public void setNextScheduledDate(Date nextScheduledDate) {
+        this.nextScheduledDate = nextScheduledDate;
     }
 
-    public String getStatus() {
-        return status;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 29 * hash + Objects.hashCode(this.paymentTimestamp);
-        hash = 29 * hash + Objects.hashCode(this.type);
-        hash = 29 * hash + Objects.hashCode(this.origin);
-        hash = 29 * hash + Objects.hashCode(this.recipient);
-        hash = 29 * hash + Objects.hashCode(this.currency);
-        hash = 29 * hash + Float.floatToIntBits(this.amount);
-        hash = 29 * hash + Objects.hashCode(this.scheduledDate);
-        hash = 29 * hash + Objects.hashCode(this.status);
+        hash = 61 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 61 * hash + Objects.hashCode(this.origin);
+        hash = 61 * hash + Objects.hashCode(this.recipient);
+        hash = 61 * hash + Objects.hashCode(this.currency);
+        hash = 61 * hash + Float.floatToIntBits(this.amount);
+        hash = 61 * hash + Objects.hashCode(this.nextScheduledDate);
+        hash = 61 * hash + Objects.hashCode(this.startDate);
+        hash = 61 * hash + Objects.hashCode(this.frequency);
         return hash;
     }
 
@@ -142,14 +127,8 @@ public class Payment implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Payment other = (Payment) obj;
+        final ScheduledPayment other = (ScheduledPayment) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.paymentTimestamp, other.paymentTimestamp)) {
-            return false;
-        }
-        if (!Objects.equals(this.type, other.type)) {
             return false;
         }
         if (!Objects.equals(this.origin, other.origin)) {
@@ -164,14 +143,15 @@ public class Payment implements Serializable {
         if (Float.floatToIntBits(this.amount) != Float.floatToIntBits(other.amount)) {
             return false;
         }
-        if (!Objects.equals(this.scheduledDate, other.scheduledDate)) {
+        if (!Objects.equals(this.nextScheduledDate, other.nextScheduledDate)) {
             return false;
         }
-        if (!Objects.equals(this.status, other.status)) {
+        if (!Objects.equals(this.startDate, other.startDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.frequency, other.frequency)) {
             return false;
         }
         return true;
     }
-
-    
 }

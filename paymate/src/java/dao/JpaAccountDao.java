@@ -21,12 +21,12 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 @LocalBean
-public class JdbcAccountDao implements AccountDao {
+public class JpaAccountDao implements AccountDao {
     
     @PersistenceContext(unitName = "paymatePU")
     private EntityManager em;
     
-    public JdbcAccountDao() {
+    public JpaAccountDao() {
     }
 
 //    @PersistenceContext(unitName = "paymatePU")
@@ -48,7 +48,7 @@ public class JdbcAccountDao implements AccountDao {
 //            pstmt.close();
 //            
 //        } catch (SQLException ex) {
-//            Logger.getLogger(JdbcAccountDao.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(JpaAccountDao.class.getName()).log(Level.SEVERE, null, ex);
 //        } finally {
 //            if (conn != null) conn.close();
 //        }

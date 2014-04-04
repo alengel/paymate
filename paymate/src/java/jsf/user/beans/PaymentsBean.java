@@ -32,8 +32,9 @@ public class PaymentsBean implements Serializable {
     private String[] currencies;
     private float amount;
     private Date scheduledDate;
-    CurrencyBean currencyBean;
-    UtilityBean utility;
+    private String frequency;
+    private final CurrencyBean currencyBean;
+    private final UtilityBean utility;
     
     @EJB
     private AccountStorageServiceBean accountStore;
@@ -96,6 +97,14 @@ public class PaymentsBean implements Serializable {
 
     public void setScheduledDate(Date scheduledDate) {
         this.scheduledDate = scheduledDate;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
     }
     
     public String getDefaultScheduledDate(){

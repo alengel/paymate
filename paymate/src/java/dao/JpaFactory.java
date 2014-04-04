@@ -8,10 +8,10 @@ import javax.ejb.Stateless;
  */
 
 @Stateless
-public class JdbcFactory extends DAOFactory {
+public class JpaFactory extends DAOFactory {
 
     @Override
     public AccountDao getAccountDAO() {
-        return new JdbcAccountDao();
+        return new JpaAccountDao();
     }
 }

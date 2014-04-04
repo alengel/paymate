@@ -17,7 +17,7 @@ public abstract class DAOFactory {
   
     switch (whichFactory) {
       case JDBC: 
-          return new JdbcFactory();
+          return new JpaFactory();
       default           : 
           return null;
     }

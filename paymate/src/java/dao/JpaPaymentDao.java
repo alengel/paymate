@@ -19,12 +19,12 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 @LocalBean
-public class JdbcPaymentDao implements PaymentDao {
+public class JpaPaymentDao implements PaymentDao {
     
     @PersistenceContext(unitName = "paymatePU")
     private EntityManager em;
     
-    public JdbcPaymentDao() {
+    public JpaPaymentDao() {
     }
     
     @Override

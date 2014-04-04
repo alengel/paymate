@@ -1,13 +1,15 @@
 package ejb.beans;
 
-import dao.JdbcAccountDao;
-import dao.JdbcPaymentDao;
+import dao.JpaAccountDao;
+import dao.JpaPaymentDao;
+import dao.JpaScheduledPaymentDao;
 import entities.Account;
 import entities.Payment;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
@@ -24,10 +26,13 @@ public class PaymentStorageServiceBean {
     private TimestampServiceBean timestampService;
 
     @EJB
-    private JdbcPaymentDao paymentDao;
+    private JpaPaymentDao paymentDao;
     
     @EJB
-    private JdbcAccountDao accountDao;
+    private JpaScheduledPaymentDao scheduledPaymentDao;
+    
+    @EJB
+    private JpaAccountDao accountDao;
     
     public PaymentStorageServiceBean() {
         
@@ -135,5 +140,10 @@ public class PaymentStorageServiceBean {
     
     public String[] getAvailableCurrencies(){
         return CurrencyServiceBean.getAvailableCurrencies();
+    }
+    
+//    @Schedule(second="*/1", minute="*",hour="*", persistent=false)
+    public void checkForScheduledPayments(){
+//        List payments = paymentDao.getScheduledPaymentsForToday();
     }
 }

@@ -22,17 +22,21 @@
 
         <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
         <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
+        <h:link styleClass="tab requests" outcome="requests">Requests</h:link>
         
-        <h:form styleClass="payments-form">
-            
-            <span>Oops something went wrong. :(</span>
-            
+        <div class="payments-form">
+            <span>
+                Oops something went wrong.  :( <br />
+                Please try again.
+            </span>
+        </div>
+        
+        <div class="button-container-long">
             <h:button styleClass="button long back" 
-                             outcome="payments" 
-                             value="Back to Payments">
+                      outcome="payments" 
+                      value="Back to Payments">
             </h:button>
-            
-        </h:form>
+        </div>
         
         <div class="exchange">Current Exchange Rates</div>
         <h:dataTable styleClass="currency-table">
