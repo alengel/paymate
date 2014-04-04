@@ -33,6 +33,7 @@ public class PaymentsBean implements Serializable {
     private float amount;
     private Date scheduledDate;
     private String frequency;
+    private String frequencyType;
     private final CurrencyBean currencyBean;
     private final UtilityBean utility;
     
@@ -106,6 +107,17 @@ public class PaymentsBean implements Serializable {
     public void setFrequency(String frequency) {
         this.frequency = frequency;
     }
+
+    public String getFrequencyType() {
+        //set default frequency type to once
+        frequencyType = "once";
+        
+        return frequencyType;
+    }
+
+    public void setFrequencyType(String frequencyType) {
+        this.frequencyType = frequencyType;
+    }
     
     public String getDefaultScheduledDate(){
         DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -131,16 +143,22 @@ public class PaymentsBean implements Serializable {
             if(checkBalance()){
                 return null;
             }
-
+            
             type = "payment";
-
-            makePayment(utility.getLoggedInUser(), recipient);
-
-            return "payment_success";
+            
+            if(frequencyType.equals("recurring")){
+                System.out.print(frequencyType + " " + frequency);
+                schedulePayment(utility.getLoggedInUser(), recipient);
+            } else {
+                makePayment(utility.getLoggedInUser(), recipient);
+            }
+            
+            return "payments_success";
         }
         catch (EJBTransactionRolledbackException exception) {
-            utility.createErrorMessage("Oops, something went wrong. Please try again.");
-            return null;
+//            utility.createErrorMessage("Oops, something went wrong. Please try again.");
+//            return null;
+            return "payments_failure";
         }
     }
     
@@ -153,16 +171,25 @@ public class PaymentsBean implements Serializable {
         
         makePayment(recipient, utility.getLoggedInUser());
         
-        return "request_success";
+        return "requests_success";
     }
     
     public void makePayment(String originEmail, String recipientEmail) throws SQLException{
-        Account origin = accountStore.getAccount(originEmail);
-        Account recipient2 = accountStore.getAccount(recipientEmail);
+        Account originAccount = accountStore.getAccount(originEmail);
+        Account recipientAccount = accountStore.getAccount(recipientEmail);
                 
         //Insert payment into the DB payments table
-        paymentsStore.makePayment(type, origin, recipient2, currency, 
+        paymentsStore.makePayment(type, originAccount, recipientAccount, currency, 
                 amount, scheduledDate);
+    }
+    
+    public void schedulePayment(String originEmail, String recipientEmail) throws SQLException{
+        Account originAccount = accountStore.getAccount(originEmail);
+        Account recipientAccount = accountStore.getAccount(recipientEmail);
+                
+        //Insert scheduled payment into the DB scheduled payments table
+        paymentsStore.schedulePayment(originAccount, recipientAccount, currency, amount, 
+                scheduledDate, frequency);
     }
 
     public Boolean validateFormFields() throws SQLException{

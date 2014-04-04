@@ -5,8 +5,11 @@ import dao.JpaPaymentDao;
 import dao.JpaScheduledPaymentDao;
 import entities.Account;
 import entities.Payment;
+import entities.ScheduledPayment;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
@@ -43,13 +46,15 @@ public class PaymentStorageServiceBean {
             Account recipient, String currency, float amount, Date scheduledDate) 
             throws SQLException {
         
-        String status;
+        String status = null;
         Date timestamp = timestampService.getTimestamp();
         Date today = new Date();
         
         if(type.equals("payment")){
             if(scheduledDate.after(today)){
-                status = "scheduled";
+                schedulePayment(origin, recipient, currency, 
+                        amount, scheduledDate, "once");
+                return;
             } else {
                 status = "completed";
                 calculateBalances(origin, recipient, currency, amount);
@@ -60,6 +65,15 @@ public class PaymentStorageServiceBean {
         
         paymentDao.insertTransaction(timestamp, type, origin, recipient, currency, 
                 amount, scheduledDate, status);
+    }
+    
+    @TransactionAttribute(REQUIRED)
+    public synchronized void schedulePayment(Account origin, Account recipient, 
+            String currency, float amount, Date scheduledDate, String frequency) 
+            throws SQLException {
+        
+        scheduledPaymentDao.insertScheduledPayment(origin, recipient, currency,
+                amount, scheduledDate, scheduledDate, frequency);
     }
     
     public synchronized List<Payment> getTransactions(Account origin) {
@@ -142,8 +156,66 @@ public class PaymentStorageServiceBean {
         return CurrencyServiceBean.getAvailableCurrencies();
     }
     
-//    @Schedule(second="*/1", minute="*",hour="*", persistent=false)
-    public void checkForScheduledPayments(){
-//        List payments = paymentDao.getScheduledPaymentsForToday();
+    @TransactionAttribute(REQUIRED)
+    public void makeScheduledPayment(ScheduledPayment item) throws SQLException{
+        //Insert all payments into payments DB
+        makePayment("payment", item.getOrigin(), item.getRecipient(), item.getCurrency(),
+                item.getAmount(), new Date()); 
+
+        calculateNextScheduledDate(item);
+    }
+    
+    public void calculateNextScheduledDate(ScheduledPayment item){
+        Date nextScheduledDate = null;
+
+        switch (item.getFrequency()) {
+        case "D": 
+            nextScheduledDate = addDaysToDate(1);
+            break;
+        case "W": 
+            nextScheduledDate = addDaysToDate(7);
+            break;
+        case "M": 
+            nextScheduledDate = addMonthsToDate(1);
+            break;
+        default: 
+            removeScheduledPayment(item.getId());
+        }
+        
+        item.setNextScheduledDate(nextScheduledDate);
+    }
+    
+    public Date addDaysToDate(int noOfDays) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, noOfDays);
+        
+        return cal.getTime();
+    }
+    
+    public Date addMonthsToDate(int noOfMonths) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.MONTH, noOfMonths);
+        
+        return cal.getTime();
+    }
+    
+    public void removeScheduledPayment(long id){
+        scheduledPaymentDao.remove(id);
+    }
+    
+    //Check for scheduled payments every day at 8am
+    @Schedule(second="0", minute="0",hour="8", persistent=false)
+    public void checkForScheduledPayments() throws SQLException{
+        Date today = new Date();
+        
+        //Get all payments for today
+        List payments = scheduledPaymentDao.getScheduledPaymentsByDate(today);
+        
+        for(Iterator<ScheduledPayment> i = payments.iterator(); i.hasNext(); ) {
+            ScheduledPayment item = i.next();
+            makeScheduledPayment(item);
+        }
     }
 }

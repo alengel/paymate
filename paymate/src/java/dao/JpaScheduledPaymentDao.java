@@ -47,15 +47,10 @@ public class JpaScheduledPaymentDao implements ScheduledPaymentDao {
     }
     
     @Override
-    public List<ScheduledPayment> getScheduledPayment(long id){
+    public void remove(long id){
         TypedQuery<ScheduledPayment> query = em.createQuery(
-            "SELECT c FROM Payment c WHERE c.id = :id", ScheduledPayment.class);
-        return query.setParameter("id", id).getResultList();
-    }
-    
-    @Override
-    public void updateScheduledDate(long id, Date updatedDate){
-        ScheduledPayment payment = getScheduledPayment(id).get(0);
-        payment.setNextScheduledDate(updatedDate);
+            "DELETE p FROM ScheduledPayment p WHERE p.id = :id", ScheduledPayment.class);
+        
+        em.remove(query);
     }
 }

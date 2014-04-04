@@ -79,12 +79,12 @@
             <div class="divider"></div>
             
             <div class="input-container-radio">
-                <input id="once" type="radio" name="frequency" value="once" checked="checked">
-                    <span>One-off payment</span>
-                </input>
-                <input id="recurring" type="radio" name="frequency" value="recurring">
-                    <span>Recurring payments</span>
-                </input>
+                <h:selectOneRadio id="subscriptions"
+                                  styleClass="select-frequency-type"
+                                  value="#{paymentsBean.frequencyType}">
+                    <f:selectItem id="once" itemLabel="One-off payment" itemValue="once" />
+                    <f:selectItem id="recurring" itemLabel="Recurring payments" itemValue="recurring" />
+                </h:selectOneRadio>
             </div>
             
             <div class="input-container">

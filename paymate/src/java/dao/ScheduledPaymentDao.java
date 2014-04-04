@@ -1,10 +1,7 @@
 package dao;
 
 import entities.Account;
-import entities.AccountGroup;
-import entities.Payment;
 import entities.ScheduledPayment;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +17,6 @@ public interface ScheduledPaymentDao {
     
     public List getScheduledPaymentsByDate(Date date);
     
-    public List<ScheduledPayment> getScheduledPayment(long id);
-    
-    public void updateScheduledDate(long id, Date updatedDate);
+    public void remove(long id);
     
 }

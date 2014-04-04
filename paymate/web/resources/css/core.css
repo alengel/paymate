@@ -354,13 +354,17 @@ th {
     height: 16px;
 }
 
-#recurring {
-    margin-left: 24px;
+.input-container-radio td:nth-child(2) {
+    padding-left: 24px;
 }
 
 .frequency-select {
     margin-left: 104px;
     width: 218px;
+}
+
+.recurring {
+    margin-top: -24px;
 }
 
 /* Button CSS */

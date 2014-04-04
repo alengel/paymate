@@ -17,6 +17,9 @@ public interface PaymentStorageService {
     public void makePayment(String type, Account origin, 
             Account recipient, String currency, String amount, Date scheduledDate);
     
+    public void schedulePayment(Account origin, Account recipient, 
+            String currency, float amount, Date scheduledDate, String frequency);
+    
     public List<Payment> getNotifications(long originId);
     
     public List<Payment> getAllTransactions();

@@ -22,8 +22,8 @@
             </h:form>
             
             <h:link styleClass="tab notifications-link" outcome="notifications">Notifications</h:link>
-            <h:link styleClass="tab payments active" outcome="payments">Payments</h:link>
-            <h:link styleClass="tab requests" outcome="requests">Requests</h:link>
+            <h:link styleClass="tab payments" outcome="payments">Payments</h:link>
+            <h:link styleClass="tab requests active" outcome="requests">Requests</h:link>
             
         </h:form>
         
@@ -39,25 +39,33 @@
         </div>
         
         <div class="exchange">Current Exchange Rates</div>
-        <h:dataTable styleClass="currency-table">
-            <h:column>
-                <f:facet name="header">Currencies</f:facet>
-                USD
-                GBP
-                EUR
-            </h:column>
-            <h:column>
-                <f:facet name="header">USD</f:facet>
-            </h:column>
-            <h:column>
-                <f:facet name="header">GBP</f:facet>
-                1.50
-            </h:column>
-            <h:column>
-                <f:facet name="header">EUR</f:facet>
-                1.30
-            </h:column>
-        </h:dataTable>
+        <table class="currency-table">
+            <tr>
+                <th></th>
+                <th>GBP</th>
+                <th>EUR</th>
+                <th>USD</th>
+            </tr>
+            <tr class="odd-row">
+                <td>GBP</td>
+                <td>1</td>
+                <td>#{currencyBean.currencies.get("GBP").get("EUR")}</td>
+                <td>#{currencyBean.currencies.get("GBP").get("USD")}</td>
+            </tr>
+            <tr>
+                <td>EUR</td>
+                <td>#{currencyBean.currencies.get("EUR").get("GBP")}</td>
+                <td>1</td>
+                <td>#{currencyBean.currencies.get("EUR").get("USD")}</td>
+            </tr>
+            <tr class="odd-row">
+                <td>USD</td>
+                <td>#{currencyBean.currencies.get("USD").get("GBP")}</td>
+                <td>#{currencyBean.currencies.get("USD").get("EUR")}</td>
+                <td>1</td>
+            </tr>
+        </table>
+        
     </h:body>
 </html>
 
