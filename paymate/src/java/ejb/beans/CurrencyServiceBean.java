@@ -1,9 +1,10 @@
 package ejb.beans;
 
 import javax.ejb.Stateless;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -15,39 +16,58 @@ public class CurrencyServiceBean {
     
     public CurrencyServiceBean(){}
     
+    private static String makeRequest(String uri){
+        WebTarget target = ClientBuilder.newClient().target(uri);
+        Response response = target.request().get();
+
+        if (response.getStatus() == 200) {
+            return target.request(MediaType.APPLICATION_JSON)
+                         .get(String.class);
+        } else {
+            return "failed";
+        }
+    }
+    
     public static String[] getAvailableCurrencies(){
-        Client client = ClientBuilder.newClient();
-        String currenciesString = client.target("http://localhost:8080/paymateRS/conversion/available")
-          .request(MediaType.APPLICATION_JSON)
-          .get(String.class);
+        String uri = "http://localhost:8080/paymateRS/conversion/available";
         
-        String[] currencies = currenciesString.replace("[", "")
-                                              .replace("]", "")
-                                              .split(", ");
-        
-        return currencies;
+        String result = makeRequest(uri);
+        if (result.equals("failed")) {
+            return null;
+        } else {
+            String[] currencies = result.replace("[", "")
+                                        .replace("]", "")
+                                        .split(", ");
+
+            return currencies;
+        }
     }
 
     //Get all currency conversion rates from paymateRS
     public static String getCurrencies(){
-        Client client = ClientBuilder.newClient();
-        String currencies = client.target("http://localhost:8080/paymateRS/conversion/all")
-          .request(MediaType.APPLICATION_JSON)
-          .get(String.class);
-
-        return currencies;
+        String uri = "http://localhost:8080/paymateRS/conversion/all";
+        
+        String result = makeRequest(uri);
+        
+        if (result.equals("failed")) {
+            return null;
+        } else {
+            return result;
+        }
     }
     
     //Pass in local and foreign currency, plus value to get the converted amount
     public static Float getConvertedAmount(String localCurrency, String foreignCurrency, float value){
         String amountString = Float.toString(value);
+        String uri = "http://localhost:8080/paymateRS/conversion/" +
+                                 localCurrency + "/" + foreignCurrency + "/" + amountString;
         
-        Client client = ClientBuilder.newClient();
-        String convertedAmount = client.target("http://localhost:8080/paymateRS/conversion/" +
-                                 localCurrency + "/" + foreignCurrency + "/" + amountString)
-          .request(MediaType.APPLICATION_JSON)
-          .get(String.class);
-
-        return Float.parseFloat(convertedAmount);
+        String result = makeRequest(uri);
+        
+        if (result.equals("failed")) {
+            return null;
+        } else {
+            return Float.parseFloat(result);
+        }
     }
 }

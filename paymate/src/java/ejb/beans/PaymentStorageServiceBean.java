@@ -71,9 +71,15 @@ public class PaymentStorageServiceBean {
     public synchronized void schedulePayment(Account origin, Account recipient, 
             String currency, float amount, Date scheduledDate, String frequency) 
             throws SQLException {
+        Date nextScheduledDate = null;
+        
+        if(!scheduledDate.after(getToday())) {
+            makePayment("payment", origin, recipient, currency, amount, getToday());
+            nextScheduledDate = calculateNextScheduledDate(frequency);
+        }
         
         scheduledPaymentDao.insertScheduledPayment(origin, recipient, currency,
-                amount, scheduledDate, scheduledDate, frequency);
+                amount, nextScheduledDate, scheduledDate, frequency);
     }
     
     public synchronized List<Payment> getTransactions(Account origin) {
@@ -156,7 +162,7 @@ public class PaymentStorageServiceBean {
         addAmount(recipient.getEmail(), convertedRecipientAmount);
     }
     
-    public String[] getAvailableCurrencies(){
+    public String[] getAvailableCurrencies(){        
         return CurrencyServiceBean.getAvailableCurrencies();
     }
     
@@ -166,27 +172,38 @@ public class PaymentStorageServiceBean {
         makePayment("payment", item.getOrigin(), item.getRecipient(), item.getCurrency(),
                 item.getAmount(), new Date()); 
 
-        calculateNextScheduledDate(item);
+        updateNextScheduledDate(item);
     }
     
-    public void calculateNextScheduledDate(ScheduledPayment item){
+    public void updateNextScheduledDate(ScheduledPayment payment){
+        Date nextScheduledDate = calculateNextScheduledDate(payment.getFrequency());
+
+        if(nextScheduledDate == null){
+            removeScheduledPayment(payment.getId());
+            return;
+        }
+            
+        payment.setNextScheduledDate(nextScheduledDate);
+    }
+    
+    public Date calculateNextScheduledDate(String frequency) {
         Date nextScheduledDate = null;
 
-        switch (item.getFrequency()) {
-        case "D": 
+        switch (frequency) {
+        case "daily": 
             nextScheduledDate = addDaysToDate(1);
             break;
-        case "W": 
+        case "weekly": 
             nextScheduledDate = addDaysToDate(7);
             break;
-        case "M": 
+        case "monthly": 
             nextScheduledDate = addMonthsToDate(1);
             break;
         default: 
-            removeScheduledPayment(item.getId());
+            return nextScheduledDate;
         }
         
-        item.setNextScheduledDate(nextScheduledDate);
+        return nextScheduledDate;
     }
     
     public Date addDaysToDate(int noOfDays) {
@@ -205,18 +222,23 @@ public class PaymentStorageServiceBean {
         return cal.getTime();
     }
     
+    private Date getToday() {
+        return new Date();
+    }
+    
     public void removeScheduledPayment(long id){
         scheduledPaymentDao.remove(id);
     }
     
-    //Check for scheduled payments every day at 8am
+    //Check for scheduled payments every day at 8am server time
     @Schedule(second="0", minute="0",hour="8", persistent=false)
     public void checkForScheduledPayments() throws SQLException{
-        Date today = new Date();
+        Date today = getToday();
         
         //Get all payments for today
         List payments = scheduledPaymentDao.getScheduledPaymentsByDate(today);
         
+        //Iterate over each payment and make the payment
         for(Iterator<ScheduledPayment> i = payments.iterator(); i.hasNext(); ) {
             ScheduledPayment item = i.next();
             makeScheduledPayment(item);

@@ -33,6 +33,10 @@
             <to-view-id>/registration_success.xhtml</to-view-id> 
         </navigation-case>
         <navigation-case> 
+            <from-outcome>services_down</from-outcome> 
+            <to-view-id>/services_down.xhtml</to-view-id> 
+        </navigation-case>
+        <navigation-case> 
             <from-outcome>login</from-outcome> 
             <to-view-id>/login.xhtml</to-view-id> 
         </navigation-case>

@@ -367,6 +367,14 @@ th {
     margin-top: -24px;
 }
 
+.error-page {
+    margin-left: 12px;
+}
+
+.error-image {
+    opacity: 0.8;
+}
+
 /* Button CSS */
 .button-container {
     position: absolute;

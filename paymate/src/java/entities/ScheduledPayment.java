@@ -31,7 +31,8 @@ public class ScheduledPayment implements Serializable {
     public ScheduledPayment() {
     }
 
-    public ScheduledPayment(Account origin, Account recipient, String currency, float amount, Date nextScheduledDate, Date startDate, String frequency) {
+    public ScheduledPayment(Account origin, Account recipient, String currency, 
+            float amount, Date nextScheduledDate, Date startDate, String frequency) {
         this.origin = origin;
         this.recipient = recipient;
         this.currency = currency;
