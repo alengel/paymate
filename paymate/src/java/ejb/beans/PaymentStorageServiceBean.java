@@ -87,7 +87,11 @@ public class PaymentStorageServiceBean {
     }
     
     public synchronized List<ScheduledPayment> getRecurringPayments(Account origin) {
-        return scheduledPaymentDao.getAllRecurringPayments(origin);
+        return scheduledPaymentDao.getRecurringPayments(origin);
+    }
+    
+    public synchronized List<ScheduledPayment> getAllRecurringPayments() {
+        return scheduledPaymentDao.getAllRecurringPayments();
     }
     
     public synchronized List<Payment> getAllTransactions() {

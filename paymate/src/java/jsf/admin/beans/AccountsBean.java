@@ -4,6 +4,7 @@ import ejb.beans.AccountStorageServiceBean;
 import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
 import entities.Payment;
+import entities.ScheduledPayment;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,6 +24,7 @@ public class AccountsBean implements Serializable {
     
     private HtmlDataTable accountsTable;
     private HtmlDataTable accountTransactionsTable;
+    private HtmlDataTable accountRecurringPaymentsTable;
     private Account selected;
     
     @EJB
@@ -49,6 +51,14 @@ public class AccountsBean implements Serializable {
     public void setAccountTransactionsTable(HtmlDataTable accountTransactionsTable) {
         this.accountTransactionsTable = accountTransactionsTable;
     }
+
+    public HtmlDataTable getAccountRecurringPaymentsTable() {
+        return accountRecurringPaymentsTable;
+    }
+
+    public void setAccountRecurringPaymentsTable(HtmlDataTable accountRecurringPaymentsTable) {
+        this.accountRecurringPaymentsTable = accountRecurringPaymentsTable;
+    }
     
     public List<Account> getAccounts() throws SQLException {
         return accountStore.getAccounts();
@@ -61,5 +71,19 @@ public class AccountsBean implements Serializable {
     
     public List<Payment> getAccountTransactions() {
         return paymentsStore.getTransactions(selected);
+    }
+    
+    public String viewRecurringPaymentsByUser(){
+        selected = (Account) accountsTable.getRowData();
+        return "account_recurring";
+    }
+    
+    public List<ScheduledPayment> getAccountRecurringPayments() {
+        return paymentsStore.getRecurringPayments(selected);
+    }
+    
+    public void cancelPayments(){
+        ScheduledPayment rowPayment = (ScheduledPayment) accountRecurringPaymentsTable.getRowData();
+        paymentsStore.removeScheduledPayment(rowPayment.getId());
     }
 }

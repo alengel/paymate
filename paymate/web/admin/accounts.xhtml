@@ -25,6 +25,9 @@
         <h:link styleClass="tab transactions-link" 
                 outcome="transactions">Transactions
         </h:link>
+        <h:link styleClass="tab transactions-link" 
+                outcome="recurring">Recurring Payments
+        </h:link>
         <h:link styleClass="tab registration-tab" 
                 outcome="registration">Admin Registration
         </h:link>
@@ -70,11 +73,15 @@
                     </h:panelGroup>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"></f:facet>
+                    <f:facet name="header">View</f:facet>
                         <h:form>
                             <h:commandButton action="#{accountsBean.viewTransactionsByUser}"
                                              class="button t-long"
-                                             value="View Transactions">
+                                             value="Transactions">
+                            </h:commandButton>
+                            <h:commandButton action="#{accountsBean.viewRecurringPaymentsByUser}"
+                                             class="button t-long"
+                                             value="Recurring Payments">
                             </h:commandButton>
                         </h:form>
                 </h:column>

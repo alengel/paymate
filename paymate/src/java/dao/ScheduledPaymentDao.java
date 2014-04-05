@@ -19,5 +19,7 @@ public interface ScheduledPaymentDao {
     
     public void remove(long id);
     
-    public List<ScheduledPayment> getAllRecurringPayments(Account origin);
+    public List<ScheduledPayment> getRecurringPayments(Account origin);
+    
+    public List<ScheduledPayment> getAllRecurringPayments();
 }

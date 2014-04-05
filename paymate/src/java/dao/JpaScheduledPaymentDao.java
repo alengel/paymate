@@ -38,12 +38,19 @@ public class JpaScheduledPaymentDao implements ScheduledPaymentDao {
     }
     
     @Override
-    public List<ScheduledPayment> getAllRecurringPayments(Account origin){
+    public List<ScheduledPayment> getRecurringPayments(Account origin){
         TypedQuery<ScheduledPayment> query = em.createQuery(
             "SELECT s FROM ScheduledPayment s WHERE s.origin = :origin",
                 ScheduledPayment.class);
         
         return query.setParameter("origin", origin).getResultList(); 
+    }
+    
+    @Override
+    public List<ScheduledPayment> getAllRecurringPayments(){
+        TypedQuery<ScheduledPayment> query = em.createQuery("SELECT s FROM ScheduledPayment s", 
+                ScheduledPayment.class);
+        return query.getResultList();
     }
     
     @Override
@@ -58,7 +65,7 @@ public class JpaScheduledPaymentDao implements ScheduledPaymentDao {
     @Override
     public void remove(long id){
         TypedQuery<ScheduledPayment> query = em.createQuery(
-            "SELECT p FROM ScheduledPayment p WHERE p.id = :id", 
+            "SELECT s FROM ScheduledPayment s WHERE s.id = :id", 
                 ScheduledPayment.class);
         
         em.remove(query.setParameter("id", id).getSingleResult());

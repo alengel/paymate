@@ -24,10 +24,10 @@
         <h:link styleClass="tab accounts-link" 
                 outcome="accounts">Accounts
         </h:link>
-        <h:link styleClass="tab transactions-link active" 
+        <h:link styleClass="tab transactions-link" 
                 outcome="transactions">Transactions
         </h:link>
-        <h:link styleClass="tab transactions-link" 
+        <h:link styleClass="tab transactions-link active" 
                 outcome="recurring">Recurring Payments
         </h:link>
         <h:link styleClass="tab registration-tab" 
@@ -35,53 +35,64 @@
         </h:link>
         
         <h:panelGroup styleClass="no-notifications" 
-                      rendered="#{transactionsBean.transactionsTable.rowCount==0}">
+                      rendered="#{recurringPaymentsBean.recurringPaymentsTable.rowCount==0}">
             There are no transactions yet.
         </h:panelGroup>
         
-        <h:dataTable binding="#{transactionsBean.transactionsTable}"
+        <h:dataTable binding="#{recurringPaymentsBean.recurringPaymentsTable}"
                      rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
-                     value="#{transactionsBean.allTransactions}"
-                     var="transaction">
+                     value="#{recurringPaymentsBean.allRecurringPayments}"
+                     var="payment">
                 
-                <span id="#{transaction.id}"></span>
+                <span id="#{payment.id}"></span>
                 <h:column>
                     <f:facet name="header">Date</f:facet>
-                     <h:outputText value="#{transaction.paymentTimestamp}" >
+                    <h:outputText value="#{payment.startDate}" >
                         <f:convertDateTime pattern="MMM dd, YYYY" />
                     </h:outputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Origin</f:facet>
-                    #{transaction.origin.email}
+                    #{payment.origin.email}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Recipient</f:facet>
-                    #{transaction.recipient.email}
+                    #{payment.recipient.email}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Amount</f:facet>
-                    <h:panelGroup rendered="#{transaction.currency=='GBP'}">
+                    <h:panelGroup rendered="#{payment.currency=='GBP'}">
                         £
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{transaction.currency=='USD'}">
+                    <h:panelGroup rendered="#{payment.currency=='USD'}">
                         $
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{transaction.currency=='EUR'}">
+                    <h:panelGroup rendered="#{payment.currency=='EUR'}">
                         €
                     </h:panelGroup>
-                    <h:outputText value="#{transaction.amount}" >
+                    <h:outputText value="#{payment.amount}" >
                         <f:convertNumber pattern="#0.00" />
                     </h:outputText>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Type</f:facet>
-                        #{transaction.type}
+                    <f:facet name="header">Frequency</f:facet>
+                        #{payment.frequency}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Status</f:facet>
-                    #{transaction.status}    
+                    <f:facet name="header">Next Payment</f:facet>
+                    <h:outputText value="#{payment.nextScheduledDate}" >
+                        <f:convertDateTime pattern="MMM dd, YYYY" />
+                    </h:outputText>  
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Cancel</f:facet>
+                    <h:form>
+                        <h:commandButton actionListener="#{recurringPaymentsBean.cancelPayments()}"
+                                         class="button cancel small reject-button"
+                                         value="Cancel">
+                        </h:commandButton>
+                    </h:form>
                 </h:column>
             </h:dataTable>
        

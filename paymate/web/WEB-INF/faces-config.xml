@@ -245,22 +245,22 @@
         <navigation-case> 
             <from-outcome>registration</from-outcome> 
             <to-view-id>/admin/registration.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>accounts</from-outcome> 
             <to-view-id>/admin/accounts.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>transactions</from-outcome> 
             <to-view-id>/admin/transactions.xhtml</to-view-id>
-            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/admin/recurring_payments.xhtml</to-view-id>
         </navigation-case>
         <navigation-case> 
             <from-outcome>account_transactions</from-outcome> 
             <to-view-id>/admin/account_transactions.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
     </navigation-rule>
     
@@ -274,17 +274,18 @@
         <navigation-case> 
             <from-outcome>registration</from-outcome> 
             <to-view-id>/admin/registration.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>accounts</from-outcome> 
             <to-view-id>/admin/accounts.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>transactions</from-outcome> 
             <to-view-id>/admin/transactions.xhtml</to-view-id>
-            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/admin/recurring_payments.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -298,17 +299,68 @@
         <navigation-case> 
             <from-outcome>registration</from-outcome> 
             <to-view-id>/admin/registration.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>accounts</from-outcome> 
             <to-view-id>/admin/accounts.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>transactions</from-outcome> 
             <to-view-id>/admin/transactions.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/admin/recurring_payments.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule> 
+        <from-view-id>/admin/account_recurring.xhtml</from-view-id> 
+        <navigation-case> 
+            <from-outcome>login</from-outcome> 
+            <to-view-id>/login.xhtml</to-view-id>
             <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>registration</from-outcome> 
+            <to-view-id>/admin/registration.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>accounts</from-outcome> 
+            <to-view-id>/admin/accounts.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>transactions</from-outcome> 
+            <to-view-id>/admin/transactions.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/admin/recurring_payments.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule> 
+        <from-view-id>/admin/recurring_payments.xhtml</from-view-id> 
+        <navigation-case> 
+            <from-outcome>login</from-outcome> 
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>registration</from-outcome> 
+            <to-view-id>/admin/registration.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>accounts</from-outcome> 
+            <to-view-id>/admin/accounts.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>transactions</from-outcome> 
+            <to-view-id>/admin/transactions.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/admin/recurring_payments.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -326,12 +378,14 @@
         <navigation-case> 
             <from-outcome>accounts</from-outcome> 
             <to-view-id>/admin/accounts.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>transactions</from-outcome> 
             <to-view-id>/admin/transactions.xhtml</to-view-id>
-            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/admin/recurring_payments.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
@@ -345,12 +399,14 @@
         <navigation-case> 
             <from-outcome>accounts</from-outcome> 
             <to-view-id>/admin/accounts.xhtml</to-view-id>
-            <redirect></redirect> 
         </navigation-case>
         <navigation-case> 
             <from-outcome>transactions</from-outcome> 
             <to-view-id>/admin/transactions.xhtml</to-view-id>
-            <redirect></redirect> 
+        </navigation-case>
+        <navigation-case> 
+            <from-outcome>recurring</from-outcome> 
+            <to-view-id>/admin/recurring_payments.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     
