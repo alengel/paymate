@@ -62,9 +62,22 @@
                                itemLabel="#{newcurrency}"/>
             </h:selectOneMenu>
             
-            <h:commandButton styleClass="button" action="#{registrationBean.register}" value="Register"></h:commandButton>
-            <h:commandButton styleClass="button" type="reset" value="Reset"></h:commandButton>
+            <h:commandButton styleClass="button" 
+                             action="#{registrationBean.register}" 
+                             value="Register">
+            </h:commandButton>
+            <h:commandButton styleClass="button" 
+                             type="reset" 
+                             value="Reset">
+            </h:commandButton>
             <h:messages styleClass="global-error" globalOnly="true" />
+        </h:form>
+        
+        <h:form>
+            <h:commandButton styleClass="facebook button longer" 
+                             action="#{fbOauthBean.fbRegister()}" 
+                             value="Register with Facebook">
+            </h:commandButton>
         </h:form>
         
         <h:link outcome="login" styleClass="mini-login-form">Back to Login</h:link>

@@ -56,12 +56,19 @@ public class AccountStorageServiceBean {
         
         float balance;
         String defaultRole;
-        String hashedPassword = hashPassword(password);
+        String hashedPassword;
+        
+        hashedPassword = hashPassword(password);
         
         if(utility.getLoggedInUser() != null){
             //Admin user defaults
             defaultRole = "admin";
             balance = 0;
+        } else if (currency.equals("FB")) {
+            //Facebook user defaults
+            currency = "GBP";
+            defaultRole = "facebook_user";
+            balance = getBalanceInChosenCurrency(currency);
         } else {
             //Regular user defaults
             defaultRole = "user";
