@@ -405,6 +405,10 @@ th {
     width: 130px;
 }
 
+.button.longer {
+    width: 200px;
+}
+
 .button.t-long {
     width: 156px;
     margin: 0;
@@ -479,6 +483,20 @@ th {
 
 .button.cancel {
     float: none;
+}
+
+.facebook {
+    background-color: #4c66a4;
+    border: #4c66a4 1px solid;
+    -webkit-box-shadow: none;
+    -moz-box-shadow:    none;
+    box-shadow:        none;
+    height: 30px;
+}
+
+.facebook:hover {
+    color: #4c66a4;
+    border: #4c66a4 1px solid;
 }
 
 .admin-registration {

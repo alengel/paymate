@@ -42,8 +42,19 @@
                 </h:inputSecret>
             </div>
             
-            <h:commandButton styleClass="button" action="#{loginBean.login()}" value="Login"></h:commandButton>
+            <h:commandButton styleClass="button" 
+                             action="#{loginBean.login()}" 
+                             value="Login">
+            </h:commandButton>
+            
             <h:messages styleClass="global-error" globalOnly="true" />
+        </h:form>
+        
+        <h:form>
+            <h:commandButton styleClass="button facebook longer" 
+                             action="#{fbLoginBean.fbLogin()}" 
+                             value="Login with Facebook">
+            </h:commandButton>
         </h:form>
         
         <div class="mini-reg-form">

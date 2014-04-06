@@ -1,11 +1,8 @@
 package ejb.beans;
 
 import dao.JpaAccountDao;
-import dao.JpaFactory;
-import dao.JpaPaymentDao;
 import entities.Account;
 import entities.AccountGroup;
-import entities.Payment;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -19,7 +16,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
-import javax.persistence.NoResultException;
 import jsf.shared.beans.UtilityBean;
 
 /**

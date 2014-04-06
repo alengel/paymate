@@ -2,7 +2,6 @@ package dao;
 
 import entities.Account;
 import entities.AccountGroup;
-import entities.Payment;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +10,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -29,31 +27,6 @@ public class JpaAccountDao implements AccountDao {
     public JpaAccountDao() {
     }
 
-//    @PersistenceContext(unitName = "paymatePU")
-//    public void setEntityManager(EntityManager entityManager) {
-//        this.em = entityManager;
-//    }
-    
-//    public void createConnection(String sql){
-          //REMEMEBER: sql = "SELECT a FROM Account a"
-//        Connection conn = null;
-//        PreparedStatement pstmt;
-//        
-//        try {
-//            conn = JdbcFactory.createConnection();
-//            pstmt = conn.prepareStatement(sql);
-//            pstmt.executeUpdate();
-//            
-//            conn.commit();
-//            pstmt.close();
-//            
-//        } catch (SQLException ex) {
-//            Logger.getLogger(JpaAccountDao.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            if (conn != null) conn.close();
-//        }
-//    }
-    
     @Override
     public List<Account> getAccounts() throws SQLException {
         TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a", Account.class);
