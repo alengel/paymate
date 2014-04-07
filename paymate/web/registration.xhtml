@@ -27,7 +27,7 @@
         <h:form styleClass="form registration-form" id="registration-form">
             
             <div class="input-container">
-                <span class="labels email">Email</span>
+                <div class="labels email">Email</div>
                 <h:inputText id="email" 
                              label="Email" 
                              required="true"
@@ -40,7 +40,7 @@
             </div>
             
             <div class="input-container">
-                <span class="labels">Password</span>
+                <div class="labels">Password</div>
                 <p:password id="password" 
                             feedback="true"
                             label="Password" 
@@ -52,7 +52,7 @@
             </div>
             
             <div class="input-container">
-                <span class="labels reg">Confirm Password</span>
+                <div class="labels reg">Confirm Password</div>
                 <h:inputSecret id="passwordVerification" 
                                label="Confirm Password" 
                                required="true" 
@@ -62,14 +62,16 @@
                 <h:message styleClass="error-message" for="passwordVerification"/>
             </div>
             
-            <span>Select Currency </span>
-            <h:selectOneMenu styleClass="reg-currency" 
-                             value="#{registrationBean.currency}">
-                <f:selectItems value="#{paymentsBean.currencies}"
-                               var="newcurrency" 
-                               itemValue="#{newcurrency}" 
-                               itemLabel="#{newcurrency}"/>
-            </h:selectOneMenu>
+            <div class="input-container">
+                <div class="labels">Select Currency </div>
+                <h:selectOneMenu styleClass="reg-currency" 
+                                 value="#{registrationBean.currency}">
+                    <f:selectItems value="#{paymentsBean.currencies}"
+                                   var="newcurrency" 
+                                   itemValue="#{newcurrency}" 
+                                   itemLabel="#{newcurrency}"/>
+                </h:selectOneMenu>
+            </div>
             
             <h:commandButton styleClass="button" 
                              action="#{registrationBean.register}" 

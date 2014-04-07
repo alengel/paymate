@@ -28,7 +28,7 @@
         <h:form styleClass="form login-form">
             
             <div class="input-container">
-                <span class="labels email">Email</span>
+                <div class="labels email">Email</div>
                 <h:inputText id="email" 
                              label="Email" 
                              required="true"
@@ -41,11 +41,12 @@
             </div>
             
             <div class="input-container">
-                <span class="labels">Password</span>
+                <div class="labels">Password</div>
                 <h:inputSecret id="password" 
                                label="Password" 
                                required="true"
                                requiredMessage="Please enter your password."
+                               styleClass="login-password"
                                value="#{loginBean.password}">
                 </h:inputSecret>
             </div>

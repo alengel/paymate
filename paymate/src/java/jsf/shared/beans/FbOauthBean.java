@@ -105,6 +105,12 @@ public class FbOauthBean implements Serializable {
         
         callOnLoaded(callbackUri);
                 
+        //Check if user already exists
+        if(accountStore.checkAccountExists(email) && 
+                accountStore.getAccountRole(email).getGroupName().equals("facebook_user")){
+            login(email, getDefaultFbPassword());
+        }
+        
         //Insert facebook user account into the DB account table
         accountStore.insertAccount(email, getDefaultFbPassword(), "FB");
         

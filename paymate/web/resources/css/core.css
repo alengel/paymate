@@ -53,13 +53,13 @@ input,
     border-radius: 6px;
     border: 1px solid rgba(31, 166, 122, 0.7);
     padding-left: 6px;
+    width: 211px;
 }
 
 .calendar input,
 .password-field {
     height: 23px;
     margin-left: -9px;
-    width: 206px;
     box-shadow: none;
     margin-bottom: 24px;
     font-size: 1em;
@@ -67,17 +67,23 @@ input,
 
 .password-field {
     margin-bottom: 0;
-    margin-left: 2px;
+    margin-left: 66px;
 }
 
 .reg-currency {
-    width: 214px;
+    display: inline-block;
+    width: 218px;
     margin-left: 24px;
 }
 
+.login-password {
+    margin-left: 65px;
+}
+
 .labels {
-    margin-right: 64px;
     margin-bottom: 12px;
+    display: inline;
+    width: 39px;
 }
 
 .email {
