@@ -22,7 +22,7 @@ a:hover {
 }
 
 .reg-header {
-    margin-left: -38px;
+    margin-left: -110px;
 }
 
 .form {
@@ -497,6 +497,12 @@ th {
 .facebook:hover {
     color: #4c66a4;
     border: #4c66a4 1px solid;
+}
+
+.facebook-button {
+    position: absolute;
+    right: 18px;
+    top: 0;
 }
 
 .admin-registration {

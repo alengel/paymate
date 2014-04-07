@@ -14,7 +14,16 @@
         <title>PayMate Registration</title>
     </h:head>
     <h:body styleClass="registration-page">
+        
         <h2 class="reg-header">PayMate Registration</h2>
+
+        <h:form styleClass="facebook-button">
+            <h:commandButton styleClass="facebook button longer" 
+                             action="#{fbOauthBean.fbRegister()}" 
+                             value="Register with Facebook">
+            </h:commandButton>
+        </h:form>
+        
         <h:form styleClass="form registration-form" id="registration-form">
             
             <div class="input-container">
@@ -71,13 +80,6 @@
                              value="Reset">
             </h:commandButton>
             <h:messages styleClass="global-error" globalOnly="true" />
-        </h:form>
-        
-        <h:form>
-            <h:commandButton styleClass="facebook button longer" 
-                             action="#{fbOauthBean.fbRegister()}" 
-                             value="Register with Facebook">
-            </h:commandButton>
         </h:form>
         
         <h:link outcome="login" styleClass="mini-login-form">Back to Login</h:link>

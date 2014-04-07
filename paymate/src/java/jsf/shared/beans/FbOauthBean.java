@@ -35,10 +35,8 @@ import org.scribe.oauth.OAuthService;
 @RequestScoped
 public class FbOauthBean implements Serializable {
     
-    private static final String NETWORK_NAME = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
+    private static final String FB_ME_URL = "https://graph.facebook.com/me";
     private static final Token EMPTY_TOKEN = null;
-    private final UtilityBean utility;
     private String loadingMessage = "Logging you in...";
     private String currency;
     private String email;
@@ -47,7 +45,7 @@ public class FbOauthBean implements Serializable {
     private AccountStorageServiceBean accountStore;
     
     public FbOauthBean(){
-        utility = new UtilityBean();
+
     }
     
     public String getCurrency() {
@@ -101,7 +99,7 @@ public class FbOauthBean implements Serializable {
         Verifier verifier = new Verifier(code);
         Token accessToken = service.getAccessToken(null, verifier);
         
-        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        OAuthRequest request = new OAuthRequest(Verb.GET, FB_ME_URL);
         service.signRequest(accessToken, request);
         Response response = request.send();
         
@@ -130,7 +128,7 @@ public class FbOauthBean implements Serializable {
         Verifier verifier = new Verifier(code);
         Token accessToken = service.getAccessToken(null, verifier);
         
-        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        OAuthRequest request = new OAuthRequest(Verb.GET, FB_ME_URL);
         service.signRequest(accessToken, request);
         Response response = request.send();
         
@@ -145,40 +143,6 @@ public class FbOauthBean implements Serializable {
         accountStore.insertAccount(email, "4_p4ym4te_u5er", "FB");
         
         context.redirect("http://localhost:8080/paymate/faces/registration_success.xhtml");
-        
-//        if(accountStore.checkAccountExists(email)){
-//            String pw = accountStore.getAccount(email).getPassword();
-//            login(email, pw);
-//        } else {
-//            sendToRegistration();
-//        }
-    }
-    
-    public String register() throws SQLException {
-        String callbackUri = "http://localhost:8080/paymate/faces/oauth_registration.xhtml";
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        HttpServletRequest request1 = (HttpServletRequest) context.getRequest();
-        String code = request1.getParameter("code");
-        
-        OAuthService service = getService(callbackUri);
-        
-        Verifier verifier = new Verifier(code);
-        Token accessToken = service.getAccessToken(null, verifier);
-        
-        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-        service.signRequest(accessToken, request);
-        Response response = request.send();
-        
-        JsonParser parser = new JsonParser();
-        JsonObject o = (JsonObject)parser.parse(response.getBody());
-        
-        email = o.get("email").toString().replace("\"", "");
-        
-        System.out.print(email);
-        
-        //Insert facebook user account into the DB account table
-        accountStore.insertAccount(email, null, currency);
-        return "success";
     }
     
     private OAuthService getService(String callbackUri){
