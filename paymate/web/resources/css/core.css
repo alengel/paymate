@@ -329,7 +329,7 @@ th {
 
 .pay-currency {
     width: 212px;
-    margin-left: 18px;
+    margin-left: 48px;
     margin-bottom: 12px;
 }
 
@@ -339,10 +339,6 @@ th {
 
 .payments-page .converted-amount-field {
     margin-left: 100px;
-}
-
-.pay-currency {
-    margin-left: 115px;
 }
 
 .payments-page .recipient-field {
@@ -368,8 +364,13 @@ th {
     margin-bottom: 12px;
 }
 
+.calendar {
+    margin-left: 64px;
+}
+
 .input-container-radio input {
     height: 16px;
+    width: 12px;
 }
 
 .input-container-radio td:nth-child(2) {
@@ -377,8 +378,9 @@ th {
 }
 
 .frequency-select {
-    margin-left: 104px;
+    margin-left: 40px;
     width: 218px;
+
 }
 
 .recurring {
