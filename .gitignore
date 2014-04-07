@@ -23,3 +23,5 @@
 /paymateRS/build/
 /paymateRS/dist/
 .DS_Store
+/paymateWSDL/nbproject/private/
+/paymateWSDL/build/
