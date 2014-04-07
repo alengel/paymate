@@ -83,7 +83,7 @@
                     <f:facet name="header">Status</f:facet>
                     <h:panelGroup rendered="#{payment.origin.email==utilityBean.loggedInUser 
                                               and payment.status=='pending'}">
-                        <h:form>
+                        <h:form styleClass="request-buttons">
                             <h:commandButton actionListener="#{notificationsBean.rejectRequest}"
                                              class="button small reject-button"
                                              value="Reject">

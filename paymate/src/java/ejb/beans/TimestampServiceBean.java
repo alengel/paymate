@@ -31,7 +31,6 @@ public class TimestampServiceBean {
             return port.retrieveTimestamp().toGregorianCalendar().getTime();
         } catch (ClientTransportException exception) {
             //If web service is not available, default to new Date()
-            Logger.getLogger(TimestampServiceBean.class.getName()).log(Level.SEVERE, null, exception);
             return new Date();
         }
     }

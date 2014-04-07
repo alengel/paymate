@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <link rel="stylesheet" href="resources/css/normalize.css"></link>
         <link rel="stylesheet" href="resources/css/main.css"></link>
@@ -14,25 +13,12 @@
     </h:head>
     <h:body styleClass="login-page">
         
-        <h2 class="header">PayMate</h2>
-        #{fbOauthBean.callOnLoadedRegistration()}
+        <h2 class="header">PayMate Registration</h2>
         
-        <h:form>
-            <h:outputText value="#{fbOauthBean.email}" />
-            <span>Select Default Currency </span>
-            <h:selectOneMenu styleClass="reg-currency" 
-                             value="#{fbOauthBean.currency}">
-                <f:selectItems value="#{paymentsBean.currencies}"
-                               var="newcurrency" 
-                               itemValue="#{newcurrency}" 
-                               itemLabel="#{newcurrency}"/>
-            </h:selectOneMenu>
-
-            <h:commandButton styleClass="button longer" 
-                            action="#{fbOauthBean.register}" 
-                            value="Finish Registration">
-            </h:commandButton>
-        </h:form>
+        #{fbOauthBean.callOnRegistrationLoaded()}
+        
+        <p>#{fbOauthBean.loadingMessage}</p>
+        
     </h:body>
 </html>
 

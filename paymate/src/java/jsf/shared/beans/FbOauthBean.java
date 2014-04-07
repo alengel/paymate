@@ -37,7 +37,7 @@ public class FbOauthBean implements Serializable {
     
     private static final String FB_ME_URL = "https://graph.facebook.com/me";
     private static final Token EMPTY_TOKEN = null;
-    private String loadingMessage = "Logging you in...";
+    private String loadingMessage;
     private String currency;
     private String email;
     
@@ -45,7 +45,6 @@ public class FbOauthBean implements Serializable {
     private AccountStorageServiceBean accountStore;
     
     public FbOauthBean(){
-
     }
     
     public String getCurrency() {
@@ -65,6 +64,7 @@ public class FbOauthBean implements Serializable {
     }
     
     public String getLoadingMessage() {
+        loadingMessage = "Loading, please wait...";
         return loadingMessage;
     }
 
@@ -73,55 +73,48 @@ public class FbOauthBean implements Serializable {
     }
     
     public void fbLogin() throws IOException {
-        String callbackUri = "http://localhost:8080/paymate/faces/oauth.xhtml";
+        String callbackUri = "http://localhost:8080/paymate/faces/oauth_login.xhtml";
         String authorizationUrl = getService(callbackUri).getAuthorizationUrl(EMPTY_TOKEN);
         
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect(authorizationUrl);
+        redirectToAnotherPage(authorizationUrl);
     }
     
     public void fbRegister() throws IOException {
         String callbackUri = "http://localhost:8080/paymate/faces/oauth_registration.xhtml";
         String authorizationUrl = getService(callbackUri).getAuthorizationUrl(EMPTY_TOKEN);
         
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect(authorizationUrl);
+        redirectToAnotherPage(authorizationUrl);
     }
     
-    public void callOnLoaded() throws SQLException, IOException{
-        String callbackUri = "http://localhost:8080/paymate/faces/oauth.xhtml";
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        HttpServletRequest request1 = (HttpServletRequest) context.getRequest();
-        String code = request1.getParameter("code");
+    public void callOnLoginLoaded() throws SQLException, IOException{
+        String callbackUri = "http://localhost:8080/paymate/faces/oauth_login.xhtml";
         
-        OAuthService service = getService(callbackUri);
-        
-        Verifier verifier = new Verifier(code);
-        Token accessToken = service.getAccessToken(null, verifier);
-        
-        OAuthRequest request = new OAuthRequest(Verb.GET, FB_ME_URL);
-        service.signRequest(accessToken, request);
-        Response response = request.send();
-        
-        JsonParser parser = new JsonParser();
-        JsonObject o = (JsonObject)parser.parse(response.getBody());
-        
-        email = o.get("email").toString().replace("\"", "");
+        callOnLoaded(callbackUri);
         
         if(accountStore.checkAccountExists(email) && 
                 accountStore.getAccountRole(email).getGroupName().equals("facebook_user")){
-            login(email, "4_p4ym4te_u5er");
+            login(email, getDefaultFbPassword());
         } else {
-            //ToDo: you don't have a login, please register first.
-            sendToRegistration();
+            System.out.print("Please register an account with PayMate first.");
+            redirectToAnotherPage("http://localhost:8080/paymate/faces/registration.xhtml");
         }
     }
     
-    public void callOnLoadedRegistration() throws SQLException, IOException{
+    public void callOnRegistrationLoaded() throws SQLException, IOException{
         String callbackUri = "http://localhost:8080/paymate/faces/oauth_registration.xhtml";
+        
+        callOnLoaded(callbackUri);
+                
+        //Insert facebook user account into the DB account table
+        accountStore.insertAccount(email, getDefaultFbPassword(), "FB");
+        
+        redirectToAnotherPage("http://localhost:8080/paymate/faces/registration_success.xhtml");
+    }
+    
+    public void callOnLoaded(String callbackUri){
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        HttpServletRequest request1 = (HttpServletRequest) context.getRequest();
-        String code = request1.getParameter("code");
+        HttpServletRequest codeRequest = (HttpServletRequest) context.getRequest();
+        String code = codeRequest.getParameter("code");
         
         OAuthService service = getService(callbackUri);
         
@@ -136,13 +129,6 @@ public class FbOauthBean implements Serializable {
         JsonObject o = (JsonObject)parser.parse(response.getBody());
         
         email = o.get("email").toString().replace("\"", "");
-        
-        System.out.print(email);
-        
-        //Insert facebook user account into the DB account table
-        accountStore.insertAccount(email, "4_p4ym4te_u5er", "FB");
-        
-        context.redirect("http://localhost:8080/paymate/faces/registration_success.xhtml");
     }
     
     private OAuthService getService(String callbackUri){
@@ -159,40 +145,40 @@ public class FbOauthBean implements Serializable {
         return service;
     }
     
-    public String login(String email, String password) throws SQLException, IOException{
+    public void login(String email, String password) throws SQLException, IOException{
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         
         try {
-            System.out.print("attempting login");
+            
             request.login(email, password);
             accountStore.updateLastLoginDate(email);
-            
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            context.redirect("http://localhost:8080/paymate/faces/user/notifications.xhtml");
-        
-            return "user";
+            redirectToAnotherPage("http://localhost:8080/paymate/faces/user/notifications.xhtml");
             
         } catch (ServletException exception) {
+            
             Logger.getLogger(LoginBean.class.getName()).log(Level.WARNING, null, exception);
-            System.out.print("user does not exist");
-            sendToRegistration();
-            return null;
+            redirectToAnotherPage("http://localhost:8080/paymate/faces/login_failure.xhtml");
+            
         }
     }
     
-    public void sendToRegistration() throws IOException{
+    public String getDefaultFbPassword() {
+        return "4_p4ym4te_u5er";
+    }
+    
+    public void redirectToAnotherPage(String url) throws IOException{
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect("http://localhost:8080/paymate/faces/registration.xhtml");
+        context.redirect(url);
     }
     
     @PostConstruct
     public void postConstruct() {
-        System.out.println("FBLoginBean: PostConstruct");
+        System.out.println("FbOauthBean: PostConstruct");
     }
     
     @PreDestroy
     public void preDestroy() {
-        System.out.println("FBLoginBean: PreDestroy");
+        System.out.println("FbOauthBean: PreDestroy");
     }
 }

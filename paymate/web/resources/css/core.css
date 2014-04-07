@@ -15,7 +15,7 @@ a:hover {
 /* Login & Registration Form CSS */
 .login-header,
 .reg-header {
-    margin-top: 170px;
+    margin-top: 128px;
     margin-left: -251px;
     text-align: center;
     color: rgb(31, 166, 122);
@@ -245,6 +245,18 @@ input,
 
 .notifications-table td {
     text-align: center;
+}
+
+.request-buttons {
+    margin-left: 18px;
+}
+
+.reg-message {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+    width: 300px;
+    color: #993351;
 }
 
 .even-row{
@@ -501,10 +513,11 @@ th {
 
 .facebook-button {
     position: absolute;
-    right: 18px;
-    top: 0;
+    right: 12px;
+    top: -6px;
 }
 
+/*Admin Pages Specific CSS*/
 .admin-registration {
     border: 1px solid rgba(31, 166, 122, 0.7);
     width: 762px;

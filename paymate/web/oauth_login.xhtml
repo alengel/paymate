@@ -14,8 +14,11 @@
     <h:body styleClass="login-page">
         
         <h2 class="header">PayMate</h2>
+        
+        #{fbOauthBean.callOnLoginLoaded()}
+        
         <p>#{fbOauthBean.loadingMessage}</p>
-        #{fbOauthBean.callOnLoaded()}
+        
     </h:body>
 </html>
 
