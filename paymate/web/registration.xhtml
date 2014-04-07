@@ -14,7 +14,16 @@
         <title>PayMate Registration</title>
     </h:head>
     <h:body styleClass="registration-page">
+        <div class="reg-message">Please register an account with us first.</div>
         <h2 class="reg-header">PayMate Registration</h2>
+
+        <h:form styleClass="facebook-button">
+            <h:commandButton styleClass="facebook button longer" 
+                             action="#{fbOauthBean.fbRegister()}" 
+                             value="Register with Facebook">
+            </h:commandButton>
+        </h:form>
+        
         <h:form styleClass="form registration-form" id="registration-form">
             
             <div class="input-container">
@@ -62,8 +71,14 @@
                                itemLabel="#{newcurrency}"/>
             </h:selectOneMenu>
             
-            <h:commandButton styleClass="button" action="#{registrationBean.register}" value="Register"></h:commandButton>
-            <h:commandButton styleClass="button" type="reset" value="Reset"></h:commandButton>
+            <h:commandButton styleClass="button" 
+                             action="#{registrationBean.register}" 
+                             value="Register">
+            </h:commandButton>
+            <h:commandButton styleClass="button" 
+                             type="reset" 
+                             value="Reset">
+            </h:commandButton>
             <h:messages styleClass="global-error" globalOnly="true" />
         </h:form>
         

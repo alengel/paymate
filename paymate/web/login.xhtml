@@ -17,6 +17,14 @@
     </h:head>
     <h:body styleClass="login-page">
         <h2 class="login-header">PayMate</h2>
+        
+        <h:form styleClass="facebook-button">
+            <h:commandButton styleClass="button facebook longer" 
+                             action="#{fbOauthBean.fbLogin()}" 
+                             value="Login with Facebook">
+            </h:commandButton>
+        </h:form>
+        
         <h:form styleClass="form login-form">
             
             <div class="input-container">
@@ -42,7 +50,11 @@
                 </h:inputSecret>
             </div>
             
-            <h:commandButton styleClass="button" action="#{loginBean.login()}" value="Login"></h:commandButton>
+            <h:commandButton styleClass="button" 
+                             action="#{loginBean.login()}" 
+                             value="Login">
+            </h:commandButton>
+            
             <h:messages styleClass="global-error" globalOnly="true" />
         </h:form>
         

@@ -15,14 +15,14 @@ a:hover {
 /* Login & Registration Form CSS */
 .login-header,
 .reg-header {
-    margin-top: 170px;
+    margin-top: 128px;
     margin-left: -251px;
     text-align: center;
     color: rgb(31, 166, 122);
 }
 
 .reg-header {
-    margin-left: -38px;
+    margin-left: -110px;
 }
 
 .form {
@@ -247,6 +247,18 @@ input,
     text-align: center;
 }
 
+.request-buttons {
+    margin-left: 18px;
+}
+
+.reg-message {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+    width: 300px;
+    color: #993351;
+}
+
 .even-row{
    background-color:#FFFFFF;	
 }
@@ -405,6 +417,10 @@ th {
     width: 130px;
 }
 
+.button.longer {
+    width: 200px;
+}
+
 .button.t-long {
     width: 156px;
     margin: 0;
@@ -481,6 +497,27 @@ th {
     float: none;
 }
 
+.facebook {
+    background-color: #4c66a4;
+    border: #4c66a4 1px solid;
+    -webkit-box-shadow: none;
+    -moz-box-shadow:    none;
+    box-shadow:        none;
+    height: 30px;
+}
+
+.facebook:hover {
+    color: #4c66a4;
+    border: #4c66a4 1px solid;
+}
+
+.facebook-button {
+    position: absolute;
+    right: 12px;
+    top: -6px;
+}
+
+/*Admin Pages Specific CSS*/
 .admin-registration {
     border: 1px solid rgba(31, 166, 122, 0.7);
     width: 762px;

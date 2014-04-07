@@ -4,7 +4,6 @@ import jsf.shared.beans.UtilityBean;
 import ejb.beans.AccountStorageServiceBean;
 import ejb.beans.PaymentStorageServiceBean;
 import entities.Account;
-import entities.Payment;
 import entities.ScheduledPayment;
 import java.io.Serializable;
 import java.sql.SQLException;

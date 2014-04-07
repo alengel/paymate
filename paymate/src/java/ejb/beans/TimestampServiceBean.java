@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.xml.ws.WebServiceRef;
-import jsf.shared.beans.LoginBean;
 import timestamp.TimestampWSService;
 
 /**
@@ -32,7 +31,6 @@ public class TimestampServiceBean {
             return port.retrieveTimestamp().toGregorianCalendar().getTime();
         } catch (ClientTransportException exception) {
             //If web service is not available, default to new Date()
-            Logger.getLogger(TimestampServiceBean.class.getName()).log(Level.SEVERE, null, exception);
             return new Date();
         }
     }

@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 public class Account implements Serializable {
     @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
     @Column(unique=true) @NotNull String email;
-    @NotNull String password;
+    String password;
     String currency;
     float balance;
     @NotNull String permissionRole;

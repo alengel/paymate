@@ -1,7 +1,6 @@
 package jsf.shared.beans;
 
 import ejb.beans.AccountStorageServiceBean;
-import entities.Account;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -57,19 +56,9 @@ public class LoginBean implements Serializable {
         
         try {
             request.login(this.email, this.password);
-            
-            accountStore.updateLastLoginDate(email);
-            String accountRole = accountStore.getAccountRole(email).getGroupName();
-            
-            if (accountRole.equals("admin")){
-                return "admin";
-            } else {
-                return "user";
-            }
-            
+            return redirectUser(this.email);
         } catch (ServletException exception) {
             Logger.getLogger(LoginBean.class.getName()).log(Level.WARNING, null, exception);
-            
             utility.createErrorMessage("Username or password are incorrect.");
             return null;
         }
@@ -88,6 +77,17 @@ public class LoginBean implements Serializable {
             
             utility.createErrorMessage("Something went wrong. You were NOT logged out.");
             return null;
+        }
+    }
+    
+    public String redirectUser(String email) throws SQLException{
+        accountStore.updateLastLoginDate(email);
+        String accountRole = accountStore.getAccountRole(email).getGroupName();
+
+        if (accountRole.equals("admin")){
+            return "admin";
+        } else {
+            return "user";
         }
     }
     
