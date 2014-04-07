@@ -1,6 +1,6 @@
 package jsf.admin.beans;
 
-import ejb.beans.PaymentStorageServiceBean;
+import ejb.interfaces.PaymentStorageService;
 import entities.Payment;
 import java.util.List;
 import javax.ejb.EJB;
@@ -19,7 +19,7 @@ public class TransactionsBean {
     private HtmlDataTable transactionsTable;
     
     @EJB
-    private PaymentStorageServiceBean paymentsStore;
+    private PaymentStorageService paymentsStore;
 
     public TransactionsBean() {
     }

@@ -1,7 +1,7 @@
 package jsf.admin.beans;
 
-import ejb.beans.AccountStorageServiceBean;
-import ejb.beans.PaymentStorageServiceBean;
+import ejb.interfaces.AccountStorageService;
+import ejb.interfaces.PaymentStorageService;
 import entities.Account;
 import entities.Payment;
 import entities.ScheduledPayment;
@@ -28,10 +28,10 @@ public class AccountsBean implements Serializable {
     private Account selected;
     
     @EJB
-    private AccountStorageServiceBean accountStore;
+    private AccountStorageService accountStore;
     
     @EJB
-    private PaymentStorageServiceBean paymentsStore;
+    private PaymentStorageService paymentsStore;
     
     public AccountsBean(){
     }
