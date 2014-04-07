@@ -1,16 +1,15 @@
 package ejb.interfaces;
 
 import entities.Account;
-import entities.Payment;
 import java.util.List;
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 /**
  *
  * @author 119848
  */
 
-@Local
+@Remote
 public interface AccountStorageService {
     public Boolean checkAccountExists(String email);
     

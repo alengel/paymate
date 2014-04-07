@@ -6,14 +6,14 @@ import entities.ScheduledPayment;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 /**
  *
  * @author 119848
  */
 
-@Local
+@Remote
 public interface PaymentStorageService {
     public void makePayment(String type, Account origin, 
             Account recipient, String currency, String amount, Date scheduledDate);
@@ -21,7 +21,7 @@ public interface PaymentStorageService {
     public void schedulePayment(Account origin, Account recipient, 
             String currency, float amount, Date scheduledDate, String frequency);
     
-    public List<Payment> getTransactions();
+    public List<Payment> getTransactions(Account origin);
     
     public List<Payment> getAllTransactions();
     
@@ -31,6 +31,8 @@ public interface PaymentStorageService {
     
     public void updateBalances(Payment payment) throws SQLException;
     
-    public List<ScheduledPayment> getRecurringPayments(long originId);
+    public List<ScheduledPayment> getRecurringPayments(Account origin);
+    
+    public void removeScheduledPayment(long id);
 }
 
