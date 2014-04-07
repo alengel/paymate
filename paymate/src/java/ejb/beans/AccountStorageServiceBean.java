@@ -1,6 +1,7 @@
 package ejb.beans;
 
 import dao.JpaAccountDao;
+import ejb.interfaces.AccountStorageService;
 import entities.Account;
 import entities.AccountGroup;
 import java.io.UnsupportedEncodingException;
@@ -24,7 +25,7 @@ import jsf.shared.beans.UtilityBean;
  */
 
 @Stateless
-public class AccountStorageServiceBean {
+public class AccountStorageServiceBean implements AccountStorageService{
     
     private final UtilityBean utility;
     
@@ -35,23 +36,34 @@ public class AccountStorageServiceBean {
         utility = new UtilityBean();  
     }
     
+    //Return a boolean value if the email exists in the Account table
+    @Override
     public synchronized Boolean checkAccountExists(String email) throws SQLException{    
         return accountDao.getAccount(email) != null;
     }   
-
+    
+    //Get an account from the email that was passed in
+    @Override
     public synchronized Account getAccount(String email) throws SQLException {
         return accountDao.getAccount(email);
     }
     
+    //Get all accounts that are in the Account table
+    @Override
     public synchronized List<Account> getAccounts() throws SQLException{
         return accountDao.getAccounts();
     }
     
+    //Get the user role from the email that was passed in
+    @Override
     public synchronized AccountGroup getAccountRole(String email) throws SQLException {
         return accountDao.getAccountRole(email);
     }
     
+    //Work out the selected role's default attributes before inserting the 
+    //account into the Account table
     @TransactionAttribute(REQUIRED)
+    @Override
     public synchronized void insertAccount(String email, String password, String currency) {
         
         float balance;
@@ -75,15 +87,17 @@ public class AccountStorageServiceBean {
             balance = getBalanceInChosenCurrency(currency);
         }
         
+        //Insert the values into the Account table 
         accountDao.insertAccount(email, hashedPassword, defaultRole, currency, balance);
     }
     
-    
+    //Update the last logged in column for the currently logged in user
+    @Override
     public synchronized void updateLastLoginDate(String email) throws SQLException {
         accountDao.getAccount(email).setLastLoggedIn(new Date());
     }
     
-    public String hashPassword(String password) {
+   private String hashPassword(String password) {
         try {
             //Password Hash Code from Lab Class - Week 8 by George Parisis
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -100,7 +114,9 @@ public class AccountStorageServiceBean {
         }
     }
     
-    public float getBalanceInChosenCurrency(String currency){
+    //Pass GBP and 1000000 as default parameters to currency service bean to 
+    //retrieve the default currency amount from the user's chosen currency
+    private float getBalanceInChosenCurrency(String currency){
         float gbpBalance = 1000000;
         String defaultCurrency = "GBP";
         

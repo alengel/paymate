@@ -2,7 +2,7 @@ package jsf.shared.beans;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import ejb.beans.AccountStorageServiceBean;
+import ejb.interfaces.AccountStorageService;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -42,7 +42,7 @@ public class FbOauthBean implements Serializable {
     private String email;
     
     @EJB
-    private AccountStorageServiceBean accountStore;
+    private AccountStorageService accountStore;
     
     public FbOauthBean(){
     }

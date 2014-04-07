@@ -3,6 +3,7 @@ package ejb.beans;
 import dao.JpaAccountDao;
 import dao.JpaPaymentDao;
 import dao.JpaScheduledPaymentDao;
+import ejb.interfaces.PaymentStorageService;
 import entities.Account;
 import entities.Payment;
 import entities.ScheduledPayment;
@@ -23,7 +24,7 @@ import static javax.ejb.TransactionAttributeType.REQUIRED;
  */
 
 @Stateless
-public class PaymentStorageServiceBean {
+public class PaymentStorageServiceBean implements PaymentStorageService {
 
     @EJB
     private TimestampServiceBean timestampService;
@@ -42,11 +43,12 @@ public class PaymentStorageServiceBean {
     }
     
     @TransactionAttribute(REQUIRED)
+    @Override
     public synchronized void makePayment(String type, Account origin, 
             Account recipient, String currency, float amount, Date scheduledDate) 
             throws SQLException {
         
-        String status = null;
+        String status;
         Date timestamp = timestampService.getTimestamp();
         Date today = new Date();
         
@@ -68,6 +70,7 @@ public class PaymentStorageServiceBean {
     }
     
     @TransactionAttribute(REQUIRED)
+    @Override
     public synchronized void schedulePayment(Account origin, Account recipient, 
             String currency, float amount, Date scheduledDate, String frequency) 
             throws SQLException {
@@ -82,31 +85,38 @@ public class PaymentStorageServiceBean {
                 amount, nextScheduledDate, scheduledDate, frequency);
     }
     
+    @Override
     public synchronized List<Payment> getTransactions(Account origin) {
         return paymentDao.getTransactionsByAccount(origin);
     }
     
-    public synchronized List<ScheduledPayment> getRecurringPayments(Account origin) {
-        return scheduledPaymentDao.getRecurringPayments(origin);
-    }
-    
-    public synchronized List<ScheduledPayment> getAllRecurringPayments() {
-        return scheduledPaymentDao.getAllRecurringPayments();
-    }
-    
+    @Override
     public synchronized List<Payment> getAllTransactions() {
         return paymentDao.getAllTransactions();
     }
     
-    public synchronized Payment getTransaction(long id){
+    @Override
+    public synchronized List<ScheduledPayment> getRecurringPayments(Account origin) {
+        return scheduledPaymentDao.getRecurringPayments(origin);
+    }
+    
+    @Override
+    public synchronized List<ScheduledPayment> getAllRecurringPayments() {
+        return scheduledPaymentDao.getAllRecurringPayments();
+    }
+    
+    @Override
+    public synchronized Payment getTransactionById(long id){
         return paymentDao.getTransaction(id);
     }
     
+    @Override
     public synchronized void updateStatus(long id, String status){
         paymentDao.updateStatus(id, status);
     }
     
     @TransactionAttribute(REQUIRED)
+    @Override
     public synchronized void updateBalances(Payment payment) throws SQLException {
         
         calculateBalances(payment.getOrigin(), payment.getRecipient(),
@@ -115,7 +125,27 @@ public class PaymentStorageServiceBean {
         updateStatus(payment.getId(), "accepted");
     }
     
-    public synchronized void addAmount(String recipient, float amount) 
+    @TransactionAttribute(REQUIRED)
+    @Override
+    public synchronized void makeScheduledPayment(ScheduledPayment item) throws SQLException{
+        //Insert all payments into payments DB
+        makePayment("payment", item.getOrigin(), item.getRecipient(), item.getCurrency(),
+                item.getAmount(), new Date()); 
+
+        updateNextScheduledDate(item);
+    }
+    
+    @Override
+    public void removeScheduledPayment(long id){
+        scheduledPaymentDao.remove(id);
+    }
+    
+    @Override
+    public String[] getAvailableCurrencies(){        
+        return CurrencyServiceBean.getAvailableCurrencies();
+    }
+    
+    private synchronized void addAmount(String recipient, float amount) 
             throws SQLException {
         
         Account recipientAccount = accountDao.getAccount(recipient);
@@ -126,7 +156,7 @@ public class PaymentStorageServiceBean {
         recipientAccount.setBalance(newBalance);
     }
     
-    public synchronized void deductAmount(String originEmail, float amount) 
+    private synchronized void deductAmount(String originEmail, float amount) 
             throws SQLException {
         
         Account originAccount = accountDao.getAccount(originEmail);
@@ -150,7 +180,7 @@ public class PaymentStorageServiceBean {
         }
     }
     
-    public void calculateBalances(Account origin, Account recipient,
+    private void calculateBalances(Account origin, Account recipient,
             String currency, float amount) throws SQLException{
         
         float convertedOriginAmount = convertAmountIntoLocalCurrency(
@@ -166,20 +196,7 @@ public class PaymentStorageServiceBean {
         addAmount(recipient.getEmail(), convertedRecipientAmount);
     }
     
-    public String[] getAvailableCurrencies(){        
-        return CurrencyServiceBean.getAvailableCurrencies();
-    }
-    
-    @TransactionAttribute(REQUIRED)
-    public void makeScheduledPayment(ScheduledPayment item) throws SQLException{
-        //Insert all payments into payments DB
-        makePayment("payment", item.getOrigin(), item.getRecipient(), item.getCurrency(),
-                item.getAmount(), new Date()); 
-
-        updateNextScheduledDate(item);
-    }
-    
-    public void updateNextScheduledDate(ScheduledPayment payment){
+    private void updateNextScheduledDate(ScheduledPayment payment){
         Date nextScheduledDate = calculateNextScheduledDate(payment.getFrequency());
 
         if(nextScheduledDate == null){
@@ -190,7 +207,7 @@ public class PaymentStorageServiceBean {
         payment.setNextScheduledDate(nextScheduledDate);
     }
     
-    public Date calculateNextScheduledDate(String frequency) {
+    private Date calculateNextScheduledDate(String frequency) {
         Date nextScheduledDate = null;
 
         switch (frequency) {
@@ -210,7 +227,7 @@ public class PaymentStorageServiceBean {
         return nextScheduledDate;
     }
     
-    public Date addDaysToDate(int noOfDays) {
+    private Date addDaysToDate(int noOfDays) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, noOfDays);
@@ -218,7 +235,7 @@ public class PaymentStorageServiceBean {
         return cal.getTime();
     }
     
-    public Date addMonthsToDate(int noOfMonths) {
+    private Date addMonthsToDate(int noOfMonths) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.MONTH, noOfMonths);
@@ -228,10 +245,6 @@ public class PaymentStorageServiceBean {
     
     private Date getToday() {
         return new Date();
-    }
-    
-    public void removeScheduledPayment(long id){
-        scheduledPaymentDao.remove(id);
     }
     
     //Check for scheduled payments every day at 8am server time

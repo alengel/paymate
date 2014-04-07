@@ -1,8 +1,8 @@
 package jsf.user.beans;
 
 import jsf.shared.beans.UtilityBean;
-import ejb.beans.AccountStorageServiceBean;
-import ejb.beans.PaymentStorageServiceBean;
+import ejb.interfaces.AccountStorageService;
+import ejb.interfaces.PaymentStorageService;
 import entities.Account;
 import entities.Payment;
 import java.io.Serializable;
@@ -26,10 +26,10 @@ public class NotificationsBean implements Serializable {
     private final UtilityBean utility;
     
     @EJB
-    private AccountStorageServiceBean accountStore;
+    private AccountStorageService accountStore;
     
     @EJB
-    private PaymentStorageServiceBean paymentsStore;
+    private PaymentStorageService paymentsStore;
     
     public NotificationsBean(){
         utility = new UtilityBean();

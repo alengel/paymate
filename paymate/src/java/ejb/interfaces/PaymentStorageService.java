@@ -16,23 +16,31 @@ import javax.ejb.Remote;
 @Remote
 public interface PaymentStorageService {
     public void makePayment(String type, Account origin, 
-            Account recipient, String currency, String amount, Date scheduledDate);
+            Account recipient, String currency, float amount, Date scheduledDate)
+            throws SQLException;
     
     public void schedulePayment(Account origin, Account recipient, 
-            String currency, float amount, Date scheduledDate, String frequency);
+            String currency, float amount, Date scheduledDate, String frequency) 
+            throws SQLException;
+    
+    public Payment getTransactionById(long id);
     
     public List<Payment> getTransactions(Account origin);
     
     public List<Payment> getAllTransactions();
     
-    public void processPayment(long id);
+    public List<ScheduledPayment> getRecurringPayments(Account origin);
+    
+    public List<ScheduledPayment> getAllRecurringPayments();
     
     public void updateStatus(long id, String status);
     
     public void updateBalances(Payment payment) throws SQLException;
     
-    public List<ScheduledPayment> getRecurringPayments(Account origin);
-    
+    public void makeScheduledPayment(ScheduledPayment item) throws SQLException;
+            
     public void removeScheduledPayment(long id);
+    
+    public String[] getAvailableCurrencies();
 }
 

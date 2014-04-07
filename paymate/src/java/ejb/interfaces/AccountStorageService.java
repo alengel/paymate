@@ -1,6 +1,8 @@
 package ejb.interfaces;
 
 import entities.Account;
+import entities.AccountGroup;
+import java.sql.SQLException;
 import java.util.List;
 import javax.ejb.Remote;
 
@@ -11,20 +13,15 @@ import javax.ejb.Remote;
 
 @Remote
 public interface AccountStorageService {
-    public Boolean checkAccountExists(String email);
+    public Boolean checkAccountExists(String email) throws SQLException;
     
-    public void updateLastLoginDate(String email);
+    public Account getAccount(String email) throws SQLException;
+    
+    public List<Account> getAccounts() throws SQLException;
+    
+    public AccountGroup getAccountRole(String email) throws SQLException;
     
     public void insertAccount(String email, String password, String currency);
     
-    public Account getAccount(String email);
-    
-    public Account getAccountRole(String email);
-    
-    public void deductAmount(String originEmail, float amount);
-    
-    public void addAmount(String recipient, float amount);
-        
-    // Admin User Calls    
-    public List<Account> getAccounts();
+    public void updateLastLoginDate(String email) throws SQLException;
 }

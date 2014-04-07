@@ -1,6 +1,6 @@
 package jsf.shared.beans;
 
-import ejb.beans.AccountStorageServiceBean;
+import ejb.interfaces.AccountStorageService;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -28,7 +28,7 @@ public class LoginBean implements Serializable {
     private final UtilityBean utility;
     
     @EJB
-    private AccountStorageServiceBean accountStore;
+    private AccountStorageService accountStore;
     
     public LoginBean(){
         utility = new UtilityBean();
