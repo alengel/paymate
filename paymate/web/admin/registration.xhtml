@@ -35,7 +35,8 @@
                 outcome="registration">Admin Registration
         </h:link>
 
-        <h:form styleClass="admin-registration registration-form" id="registration-form">
+        <h:form styleClass="admin-registration registration-form" 
+                id="registration-form">
 
             <div class="input-container">
                 <span class="labels email">Email</span>
@@ -73,8 +74,15 @@
                 <h:message styleClass="error-message" for="passwordVerification"/>
             </div>
 
-            <h:commandButton styleClass="button" action="#{registrationBean.register}" value="Register"></h:commandButton>
-            <h:commandButton styleClass="button" type="reset" value="Reset"></h:commandButton>
+            <h:commandButton styleClass="button" 
+                             action="#{registrationBean.register}" 
+                             value="Register">
+            </h:commandButton>
+            <h:commandButton styleClass="button" 
+                             type="reset" 
+                             value="Reset">
+            </h:commandButton>
+            
             <h:messages styleClass="global-error" globalOnly="true" />
         </h:form>
 

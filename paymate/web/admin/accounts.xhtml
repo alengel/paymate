@@ -16,7 +16,10 @@
         <h2 class="header">PayMate Admin</h2>
         <div class="date">#{utilityBean.currentDate}</div>
         <h:form>
-            <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
+            <h:commandLink styleClass="logout" 
+                           action="#{loginBean.logout()}">
+                logout #{utilityBean.loggedInUser}
+            </h:commandLink>
         </h:form>
 
         <h:link styleClass="tab accounts-link active" 

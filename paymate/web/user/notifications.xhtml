@@ -17,7 +17,10 @@
         <div class="date">#{utilityBean.currentDate}</div>
 
         <h:form>
-            <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
+            <h:commandLink styleClass="logout" 
+                           action="#{loginBean.logout()}">
+                logout #{utilityBean.loggedInUser}
+            </h:commandLink>
         </h:form>
 
         <h:link styleClass="tab notifications-link active" outcome="notifications">History</h:link>
@@ -25,7 +28,8 @@
         <h:link styleClass="tab payments" outcome="payments">Make Payment</h:link>
         <h:link styleClass="tab requests" outcome="requests">Request Funds</h:link>
 
-        <h:panelGroup styleClass="no-notifications" rendered="#{notificationsBean.notificationsTable.rowCount==0}">
+        <h:panelGroup styleClass="no-notifications" 
+                      rendered="#{notificationsBean.notificationsTable.rowCount==0}">
             You have not made any transactions yet.
         </h:panelGroup>
 
