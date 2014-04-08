@@ -26,7 +26,6 @@ import static javax.ejb.TransactionAttributeType.REQUIRED;
  *
  * @author 119848
  */
-
 @Stateless
 @DeclareRoles({"admin"})
 public class PaymentStorageServiceBean implements PaymentStorageService {

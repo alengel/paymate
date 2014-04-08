@@ -10,13 +10,12 @@ import javax.ws.rs.core.Response;
  *
  * @author 119848
  */
-
 @Stateless
 public class CurrencyService {
 
     public CurrencyService() {
     }
-    
+
     //Helper function to make request to REST service
     private static String makeRequest(String uri) {
         WebTarget target = ClientBuilder.newClient().target(uri);
@@ -29,7 +28,7 @@ public class CurrencyService {
             return "failed";
         }
     }
-    
+
     //Get all available currencies to populate dropdown
     public static String[] getAvailableCurrencies() {
         String uri = "http://localhost:8080/paymateRS/conversion/available";

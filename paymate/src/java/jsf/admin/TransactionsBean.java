@@ -1,4 +1,4 @@
-package jsf.admin.beans;
+package jsf.admin;
 
 import ejb.interfaces.PaymentStorageService;
 import entities.Payment;
@@ -12,7 +12,6 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class TransactionsBean {

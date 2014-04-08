@@ -1,4 +1,4 @@
-package jsf.shared.beans;
+package jsf.shared;
 
 import ejb.interfaces.AccountStorageService;
 import java.io.Serializable;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class LoginBean implements Serializable {
@@ -64,7 +63,7 @@ public class LoginBean implements Serializable {
             return null;
         }
     }
-    
+
     //Main logout function for all users
     public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -80,7 +79,7 @@ public class LoginBean implements Serializable {
             return null;
         }
     }
-    
+
     //Redirect user to correct page based on their account role
     private String redirectUser(String email) throws SQLException {
         accountStore.updateLastLoginDate(email);

@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
  *
  * @author 119848
  */
-
 @Stateless
 public class JpaFactory extends DAOFactory {
 
@@ -20,12 +19,12 @@ public class JpaFactory extends DAOFactory {
     public AccountDao getAccountDAO() {
         return new JpaAccountDao();
     }
-    
+
     @Override
     public PaymentDao getPaymentDAO() {
         return new JpaPaymentDao();
     }
-    
+
     @Override
     public ScheduledPaymentDao getScheduledPaymentDAO() {
         return new JpaScheduledPaymentDao();

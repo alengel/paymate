@@ -1,4 +1,4 @@
-package jsf.shared.beans;
+package jsf.shared;
 
 import ejb.interfaces.AccountStorageService;
 import java.io.Serializable;
@@ -13,7 +13,6 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class RegistrationBean implements Serializable {
@@ -73,7 +72,7 @@ public class RegistrationBean implements Serializable {
         if (!checkPasswordsMatch()) {
             return null;
         }
-        
+
         //Insert user into the Accounts table
         insertUser();
 
@@ -84,7 +83,7 @@ public class RegistrationBean implements Serializable {
         //Insert regular user account into the DB Accounts table
         accountStore.insertAccount(email, password, currency);
     }
-    
+
     //Check if passwords match, alert user if not
     public Boolean checkPasswordsMatch() {
         if (password.equals(passwordVerification)) {
@@ -94,7 +93,7 @@ public class RegistrationBean implements Serializable {
             return false;
         }
     }
-    
+
     //Check if account already exists in the Accounts table, alert user 
     //if email is already used
     public Boolean checkIfAccountExists() throws SQLException {

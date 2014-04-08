@@ -15,7 +15,6 @@ import javax.persistence.TypedQuery;
  *
  * @author 119848
  */
-
 //Specific JPA implementation for the PaymentDao
 @Stateless
 @LocalBean

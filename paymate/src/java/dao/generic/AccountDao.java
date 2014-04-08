@@ -9,7 +9,6 @@ import java.util.List;
  *
  * @author 119848
  */
-
 //Generic interface for the AccountDao
 public interface AccountDao {
 

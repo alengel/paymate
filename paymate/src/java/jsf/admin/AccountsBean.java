@@ -1,4 +1,4 @@
-package jsf.admin.beans;
+package jsf.admin;
 
 import ejb.interfaces.AccountStorageService;
 import ejb.interfaces.PaymentStorageService;
@@ -17,7 +17,6 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @SessionScoped
 public class AccountsBean implements Serializable {
@@ -63,27 +62,27 @@ public class AccountsBean implements Serializable {
     public List<Account> getAccounts() throws SQLException {
         return accountStore.getAccounts();
     }
-    
+
     //Get selected row data and pass to Payments table to filter by selected Account
     public String viewTransactionsByUser() {
         selected = (Account) accountsTable.getRowData();
         return "account_transactions";
     }
-    
+
     public List<Payment> getAccountTransactions() {
         return paymentsStore.getTransactions(selected);
     }
-    
+
     //Get selected row data and pass to ScheduledPayments table to filter by selected Account
     public String viewRecurringPaymentsByUser() {
         selected = (Account) accountsTable.getRowData();
         return "account_recurring";
     }
-    
+
     public List<ScheduledPayment> getAccountRecurringPayments() {
         return paymentsStore.getRecurringPayments(selected);
     }
-    
+
     //Cancel scheduled payment by removing from the ScheduledPayments table
     public void cancelPayments() {
         ScheduledPayment rowPayment = (ScheduledPayment) accountRecurringPaymentsTable.getRowData();

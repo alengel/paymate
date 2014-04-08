@@ -1,6 +1,6 @@
-package jsf.user.beans;
+package jsf.user;
 
-import jsf.shared.beans.UtilityBean;
+import jsf.shared.UtilityBean;
 import ejb.interfaces.AccountStorageService;
 import ejb.interfaces.PaymentStorageService;
 import entities.Account;
@@ -26,7 +26,6 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class PaymentsBean implements Serializable {

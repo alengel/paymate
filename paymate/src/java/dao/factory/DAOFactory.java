@@ -8,13 +8,14 @@ import dao.generic.ScheduledPaymentDao;
  *
  * @author 119848
  */
-
 public abstract class DAOFactory {
 
     public static final int JPA = 1;
 
     public abstract AccountDao getAccountDAO();
+
     public abstract PaymentDao getPaymentDAO();
+
     public abstract ScheduledPaymentDao getScheduledPaymentDAO();
 
     //Return correct dao factory

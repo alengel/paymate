@@ -1,4 +1,4 @@
-package jsf.admin.beans;
+package jsf.admin;
 
 import ejb.interfaces.PaymentStorageService;
 import entities.ScheduledPayment;
@@ -12,7 +12,6 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 
@@ -37,7 +36,7 @@ public class RecurringPaymentsBean {
     public List<ScheduledPayment> getAllRecurringPayments() {
         return paymentsStore.getAllRecurringPayments();
     }
-    
+
     //Gives capability to cancel scheduled payments as an admin
     public void cancelPayments() {
         ScheduledPayment rowPayment = (ScheduledPayment) recurringPaymentsTable.getRowData();

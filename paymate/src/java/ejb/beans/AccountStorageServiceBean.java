@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author 119848
  */
-
 @Stateless
 @DeclareRoles({"admin"})
 public class AccountStorageServiceBean implements AccountStorageService {
@@ -71,7 +70,7 @@ public class AccountStorageServiceBean implements AccountStorageService {
     public synchronized void insertAccount(String email, String password, String currency) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-        
+
         float balance;
         String defaultRole;
         String hashedPassword;
@@ -132,10 +131,10 @@ public class AccountStorageServiceBean implements AccountStorageService {
 
         return CurrencyService.getConvertedAmount(defaultCurrency, currency, gbpBalance);
     }
-    
+
     //Only return admin if the logged in user has admin rights
     @RolesAllowed("admin")
-    private String getAdminDefaultRole(){
+    private String getAdminDefaultRole() {
         return "admin";
     }
 }

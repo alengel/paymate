@@ -1,4 +1,4 @@
-package jsf.shared.beans;
+package jsf.shared;
 
 import services.TimestampService;
 import java.text.DateFormat;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author 119848
  */
-
 //Utility class shared across the JSF views
 @Named
 @RequestScoped
@@ -28,7 +27,7 @@ public class UtilityBean {
     public UtilityBean() {
 
     }
-    
+
     //Return the currently logged in user
     public String getLoggedInUser() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -39,13 +38,13 @@ public class UtilityBean {
     public void setLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
-    
+
     //Create an error message and append it to the class "global-error"
     public void createErrorMessage(String errorMessage) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.addMessage(null, new FacesMessage(errorMessage));
     }
-    
+
     //Get the current date to display on page
     public String getCurrentDate() {
         DateFormat originalFormat = new SimpleDateFormat("MMM dd, yyyy");

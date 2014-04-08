@@ -10,7 +10,6 @@ import timestamp.TimestampWSService;
  *
  * @author 119848
  */
-
 @Stateless
 public class TimestampService {
 

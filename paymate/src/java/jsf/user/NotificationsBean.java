@@ -1,6 +1,6 @@
-package jsf.user.beans;
+package jsf.user;
 
-import jsf.shared.beans.UtilityBean;
+import jsf.shared.UtilityBean;
 import ejb.interfaces.AccountStorageService;
 import ejb.interfaces.PaymentStorageService;
 import entities.Account;
@@ -17,7 +17,6 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class NotificationsBean implements Serializable {
@@ -47,26 +46,26 @@ public class NotificationsBean implements Serializable {
         Account origin = accountStore.getAccount(utility.getLoggedInUser());
         return paymentsStore.getTransactions(origin);
     }
-    
+
     public void acceptRequest() throws SQLException {
         Payment rowPayment = (Payment) notificationsTable.getRowData();
         float rowPaymentAmount = rowPayment.getAmount();
-        
+
         //Check if balance is sufficient to accept the request
         if (checkBalance(rowPaymentAmount)) {
             return;
         }
-        
+
         //Update the account balances
         paymentsStore.updateBalances(rowPayment);
     }
-    
+
     //Update the status if the request was rejected
     public void rejectRequest() {
         Payment rowPayment = (Payment) notificationsTable.getRowData();
         paymentsStore.updateStatus(rowPayment.getId(), "rejected");
     }
-    
+
     //Check if balance is sufficient and show error message if not
     public Boolean checkBalance(float rowRequestedAmount) throws SQLException {
         float currentBalance = accountStore.getAccount(utility.getLoggedInUser()).getBalance();
