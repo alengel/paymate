@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author 119848
  */
+
 @Named
 @RequestScoped
 public class LoginBean implements Serializable {
@@ -49,6 +50,7 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
 
+    //Main login function for non-Oauth users
     public String login() throws SQLException {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
@@ -62,7 +64,8 @@ public class LoginBean implements Serializable {
             return null;
         }
     }
-
+    
+    //Main logout function for all users
     public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -73,13 +76,13 @@ public class LoginBean implements Serializable {
 
         } catch (ServletException exception) {
             Logger.getLogger(LoginBean.class.getName()).log(Level.WARNING, null, exception);
-
             utility.createErrorMessage("Something went wrong. You were NOT logged out.");
             return null;
         }
     }
-
-    public String redirectUser(String email) throws SQLException {
+    
+    //Redirect user to correct page based on their account role
+    private String redirectUser(String email) throws SQLException {
         accountStore.updateLastLoginDate(email);
         String accountRole = accountStore.getAccountRole(email).getGroupName();
 
