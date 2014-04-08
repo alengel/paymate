@@ -11,13 +11,16 @@ import javax.inject.Named;
  *
  * @author 119848
  */
+
+//Utility class shared across the JSF views to display currency related information
 @Named
 @SessionScoped
 public class CurrencyBean implements Serializable {
 
     public CurrencyBean() {
     }
-
+    
+    //Return all currencies in a hashmap to fill the currency table
     public HashMap<String, HashMap<String, Float>> getCurrencies() {
         Gson gson = new Gson();
         String currencies = CurrencyService.getCurrencies();
@@ -25,7 +28,8 @@ public class CurrencyBean implements Serializable {
         currenciesMap = (HashMap<String, HashMap<String, Float>>) gson.fromJson(currencies, currenciesMap.getClass());
         return currenciesMap;
     }
-
+    
+    //Get currency symbol for the passed in currency
     public String changeCurrencyStringToSymbol(String currencyString) {
         String currencySymbol;
 
