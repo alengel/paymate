@@ -8,9 +8,9 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate Admin Registration</title>
     </h:head>
     <h:body styleClass="admin-registration-page">
@@ -21,7 +21,7 @@
                            styleClass="logout">logout #{utilityBean.loggedInUser}
             </h:commandLink>
         </h:form>
-       
+
         <h:link styleClass="tab accounts-link" 
                 outcome="accounts">Accounts
         </h:link>
@@ -34,9 +34,9 @@
         <h:link styleClass="tab registration-tab active" 
                 outcome="registration">Admin Registration
         </h:link>
-        
+
         <h:form styleClass="admin-registration registration-form" id="registration-form">
-            
+
             <div class="input-container">
                 <span class="labels email">Email</span>
                 <h:inputText id="email" 
@@ -49,7 +49,7 @@
                 </h:inputText>
                 <h:message styleClass="error-message" for="email"/>
             </div>
-            
+
             <div class="input-container">
                 <span class="labels">Password</span>
                 <p:password id="password" 
@@ -61,7 +61,7 @@
                             value="#{registrationBean.password}"/>
                 <h:message styleClass="error-message" for="password"/>
             </div>
-            
+
             <div class="input-container">
                 <span class="labels reg">Confirm Password</span>
                 <h:inputSecret id="passwordVerification" 
@@ -72,12 +72,12 @@
                 </h:inputSecret>
                 <h:message styleClass="error-message" for="passwordVerification"/>
             </div>
-            
+
             <h:commandButton styleClass="button" action="#{registrationBean.register}" value="Register"></h:commandButton>
             <h:commandButton styleClass="button" type="reset" value="Reset"></h:commandButton>
             <h:messages styleClass="global-error" globalOnly="true" />
         </h:form>
-                
+
     </h:body>
 </html>
 

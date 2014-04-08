@@ -16,26 +16,34 @@ import javax.validation.constraints.NotNull;
  *
  * @author 119848
  */
-
 @Entity
 @NamedQuery(
-    name="getAccountWithEmail",
-    query="SELECT COUNT(c) FROM Account c WHERE c.email = :email"
+        name = "getAccountWithEmail",
+        query = "SELECT COUNT(c) FROM Account c WHERE c.email = :email"
 )
 public class Account implements Serializable {
-    @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
-    @Column(unique=true) @NotNull String email;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
+    @Column(unique = true)
+    @NotNull
+    String email;
     String password;
     String currency;
     float balance;
-    @NotNull String permissionRole;
-    @NotNull @Temporal(javax.persistence.TemporalType.DATE) Date registrationDate;
-    @Temporal(javax.persistence.TemporalType.DATE) Date lastLoggedIn;
+    @NotNull
+    String permissionRole;
+    @NotNull
+    @Temporal(javax.persistence.TemporalType.DATE)
+    Date registrationDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    Date lastLoggedIn;
 
     public Account() {
     }
 
-    public Account(String email, String password, String currency, float balance, 
+    public Account(String email, String password, String currency, float balance,
             String permissionRole, Date registrationDate) {
         this.email = email;
         this.password = password;
@@ -52,7 +60,7 @@ public class Account implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public String getEmail() {
         return email;
     }

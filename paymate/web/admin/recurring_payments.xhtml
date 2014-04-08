@@ -7,9 +7,9 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate Admin</title>
     </h:head>
     <h:body styleClass="notifications-page">
@@ -20,7 +20,7 @@
                            action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}
             </h:commandLink>
         </h:form>
-       
+
         <h:link styleClass="tab accounts-link" 
                 outcome="accounts">Accounts
         </h:link>
@@ -33,69 +33,69 @@
         <h:link styleClass="tab registration-tab" 
                 outcome="registration">Admin Registration
         </h:link>
-        
+
         <h:panelGroup styleClass="no-notifications" 
                       rendered="#{recurringPaymentsBean.recurringPaymentsTable.rowCount==0}">
             There are no transactions yet.
         </h:panelGroup>
-        
+
         <h:dataTable binding="#{recurringPaymentsBean.recurringPaymentsTable}"
                      rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
                      value="#{recurringPaymentsBean.allRecurringPayments}"
                      var="payment">
-                
-                <span id="#{payment.id}"></span>
-                <h:column>
-                    <f:facet name="header">Date</f:facet>
-                    <h:outputText value="#{payment.startDate}" >
-                        <f:convertDateTime pattern="MMM dd, YYYY" />
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Origin</f:facet>
+
+            <span id="#{payment.id}"></span>
+            <h:column>
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{payment.startDate}" >
+                    <f:convertDateTime pattern="MMM dd, YYYY" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Origin</f:facet>
                     #{payment.origin.email}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Recipient</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Recipient</f:facet>
                     #{payment.recipient.email}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Amount</f:facet>
-                    <h:panelGroup rendered="#{payment.currency=='GBP'}">
-                        £
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.currency=='USD'}">
-                        $
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.currency=='EUR'}">
-                        €
-                    </h:panelGroup>
-                    <h:outputText value="#{payment.amount}" >
-                        <f:convertNumber pattern="#0.00" />
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Frequency</f:facet>
-                        #{payment.frequency}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Next Payment</f:facet>
-                    <h:outputText value="#{payment.nextScheduledDate}" >
-                        <f:convertDateTime pattern="MMM dd, YYYY" />
-                    </h:outputText>  
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Cancel</f:facet>
-                    <h:form>
-                        <h:commandButton actionListener="#{recurringPaymentsBean.cancelPayments()}"
-                                         class="button cancel small reject-button"
-                                         value="Cancel">
-                        </h:commandButton>
-                    </h:form>
-                </h:column>
-            </h:dataTable>
-       
+            </h:column>
+            <h:column>
+                <f:facet name="header">Amount</f:facet>
+                <h:panelGroup rendered="#{payment.currency=='GBP'}">
+                    £
+                </h:panelGroup>
+                <h:panelGroup rendered="#{payment.currency=='USD'}">
+                    $
+                </h:panelGroup>
+                <h:panelGroup rendered="#{payment.currency=='EUR'}">
+                    €
+                </h:panelGroup>
+                <h:outputText value="#{payment.amount}" >
+                    <f:convertNumber pattern="#0.00" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Frequency</f:facet>
+                    #{payment.frequency}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Next Payment</f:facet>
+                <h:outputText value="#{payment.nextScheduledDate}" >
+                    <f:convertDateTime pattern="MMM dd, YYYY" />
+                </h:outputText>  
+            </h:column>
+            <h:column>
+                <f:facet name="header">Cancel</f:facet>
+                <h:form>
+                    <h:commandButton actionListener="#{recurringPaymentsBean.cancelPayments()}"
+                                     class="button cancel small reject-button"
+                                     value="Cancel">
+                    </h:commandButton>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+
     </h:body>
 </html>
 

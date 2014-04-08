@@ -16,26 +16,36 @@ import javax.validation.constraints.NotNull;
  *
  * @author 119848
  */
-
 @Entity
-@NamedQuery(name="findAllPayments", query="SELECT c FROM Payment c ")
+@NamedQuery(name = "findAllPayments", query = "SELECT c FROM Payment c ")
 public class Payment implements Serializable {
-    
-    @Id @GeneratedValue(strategy=GenerationType.AUTO) long id;
-    @NotNull @Temporal(javax.persistence.TemporalType.DATE) Date paymentTimestamp;
-    @NotNull String type;
-    @OneToOne Account origin;
-    @OneToOne Account recipient;
-    @NotNull String currency;
-    @NotNull float amount;
-    @Temporal(javax.persistence.TemporalType.DATE) Date scheduledDate;
-    @NotNull String status;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
+    @NotNull
+    @Temporal(javax.persistence.TemporalType.DATE)
+    Date paymentTimestamp;
+    @NotNull
+    String type;
+    @OneToOne
+    Account origin;
+    @OneToOne
+    Account recipient;
+    @NotNull
+    String currency;
+    @NotNull
+    float amount;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    Date scheduledDate;
+    @NotNull
+    String status;
 
     public Payment() {
-        
+
     }
 
-    public Payment(Date paymentTimestamp, String type, Account origin, Account recipient, 
+    public Payment(Date paymentTimestamp, String type, Account origin, Account recipient,
             String currency, float amount, Date scheduledDate, String status) {
         this.paymentTimestamp = paymentTimestamp;
         this.type = type;
@@ -173,5 +183,4 @@ public class Payment implements Serializable {
         return true;
     }
 
-    
 }

@@ -8,17 +8,17 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <script src="../js/radiobutton.js"></script>
-        
+
         <title>PayMate</title>
     </h:head>
     <h:body styleClass="payments-page">
         <h2 class="header">PayMate</h2>
         <div class="date">#{utilityBean.currentDate}</div>
-        
+
         <h:form>
             <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
         </h:form>
@@ -27,15 +27,15 @@
         <h:link styleClass="tab scheduled" outcome="recurring">Recurring</h:link>
         <h:link styleClass="tab payments" outcome="payments">Make Payment</h:link>
         <h:link styleClass="tab requests" outcome="requests">Request Funds</h:link>
-        
+
         <h:form styleClass="payments-form">
             <p class="introduction">Please fill in the details to make a payment.</p>
-            
+
             <div class="balance-container">
                 <span class="balance-title">Balance   </span>
                 <h:outputText value="#{paymentsBean.accountBalance}"></h:outputText>
             </div>
-            
+
             <div class="input-container">
                 <span class="labels">Recipient Email</span>
                 <h:inputText id="recipient" 
@@ -49,7 +49,7 @@
                 </h:inputText>
                 <h:message styleClass="error-message" for="recipient"/>
             </div>
-            
+
             <div class="input-container">
                 <span>Select Currency</span>
                 <h:selectOneMenu id="currencies" 
@@ -61,7 +61,7 @@
                                    itemLabel="#{newcurrency}"/>
                 </h:selectOneMenu>
             </div>
-            
+
             <div class="input-container">
                 <span class="labels">Amount</span>
                 <h:inputText id="amount" 
@@ -76,9 +76,9 @@
                 </h:inputText>
                 <h:message styleClass="error-message" for="amount"/>
             </div>
-            
+
             <div class="divider"></div>
-            
+
             <div class="input-container-radio">
                 <h:selectOneRadio id="subscriptions"
                                   styleClass="select-frequency-type"
@@ -87,7 +87,7 @@
                     <f:selectItem id="recurring" itemLabel="Recurring payments" itemValue="recurring" />
                 </h:selectOneRadio>
             </div>
-            
+
             <div class="input-container">
                 <span class="datelabels labels">Schedule Date</span>
                 <p:calendar id="calendar"
@@ -98,7 +98,7 @@
                 <p:watermark for="calendar"
                              value="#{paymentsBean.defaultScheduledDate}" />  
             </div>
-            
+
             <div class="recurring hidden">
                 <div class="input-container">
                     <span>Select Frequency</span>
@@ -111,23 +111,23 @@
                     </h:selectOneMenu>
                 </div>
             </div>
-            
+
             <h:messages styleClass="global-error" globalOnly="true" />
-            
+
             <div class="button-container">
                 <h:commandButton action="#{paymentsBean.makePayment}" 
                                  styleClass="button long"
                                  value="Make Payment">
                 </h:commandButton>
-                
+
                 <h:commandButton styleClass="button" 
-                                type="reset"
-                                value="Reset">
-               </h:commandButton>
+                                 type="reset"
+                                 value="Reset">
+                </h:commandButton>
             </div>
-        
+
         </h:form>
-        
+
         <div class="exchange">Current Exchange Rates</div>
         <table class="currency-table">
             <tr>
@@ -155,7 +155,7 @@
                 <td>1</td>
             </tr>
         </table>
-        
+
     </h:body>
 </html>
 

@@ -19,21 +19,20 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class RecurringBean implements Serializable {
-    
+
     private HtmlDataTable recurringPaymentsTable;
     private final UtilityBean utility;
-    
+
     @EJB
     private AccountStorageService accountStore;
-    
+
     @EJB
     private PaymentStorageService paymentsStore;
-    
-    public RecurringBean(){
+
+    public RecurringBean() {
         utility = new UtilityBean();
     }
 
@@ -49,8 +48,8 @@ public class RecurringBean implements Serializable {
         Account origin = accountStore.getAccount(utility.getLoggedInUser());
         return paymentsStore.getRecurringPayments(origin);
     }
-    
-    public void cancelPayments(){
+
+    public void cancelPayments() {
         ScheduledPayment rowPayment = (ScheduledPayment) recurringPaymentsTable.getRowData();
         paymentsStore.removeScheduledPayment(rowPayment.getId());
     }

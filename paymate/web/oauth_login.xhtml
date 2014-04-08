@@ -6,19 +6,19 @@
         <link rel="stylesheet" href="resources/css/normalize.css"></link>
         <link rel="stylesheet" href="resources/css/main.css"></link>
         <link rel="stylesheet" href="resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate Login</title>
     </h:head>
     <h:body styleClass="login-page">
-        
+
         <h2 class="header">PayMate</h2>
-        
+
         #{fbOauthBean.callOnLoginLoaded()}
-        
+
         <p>#{fbOauthBean.loadingMessage}</p>
-        
+
     </h:body>
 </html>
 

@@ -26,11 +26,10 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class PaymentsBean implements Serializable {
-    
+
     private String type;
     private String recipient;
     private String currency;
@@ -41,17 +40,17 @@ public class PaymentsBean implements Serializable {
     private String frequencyType;
     private final CurrencyBean currencyBean;
     private final UtilityBean utility;
-    
+
     @EJB
     private AccountStorageService accountStore;
-    
+
     @EJB
     private PaymentStorageService paymentsStore;
-    
-    public PaymentsBean(){
+
+    public PaymentsBean() {
         utility = new UtilityBean();
         currencyBean = new CurrencyBean();
-    }    
+    }
 
     public String getType() {
         return type;
@@ -60,7 +59,7 @@ public class PaymentsBean implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-    
+
     public String getRecipient() {
         return recipient;
     }
@@ -68,28 +67,28 @@ public class PaymentsBean implements Serializable {
     public void setRecipient(String recipient) {
         this.recipient = recipient;
     }
-    
-    public String[] getCurrencies(){
+
+    public String[] getCurrencies() {
         currencies = paymentsStore.getAvailableCurrencies();
-        
+
         //If Rest Currency Service is not available, redirect
-        if(currencies == null){
+        if (currencies == null) {
             redirectToServicesDownPage();
             return null;
         }
-        
+
         return currencies;
     }
 
     public void setCurrencies(String[] currencies) {
         this.currencies = currencies;
     }
-    
+
     public String getCurrency() throws SQLException {
         //Get user's default currency to select the currency by default
         Account account = accountStore.getAccount(utility.getLoggedInUser());
         String defaultCurrency = account.getCurrency();
-        
+
         return defaultCurrency;
     }
 
@@ -124,154 +123,153 @@ public class PaymentsBean implements Serializable {
     public String getFrequencyType() {
         //Set default frequency type to once
         frequencyType = "once";
-        
+
         return frequencyType;
     }
 
     public void setFrequencyType(String frequencyType) {
         this.frequencyType = frequencyType;
     }
-    
-    public String getDefaultScheduledDate(){
+
+    public String getDefaultScheduledDate() {
         //Set the default scheduled date to today
         DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = originalFormat.format(new Date());
-        
+
         return todayDate;
     }
-    
-    public String getAccountBalance() throws SQLException{
+
+    public String getAccountBalance() throws SQLException {
         //Get the logged in user's account balance and display 
         //it with their chosen currency symbol
         Account account = accountStore.getAccount(utility.getLoggedInUser());
         float balance = account.getBalance();
         String localCurrency = currencyBean.changeCurrencyStringToSymbol(account.getCurrency());
-        
+
         return localCurrency + balance;
     }
-    
+
     //Main function to handle payments
-    public String makePayment() throws SQLException{
-        
+    public String makePayment() throws SQLException {
+
         try {
             //If form validation fails, display errors and return null
-            if(validateFormFields()){
+            if (validateFormFields()) {
                 return null;
             }
             //Check balance is sufficient
-            if(checkBalance()){
+            if (checkBalance()) {
                 return null;
             }
-            
+
             //Set payment type
             type = "payment";
-            
+
             //If frequency type is recurring, schedule payment
-            if(frequencyType.equals("recurring")){
+            if (frequencyType.equals("recurring")) {
                 schedulePayment(utility.getLoggedInUser(), recipient);
-            //Otherwise it is a one-off payment, so make instant payment
+                //Otherwise it is a one-off payment, so make instant payment
             } else {
                 makePayment(utility.getLoggedInUser(), recipient);
             }
-            
+
             return "payments_success";
-        }
-        catch (EJBTransactionRolledbackException exception) {
+        } catch (EJBTransactionRolledbackException exception) {
             Logger.getLogger(PaymentsBean.class.getName()).log(Level.SEVERE, null, exception);
             return "payments_failure";
         }
     }
-    
+
     //Main function to handle requests
-    public String requestFunds() throws SQLException{
+    public String requestFunds() throws SQLException {
         //If form validation fails, display errors and return null
-        if(validateFormFields()){
+        if (validateFormFields()) {
             return null;
         }
-        
+
         //Set payment type
         type = "request";
-        
+
         //Make instant payment 
         makePayment(recipient, utility.getLoggedInUser());
-        
+
         return "requests_success";
     }
-    
+
     //Insert payment into the DB payments table
-    public void makePayment(String originEmail, String recipientEmail) throws SQLException{
+    public void makePayment(String originEmail, String recipientEmail) throws SQLException {
         Account originAccount = accountStore.getAccount(originEmail);
         Account recipientAccount = accountStore.getAccount(recipientEmail);
-                
-        paymentsStore.makePayment(type, originAccount, recipientAccount, currency, 
+
+        paymentsStore.makePayment(type, originAccount, recipientAccount, currency,
                 amount, scheduledDate);
     }
-    
+
     //Insert scheduled payment into the DB scheduled payments table
-    public void schedulePayment(String originEmail, String recipientEmail) throws SQLException{
+    public void schedulePayment(String originEmail, String recipientEmail) throws SQLException {
         Account originAccount = accountStore.getAccount(originEmail);
         Account recipientAccount = accountStore.getAccount(recipientEmail);
-                
-        paymentsStore.schedulePayment(originAccount, recipientAccount, currency, 
+
+        paymentsStore.schedulePayment(originAccount, recipientAccount, currency,
                 amount, scheduledDate, frequency);
     }
 
-    public Boolean validateFormFields() throws SQLException{
+    public Boolean validateFormFields() throws SQLException {
         //Check if account exists before making payment/request
-        if(!accountStore.checkAccountExists(recipient)){
+        if (!accountStore.checkAccountExists(recipient)) {
             utility.createErrorMessage("The recipient does not have an account with PayMate.");
             return true;
         }
-        
+
         //Check the user is not sending funds to themselves
-        if(utility.getLoggedInUser().equals(recipient)){
+        if (utility.getLoggedInUser().equals(recipient)) {
             utility.createErrorMessage("You can't send funds to yourself.");
             return true;
         }
-        
+
         //Check the amount is more than zero
-        if(amount == 0){
+        if (amount == 0) {
             utility.createErrorMessage("Please enter a higher amount than 0.");
             return true;
         }
-        
+
         //If the user has not chosen a date, use today as default
-        if(scheduledDate == null){
+        if (scheduledDate == null) {
             scheduledDate = new Date();
         }
-        
+
         //If the user has chosen a date, check it is not in the past
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
-        if(scheduledDate.before(getYesterdaysDate())){
+        if (scheduledDate.before(getYesterdaysDate())) {
             utility.createErrorMessage("Please enter a date from today onwards.");
             return true;
         }
-        
+
         return false;
     }
-    
+
     //Get yesterdays date
     private Date getYesterdaysDate() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);    
+        calendar.add(Calendar.DATE, -1);
         return calendar.getTime();
     }
-    
+
     //Get user's balance and check there are sufficient funds for the transaction
-    public Boolean checkBalance() throws SQLException{
+    public Boolean checkBalance() throws SQLException {
         float currentBalance = accountStore.getAccount(utility.getLoggedInUser()).getBalance();
         float tempBalance = currentBalance - amount;
-        
+
         //Display error message if the funds are insufficient
-        if(tempBalance <= 0){
+        if (tempBalance <= 0) {
             utility.createErrorMessage("Your funds are too low to make this payment.");
             return true;
         }
-        
+
         return false;
     }
-    
+
     //Redirect user to services_down page
     private void redirectToServicesDownPage() {
         try {
@@ -281,12 +279,12 @@ public class PaymentsBean implements Serializable {
             Logger.getLogger(PaymentsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @PostConstruct
     public void postConstruct() {
         System.out.println("PaymentsBean: PostConstruct");
     }
-    
+
     @PreDestroy
     public void preDestroy() {
         System.out.println("PaymentsBean: PreDestroy");

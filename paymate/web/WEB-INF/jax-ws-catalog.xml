@@ -2,4 +2,6 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8080/TimestampWSService/TimestampWS?wsdl" uri="wsdl/localhost_8080/TimestampWSService/TimestampWS.wsdl"/>
     <system systemId="http://localhost:8080/TimestampWSService/TimestampWS?xsd=1" uri="wsdl/localhost_8080/TimestampWSService/TimestampWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/paymateWSDL/TimestampWSService?wsdl" uri="wsdl/localhost_8080/paymateWSDL/TimestampWSService.wsdl"/>
+    <system systemId="http://localhost:8080/paymateWSDL/TimestampWSService?xsd=1" uri="wsdl/localhost_8080/paymateWSDL/TimestampWSService.xsd_1.xsd"/>
 </catalog>

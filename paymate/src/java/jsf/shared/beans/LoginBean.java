@@ -18,19 +18,18 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class LoginBean implements Serializable {
-    
+
     private String email;
     private String password;
     private final UtilityBean utility;
-    
+
     @EJB
     private AccountStorageService accountStore;
-    
-    public LoginBean(){
+
+    public LoginBean() {
         utility = new UtilityBean();
     }
 
@@ -49,11 +48,11 @@ public class LoginBean implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-        
-    public String login() throws SQLException{
+
+    public String login() throws SQLException {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-        
+
         try {
             request.login(this.email, this.password);
             return redirectUser(this.email);
@@ -63,39 +62,39 @@ public class LoginBean implements Serializable {
             return null;
         }
     }
-    
-    public String logout(){
+
+    public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        
+
         try {
             request.logout();
             return "login";
-            
+
         } catch (ServletException exception) {
             Logger.getLogger(LoginBean.class.getName()).log(Level.WARNING, null, exception);
-            
+
             utility.createErrorMessage("Something went wrong. You were NOT logged out.");
             return null;
         }
     }
-    
-    public String redirectUser(String email) throws SQLException{
+
+    public String redirectUser(String email) throws SQLException {
         accountStore.updateLastLoginDate(email);
         String accountRole = accountStore.getAccountRole(email).getGroupName();
 
-        if (accountRole.equals("admin")){
+        if (accountRole.equals("admin")) {
             return "admin";
         } else {
             return "user";
         }
     }
-    
+
     @PostConstruct
     public void postConstruct() {
         System.out.println("LoginBean: PostConstruct");
     }
-    
+
     @PreDestroy
     public void preDestroy() {
         System.out.println("LoginBean: PreDestroy");

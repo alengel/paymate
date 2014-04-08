@@ -12,12 +12,12 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class TransactionsBean {
+
     private HtmlDataTable transactionsTable;
-    
+
     @EJB
     private PaymentStorageService paymentsStore;
 
@@ -31,7 +31,7 @@ public class TransactionsBean {
     public void setTransactionsTable(HtmlDataTable transactionsTable) {
         this.transactionsTable = transactionsTable;
     }
-    
+
     public List<Payment> getAllTransactions() {
         return paymentsStore.getAllTransactions();
     }

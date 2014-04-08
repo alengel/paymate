@@ -7,114 +7,114 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate</title>
     </h:head>
     <h:body styleClass="notifications-page">
         <h2 class="header">PayMate</h2>
         <div class="date">#{utilityBean.currentDate}</div>
-        
+
         <h:form>
             <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
         </h:form>
-        
+
         <h:link styleClass="tab notifications-link active" outcome="notifications">History</h:link>
         <h:link styleClass="tab scheduled" outcome="recurring">Recurring</h:link>
         <h:link styleClass="tab payments" outcome="payments">Make Payment</h:link>
         <h:link styleClass="tab requests" outcome="requests">Request Funds</h:link>
-        
+
         <h:panelGroup styleClass="no-notifications" rendered="#{notificationsBean.notificationsTable.rowCount==0}">
             You have not made any transactions yet.
         </h:panelGroup>
-        
+
         <h:dataTable binding="#{notificationsBean.notificationsTable}"
                      rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
                      value="#{notificationsBean.notifications}"
                      var="payment">
-                
-                <span id="#{payment.id}"></span>
-                <h:column>
-                    <f:facet name="header">Date</f:facet>
-                     <h:outputText value="#{payment.paymentTimestamp}" >
+
+            <span id="#{payment.id}"></span>
+            <h:column>
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{payment.paymentTimestamp}" >
+                    <f:convertDateTime pattern="MMM dd, YYYY" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Origin</f:facet>
+                <h:panelGroup rendered="#{payment.origin.email==utilityBean.loggedInUser}">
+                    you
+                </h:panelGroup>
+                <h:panelGroup rendered="#{payment.origin.email!=utilityBean.loggedInUser}">
+                    #{payment.origin.email}
+                </h:panelGroup>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Recipient</f:facet>
+                <h:panelGroup rendered="#{payment.recipient.email==utilityBean.loggedInUser}">
+                    you
+                </h:panelGroup>
+                <h:panelGroup rendered="#{payment.recipient.email!=utilityBean.loggedInUser}">
+                    #{payment.recipient.email}
+                </h:panelGroup>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Amount</f:facet>
+                <h:panelGroup rendered="#{payment.currency=='GBP'}">
+                    £
+                </h:panelGroup>
+                <h:panelGroup rendered="#{payment.currency=='USD'}">
+                    $
+                </h:panelGroup>
+                <h:panelGroup rendered="#{payment.currency=='EUR'}">
+                    €
+                </h:panelGroup>
+                <h:outputText value="#{payment.amount}" >
+                    <f:convertNumber pattern="#0.00" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
+                    #{payment.type}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Status</f:facet>
+                <h:panelGroup rendered="#{payment.origin.email==utilityBean.loggedInUser 
+                                          and payment.status=='pending'}">
+                    <h:form styleClass="request-buttons">
+                        <h:commandButton actionListener="#{notificationsBean.rejectRequest}"
+                                         class="button small reject-button"
+                                         value="Reject">
+                        </h:commandButton>
+                        <h:commandButton actionListener="#{notificationsBean.acceptRequest}"
+                                         class="button small accept-button"
+                                         value="Accept">
+                        </h:commandButton>
+                    </h:form>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{payment.status=='scheduled'}">
+                    #{payment.status} on <br/>
+                    <h:outputText value="#{payment.scheduledDate}" >
                         <f:convertDateTime pattern="MMM dd, YYYY" />
                     </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Origin</f:facet>
-                    <h:panelGroup rendered="#{payment.origin.email==utilityBean.loggedInUser}">
-                        you
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.origin.email!=utilityBean.loggedInUser}">
-                        #{payment.origin.email}
-                    </h:panelGroup>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Recipient</f:facet>
-                    <h:panelGroup rendered="#{payment.recipient.email==utilityBean.loggedInUser}">
-                        you
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.recipient.email!=utilityBean.loggedInUser}">
-                        #{payment.recipient.email}
-                    </h:panelGroup>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Amount</f:facet>
-                    <h:panelGroup rendered="#{payment.currency=='GBP'}">
-                        £
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.currency=='USD'}">
-                        $
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.currency=='EUR'}">
-                        €
-                    </h:panelGroup>
-                    <h:outputText value="#{payment.amount}" >
-                        <f:convertNumber pattern="#0.00" />
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Type</f:facet>
-                        #{payment.type}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Status</f:facet>
-                    <h:panelGroup rendered="#{payment.origin.email==utilityBean.loggedInUser 
-                                              and payment.status=='pending'}">
-                        <h:form styleClass="request-buttons">
-                            <h:commandButton actionListener="#{notificationsBean.rejectRequest}"
-                                             class="button small reject-button"
-                                             value="Reject">
-                            </h:commandButton>
-                            <h:commandButton actionListener="#{notificationsBean.acceptRequest}"
-                                             class="button small accept-button"
-                                             value="Accept">
-                            </h:commandButton>
-                        </h:form>
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{payment.status=='scheduled'}">
-                        #{payment.status} on <br/>
-                        <h:outputText value="#{payment.scheduledDate}" >
-                            <f:convertDateTime pattern="MMM dd, YYYY" />
-                        </h:outputText>
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{(payment.origin.email!=utilityBean.loggedInUser 
-                                              and payment.status=='pending') 
-                                              or payment.status=='completed' 
-                                              or payment.status=='accepted' 
-                                              or payment.status=='rejected'}">
-                        #{payment.status}
-                    </h:panelGroup>
-                        
-                </h:column>
-            </h:dataTable>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{(payment.origin.email!=utilityBean.loggedInUser 
+                                          and payment.status=='pending') 
+                                          or payment.status=='completed' 
+                                          or payment.status=='accepted' 
+                                          or payment.status=='rejected'}">
+                              #{payment.status}
+                </h:panelGroup>
+
+            </h:column>
+        </h:dataTable>
         <div class="balance-container">
             <span class="balance-title">Balance:   </span>
             <h:outputText value="#{paymentsBean.accountBalance}"></h:outputText>
         </div>
-        
+
         <h:messages styleClass="global-error" globalOnly="true" />
     </h:body>
 </html>

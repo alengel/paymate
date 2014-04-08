@@ -10,23 +10,23 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate Login</title>
     </h:head>
     <h:body styleClass="login-page">
         <h2 class="login-header">PayMate</h2>
-        
+
         <h:form styleClass="facebook-button">
             <h:commandButton styleClass="button facebook longer" 
                              action="#{fbOauthBean.fbLogin()}" 
                              value="Login with Facebook">
             </h:commandButton>
         </h:form>
-        
+
         <h:form styleClass="form login-form">
-            
+
             <div class="input-container">
                 <div class="labels email">Email</div>
                 <h:inputText id="email" 
@@ -39,7 +39,7 @@
                 </h:inputText>
                 <h:message styleClass="error-message" for="email"/>
             </div>
-            
+
             <div class="input-container">
                 <div class="labels">Password</div>
                 <h:inputSecret id="password" 
@@ -50,15 +50,15 @@
                                value="#{loginBean.password}">
                 </h:inputSecret>
             </div>
-            
+
             <h:commandButton styleClass="button" 
                              action="#{loginBean.login()}" 
                              value="Login">
             </h:commandButton>
-            
+
             <h:messages styleClass="global-error" globalOnly="true" />
         </h:form>
-        
+
         <div class="mini-reg-form">
             <p class="registration-link">Don't have a login yet? 
                 <h:link outcome="registration">Register here.</h:link>

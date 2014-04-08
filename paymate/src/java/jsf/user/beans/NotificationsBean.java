@@ -17,21 +17,20 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class NotificationsBean implements Serializable {
-    
+
     private HtmlDataTable notificationsTable;
     private final UtilityBean utility;
-    
+
     @EJB
     private AccountStorageService accountStore;
-    
+
     @EJB
     private PaymentStorageService paymentsStore;
-    
-    public NotificationsBean(){
+
+    public NotificationsBean() {
         utility = new UtilityBean();
     }
 
@@ -42,33 +41,33 @@ public class NotificationsBean implements Serializable {
     public void setNotificationsTable(HtmlDataTable notificationsTable) {
         this.notificationsTable = notificationsTable;
     }
-    
+
     public List<Payment> getNotifications() throws SQLException {
         Account origin = accountStore.getAccount(utility.getLoggedInUser());
         return paymentsStore.getTransactions(origin);
     }
 
-    public void acceptRequest() throws SQLException{
+    public void acceptRequest() throws SQLException {
         Payment rowPayment = (Payment) notificationsTable.getRowData();
         float rowPaymentAmount = rowPayment.getAmount();
-        
-        if(checkBalance(rowPaymentAmount)){
+
+        if (checkBalance(rowPaymentAmount)) {
             return;
         }
-        
+
         paymentsStore.updateBalances(rowPayment);
     }
-    
-    public void rejectRequest(){
+
+    public void rejectRequest() {
         Payment rowPayment = (Payment) notificationsTable.getRowData();
         paymentsStore.updateStatus(rowPayment.getId(), "rejected");
     }
-    
-    public Boolean checkBalance(float rowRequestedAmount) throws SQLException{
+
+    public Boolean checkBalance(float rowRequestedAmount) throws SQLException {
         float currentBalance = accountStore.getAccount(utility.getLoggedInUser()).getBalance();
         float tempBalance = currentBalance - rowRequestedAmount;
-        
-        if(tempBalance <= 0){
+
+        if (tempBalance <= 0) {
             utility.createErrorMessage("Your funds are too low to accept this request.");
             return true;
         }

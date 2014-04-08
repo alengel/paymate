@@ -25,3 +25,8 @@
 .DS_Store
 /paymateWSDL/nbproject/private/
 /paymateWSDL/build/
+/paymateEJB/nbproject/private/
+/paymateApp/nbproject/private/
+/paymateApp/build/
+/paymateWSDL/dist/
+/paymateApp/dist/

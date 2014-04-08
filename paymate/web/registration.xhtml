@@ -8,9 +8,9 @@
         <link rel="stylesheet" href="resources/css/normalize.css"></link>
         <link rel="stylesheet" href="resources/css/main.css"></link>
         <link rel="stylesheet" href="resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate Registration</title>
     </h:head>
     <h:body styleClass="registration-page">
@@ -23,9 +23,9 @@
                              value="Register with Facebook">
             </h:commandButton>
         </h:form>
-        
+
         <h:form styleClass="form registration-form" id="registration-form">
-            
+
             <div class="input-container">
                 <div class="labels email">Email</div>
                 <h:inputText id="email" 
@@ -38,7 +38,7 @@
                 </h:inputText>
                 <h:message styleClass="error-message" for="email"/>
             </div>
-            
+
             <div class="input-container">
                 <div class="labels">Password</div>
                 <p:password id="password" 
@@ -50,7 +50,7 @@
                             value="#{registrationBean.password}"/>
                 <h:message styleClass="error-message" for="password"/>
             </div>
-            
+
             <div class="input-container">
                 <div class="labels reg">Confirm Password</div>
                 <h:inputSecret id="passwordVerification" 
@@ -61,7 +61,7 @@
                 </h:inputSecret>
                 <h:message styleClass="error-message" for="passwordVerification"/>
             </div>
-            
+
             <div class="input-container">
                 <div class="labels">Select Currency </div>
                 <h:selectOneMenu styleClass="reg-currency" 
@@ -72,7 +72,7 @@
                                    itemLabel="#{newcurrency}"/>
                 </h:selectOneMenu>
             </div>
-            
+
             <h:commandButton styleClass="button" 
                              action="#{registrationBean.register}" 
                              value="Register">
@@ -83,9 +83,9 @@
             </h:commandButton>
             <h:messages styleClass="global-error" globalOnly="true" />
         </h:form>
-        
+
         <h:link outcome="login" styleClass="mini-login-form">Back to Login</h:link>
-        
+
     </h:body>
 </html>
 

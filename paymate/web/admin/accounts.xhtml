@@ -7,9 +7,9 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate Admin</title>
     </h:head>
     <h:body styleClass="notifications-page">
@@ -18,7 +18,7 @@
         <h:form>
             <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
         </h:form>
-       
+
         <h:link styleClass="tab accounts-link active" 
                 outcome="accounts">Accounts
         </h:link>
@@ -31,62 +31,62 @@
         <h:link styleClass="tab registration-tab" 
                 outcome="registration">Admin Registration
         </h:link>
-        
+
         <h:dataTable binding="#{accountsBean.accountsTable}"
                      rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
                      value="#{accountsBean.accounts}"
                      var="account">
-                
-                <span id="#{account.id}"></span>
-                <h:column>
-                    <f:facet name="header">Email Username</f:facet>
+
+            <span id="#{account.id}"></span>
+            <h:column>
+                <f:facet name="header">Email Username</f:facet>
                     #{account.email}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Registered</f:facet>
-                    <h:outputText value="#{account.registrationDate}" >
+            </h:column>
+            <h:column>
+                <f:facet name="header">Registered</f:facet>
+                <h:outputText value="#{account.registrationDate}" >
+                    <f:convertDateTime pattern="MMM dd, YYYY" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Currency</f:facet>
+                <h:outputText rendered="#{account.permissionRole != 'admin'}"
+                              value="#{account.currency}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Balance</f:facet>
+                <h:outputText rendered="#{account.permissionRole != 'admin'}"
+                              value="#{account.balance}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Permission</f:facet>
+                    #{account.permissionRole}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Last Logged In</f:facet>
+                <h:outputText value="never" rendered="#{empty account.lastLoggedIn}" />
+                <h:panelGroup rendered="#{!empty account.lastLoggedIn}">
+                    <h:outputText value="#{account.lastLoggedIn}" >
                         <f:convertDateTime pattern="MMM dd, YYYY" />
                     </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Currency</f:facet>
-                    <h:outputText rendered="#{account.permissionRole != 'admin'}"
-                                  value="#{account.currency}" />
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Balance</f:facet>
-                    <h:outputText rendered="#{account.permissionRole != 'admin'}"
-                                  value="#{account.balance}" />
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Permission</f:facet>
-                    #{account.permissionRole}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Last Logged In</f:facet>
-                    <h:outputText value="never" rendered="#{empty account.lastLoggedIn}" />
-                    <h:panelGroup rendered="#{!empty account.lastLoggedIn}">
-                        <h:outputText value="#{account.lastLoggedIn}" >
-                            <f:convertDateTime pattern="MMM dd, YYYY" />
-                        </h:outputText>
-                    </h:panelGroup>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">View</f:facet>
-                        <h:form>
-                            <h:commandButton action="#{accountsBean.viewTransactionsByUser}"
-                                             class="button t-long"
-                                             value="Transactions">
-                            </h:commandButton>
-                            <h:commandButton action="#{accountsBean.viewRecurringPaymentsByUser}"
-                                             class="button t-long"
-                                             value="Recurring Payments">
-                            </h:commandButton>
-                        </h:form>
-                </h:column>
+                </h:panelGroup>
+            </h:column>
+            <h:column>
+                <f:facet name="header">View</f:facet>
+                <h:form>
+                    <h:commandButton action="#{accountsBean.viewTransactionsByUser}"
+                                     class="button t-long"
+                                     value="Transactions">
+                    </h:commandButton>
+                    <h:commandButton action="#{accountsBean.viewRecurringPaymentsByUser}"
+                                     class="button t-long"
+                                     value="Recurring Payments">
+                    </h:commandButton>
+                </h:form>
+            </h:column>
         </h:dataTable>
-        
+
     </h:body>
 </html>
 

@@ -6,9 +6,9 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate Admin Registration</title>
     </h:head>
     <h:body styleClass="admin-registration-page">
@@ -19,7 +19,7 @@
                            styleClass="logout">logout #{utilityBean.loggedInUser}
             </h:commandLink>
         </h:form>
-       
+
         <h:link styleClass="tab accounts-link" 
                 outcome="accounts">Accounts
         </h:link>
@@ -32,17 +32,17 @@
         <h:link styleClass="tab registration-tab active" 
                 outcome="registration">Admin Registration
         </h:link>
-        
+
         <div class="admin-registration registration-form" id="registration-form">
             <span>You have registered an admin.</span>
             <p class="registered">Don't forget to let them know their details.</p>
-            
+
             <h:button styleClass="button x-long less-left" 
                       outcome="registration" 
                       value="Back to Registration">
             </h:button>
         </div>
-        
+
     </h:body>
 </html>
 

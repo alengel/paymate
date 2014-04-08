@@ -9,10 +9,11 @@ import javax.persistence.Id;
  *
  * @author 119848
  */
-
 @Entity
 public class AccountGroup implements Serializable {
-    @Id String email;
+
+    @Id
+    String email;
     String groupName;
 
     public AccountGroup() {
@@ -30,7 +31,7 @@ public class AccountGroup implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getGroupName() {
         return groupName;
     }

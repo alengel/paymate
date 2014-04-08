@@ -13,11 +13,10 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class RegistrationBean implements Serializable {
-    
+
     private String email;
     private String password;
     private String passwordVerification;
@@ -30,7 +29,7 @@ public class RegistrationBean implements Serializable {
     public RegistrationBean() {
         utility = new UtilityBean();
     }
-   
+
     public String getEmail() {
         return email;
     }
@@ -62,51 +61,51 @@ public class RegistrationBean implements Serializable {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
-    
+
     public String register() throws SQLException {
         //Check if user already exists
-        if(checkIfAccountExists()){
+        if (checkIfAccountExists()) {
             return null;
         }
-        
+
         //Check if passwords match
-        if(!checkPasswordsMatch()){
+        if (!checkPasswordsMatch()) {
             return null;
         }
-        
+
         insertUser();
-        
+
         return "success";
     }
-    
-    public void insertUser(){
+
+    public void insertUser() {
         //Insert regular user account into the DB account table
         accountStore.insertAccount(email, password, currency);
     }
-    
-    public Boolean checkPasswordsMatch(){
-        if(password.equals(passwordVerification)){
+
+    public Boolean checkPasswordsMatch() {
+        if (password.equals(passwordVerification)) {
             return true;
         } else {
             utility.createErrorMessage("Passwords don't match.");
             return false;
-        }        
+        }
     }
-    
-    public Boolean checkIfAccountExists() throws SQLException{
-        if(accountStore.checkAccountExists(email)){
+
+    public Boolean checkIfAccountExists() throws SQLException {
+        if (accountStore.checkAccountExists(email)) {
             utility.createErrorMessage("Email already exists");
             return true;
         }
-        
+
         return false;
     }
-    
+
     @PostConstruct
     public void postConstruct() {
         System.out.println("RegistrationBean: PostConstruct");
     }
-    
+
     @PreDestroy
     public void preDestroy() {
         System.out.println("RegistrationBean: PreDestroy");

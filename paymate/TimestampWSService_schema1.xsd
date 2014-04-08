@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://timestamp/" xmlns:tns="http://timestamp/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="retrieveTimestamp" type="tns:retrieveTimestamp"/>
+
+    <xs:element name="retrieveTimestampResponse" type="tns:retrieveTimestampResponse"/>
+
+    <xs:complexType name="retrieveTimestamp">
+        <xs:sequence/>
+    </xs:complexType>
+
+    <xs:complexType name="retrieveTimestampResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+

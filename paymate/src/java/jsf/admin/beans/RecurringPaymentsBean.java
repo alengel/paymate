@@ -12,12 +12,12 @@ import javax.inject.Named;
  *
  * @author 119848
  */
-
 @Named
 @RequestScoped
 public class RecurringPaymentsBean {
+
     private HtmlDataTable recurringPaymentsTable;
-    
+
     @EJB
     private PaymentStorageService paymentsStore;
 
@@ -31,12 +31,12 @@ public class RecurringPaymentsBean {
     public void setRecurringPaymentsTable(HtmlDataTable recurringPaymentsTable) {
         this.recurringPaymentsTable = recurringPaymentsTable;
     }
-    
+
     public List<ScheduledPayment> getAllRecurringPayments() {
         return paymentsStore.getAllRecurringPayments();
     }
-    
-    public void cancelPayments(){
+
+    public void cancelPayments() {
         ScheduledPayment rowPayment = (ScheduledPayment) recurringPaymentsTable.getRowData();
         paymentsStore.removeScheduledPayment(rowPayment.getId());
     }

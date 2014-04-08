@@ -7,26 +7,26 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate</title>
     </h:head>
     <h:body styleClass="payments-page-response">
         <h2 class="header">PayMate</h2>
         <div class="date">#{utilityBean.currentDate}</div>
-        
+
         <h:form>
             <h:commandLink styleClass="logout" action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}</h:commandLink>
         </h:form>
-        
+
         <h:link styleClass="tab notifications-link" outcome="notifications">History</h:link>
         <h:link styleClass="tab scheduled" outcome="recurring">Recurring</h:link>
         <h:link styleClass="tab payments" outcome="payments">Make Payment</h:link>
         <h:link styleClass="tab requests" outcome="requests">Request Funds</h:link>
-        
+
         <div class="payments-form">
-            
+
             <div class="balance-container">
                 <span class="balance-title">New Balance:   </span>
                 <h:outputText value="#{paymentsBean.accountBalance}"></h:outputText>
@@ -34,14 +34,14 @@
 
             <span>Your payment was successful.</span>
         </div>
-        
+
         <div class="button-container-long">
             <h:button styleClass="button long back" 
                       outcome="payments" 
                       value="Back to Payments">
             </h:button>
         </div>
-        
+
         <div class="exchange">Current Exchange Rates</div>
         <table class="currency-table">
             <tr>
@@ -69,7 +69,7 @@
                 <td>1</td>
             </tr>
         </table>
-        
+
     </h:body>
 </html>
 

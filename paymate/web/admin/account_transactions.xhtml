@@ -7,9 +7,9 @@
         <link rel="stylesheet" href="../resources/css/normalize.css"></link>
         <link rel="stylesheet" href="../resources/css/main.css"></link>
         <link rel="stylesheet" href="../resources/css/core.css"></link>
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
-        
+
         <title>PayMate Admin</title>
     </h:head>
     <h:body styleClass="notifications-page">
@@ -20,7 +20,7 @@
                            action="#{loginBean.logout()}">logout #{utilityBean.loggedInUser}
             </h:commandLink>
         </h:form>
-       
+
         <h:link styleClass="tab accounts-link active" 
                 outcome="accounts">Accounts
         </h:link>
@@ -33,62 +33,62 @@
         <h:link styleClass="tab registration-tab" 
                 outcome="registration">Admin Registration
         </h:link>
-        
+
         <h:panelGroup styleClass="no-notifications" 
                       rendered="#{accountsBean.accountTransactionsTable.rowCount==0}">
             This account has no transactions yet.
         </h:panelGroup>
-        
+
         <h:dataTable binding="#{accountsBean.accountTransactionsTable}"
                      rowClasses="odd-row, even-row"
                      styleClass="notifications-table"
                      value="#{accountsBean.accountTransactions}"
                      var="transaction">
-                
-                <span id="#{transaction.id}"></span>
-                <h:column>
-                    <f:facet name="header">Date</f:facet>
-                     <h:outputText value="#{transaction.paymentTimestamp}" >
-                        <f:convertDateTime pattern="MMM dd, YYYY" />
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Origin</f:facet>
+
+            <span id="#{transaction.id}"></span>
+            <h:column>
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{transaction.paymentTimestamp}" >
+                    <f:convertDateTime pattern="MMM dd, YYYY" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Origin</f:facet>
                     #{transaction.origin.email}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Recipient</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Recipient</f:facet>
                     #{transaction.recipient.email}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Amount</f:facet>
-                    <h:panelGroup rendered="#{transaction.currency=='GBP'}">
-                        £
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{transaction.currency=='USD'}">
-                        $
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{transaction.currency=='EUR'}">
-                        €
-                    </h:panelGroup>
-                    <h:outputText value="#{transaction.amount}" >
-                        <f:convertNumber pattern="#0.00" />
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Type</f:facet>
-                        #{transaction.type}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Status</f:facet>
-                        #{transaction.status}  
-                </h:column>
-            </h:dataTable>
-        
-            <h:button styleClass="button x-long" 
-                      outcome="accounts" 
-                      value="Back to All Accounts">
-            </h:button>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Amount</f:facet>
+                <h:panelGroup rendered="#{transaction.currency=='GBP'}">
+                    £
+                </h:panelGroup>
+                <h:panelGroup rendered="#{transaction.currency=='USD'}">
+                    $
+                </h:panelGroup>
+                <h:panelGroup rendered="#{transaction.currency=='EUR'}">
+                    €
+                </h:panelGroup>
+                <h:outputText value="#{transaction.amount}" >
+                    <f:convertNumber pattern="#0.00" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
+                    #{transaction.type}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Status</f:facet>
+                    #{transaction.status}  
+            </h:column>
+        </h:dataTable>
+
+        <h:button styleClass="button x-long" 
+                  outcome="accounts" 
+                  value="Back to All Accounts">
+        </h:button>
     </h:body>
 </html>
 
