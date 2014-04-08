@@ -2,9 +2,7 @@ package dao.jpa;
 
 import dao.generic.PaymentDao;
 import entities.Account;
-import entities.AccountGroup;
 import entities.Payment;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
@@ -17,6 +15,8 @@ import javax.persistence.TypedQuery;
  *
  * @author 119848
  */
+
+//Specific JPA implementation for the PaymentDao
 @Stateless
 @LocalBean
 public class JpaPaymentDao implements PaymentDao {

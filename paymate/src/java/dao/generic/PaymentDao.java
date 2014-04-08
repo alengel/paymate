@@ -9,6 +9,8 @@ import java.util.List;
  *
  * @author 119848
  */
+
+//Generic interface for the PaymentDao
 public interface PaymentDao {
 
     public void insertTransaction(Date timestamp, String type,

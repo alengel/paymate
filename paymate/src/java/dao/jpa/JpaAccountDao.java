@@ -17,6 +17,8 @@ import javax.persistence.TypedQuery;
  *
  * @author 119848
  */
+
+//Specific JPA implementation for the AccountDao
 @Stateless
 @LocalBean
 public class JpaAccountDao implements AccountDao {

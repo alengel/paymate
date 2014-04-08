@@ -15,6 +15,8 @@ import javax.persistence.TypedQuery;
  *
  * @author 119848
  */
+
+//Specific JPA implementation for the ScheduledPaymentDao
 @Stateless
 @LocalBean
 public class JpaScheduledPaymentDao implements ScheduledPaymentDao {
