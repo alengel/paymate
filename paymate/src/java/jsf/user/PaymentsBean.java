@@ -215,8 +215,9 @@ public class PaymentsBean implements Serializable {
     }
 
     public Boolean validateFormFields() throws SQLException {
-        //Check if account exists before making payment/request
-        if (!accountStore.checkAccountExists(recipient)) {
+        //Check if account exists before making payment/request or if the user is an admin
+        if (!accountStore.checkAccountExists(recipient) || 
+                accountStore.getAccount(recipient).getPermissionRole().equals("admin")) {
             utility.createErrorMessage("The recipient does not have an account with PayMate.");
             return true;
         }
