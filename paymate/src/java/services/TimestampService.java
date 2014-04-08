@@ -10,6 +10,7 @@ import timestamp.TimestampWSService;
  *
  * @author 119848
  */
+
 @Stateless
 public class TimestampService {
 
@@ -20,7 +21,7 @@ public class TimestampService {
 
     }
 
-    //Get timestamp from paymateWS
+    //Get timestamp from paymateWSDL
     public Date getTimestamp() {
         try {
             timestamp.TimestampWS port = service.getTimestampWSPort();
