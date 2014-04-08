@@ -1,5 +1,8 @@
-package dao;
+package dao.factory;
 
+import dao.generic.AccountDao;
+import dao.jpa.JpaAccountDao;
+import dao.factory.DAOFactory;
 import javax.ejb.Stateless;
 
 /**

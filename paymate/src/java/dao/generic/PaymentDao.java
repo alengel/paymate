@@ -1,4 +1,4 @@
-package dao;
+package dao.generic;
 
 import entities.Account;
 import entities.Payment;

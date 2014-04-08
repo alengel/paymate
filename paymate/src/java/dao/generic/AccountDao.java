@@ -1,4 +1,4 @@
-package dao;
+package dao.generic;
 
 import entities.Account;
 import entities.AccountGroup;
@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @author 119848
  */
+
 public interface AccountDao {
 
     public List<Account> getAccounts() throws SQLException;

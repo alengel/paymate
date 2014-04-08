@@ -2,9 +2,9 @@ package ejb.beans;
 
 import services.CurrencyService;
 import services.TimestampService;
-import dao.JpaAccountDao;
-import dao.JpaPaymentDao;
-import dao.JpaScheduledPaymentDao;
+import dao.jpa.JpaAccountDao;
+import dao.jpa.JpaPaymentDao;
+import dao.jpa.JpaScheduledPaymentDao;
 import ejb.interfaces.PaymentStorageService;
 import entities.Account;
 import entities.Payment;

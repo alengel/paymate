@@ -1,5 +1,6 @@
-package dao;
+package dao.jpa;
 
+import dao.generic.AccountDao;
 import entities.Account;
 import entities.AccountGroup;
 import java.sql.SQLException;

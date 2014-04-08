@@ -1,7 +1,7 @@
 package ejb.beans;
 
 import services.CurrencyService;
-import dao.JpaAccountDao;
+import dao.jpa.JpaAccountDao;
 import ejb.interfaces.AccountStorageService;
 import entities.Account;
 import entities.AccountGroup;

@@ -1,5 +1,6 @@
-package dao;
+package dao.jpa;
 
+import dao.generic.ScheduledPaymentDao;
 import entities.Account;
 import entities.ScheduledPayment;
 import java.util.Date;

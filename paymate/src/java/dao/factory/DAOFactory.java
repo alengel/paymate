@@ -1,4 +1,6 @@
-package dao;
+package dao.factory;
+
+import dao.generic.AccountDao;
 
 /**
  *

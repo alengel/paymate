@@ -1,5 +1,6 @@
-package dao;
+package dao.jpa;
 
+import dao.generic.PaymentDao;
 import entities.Account;
 import entities.AccountGroup;
 import entities.Payment;
