@@ -12,6 +12,7 @@ import javax.inject.Named;
  *
  * @author 119848
  */
+
 @Named
 @RequestScoped
 public class TransactionsBean {

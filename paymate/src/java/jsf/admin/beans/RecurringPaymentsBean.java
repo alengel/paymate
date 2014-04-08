@@ -12,8 +12,10 @@ import javax.inject.Named;
  *
  * @author 119848
  */
+
 @Named
 @RequestScoped
+
 public class RecurringPaymentsBean {
 
     private HtmlDataTable recurringPaymentsTable;
@@ -35,7 +37,8 @@ public class RecurringPaymentsBean {
     public List<ScheduledPayment> getAllRecurringPayments() {
         return paymentsStore.getAllRecurringPayments();
     }
-
+    
+    //Gives capability to cancel scheduled payments as an admin
     public void cancelPayments() {
         ScheduledPayment rowPayment = (ScheduledPayment) recurringPaymentsTable.getRowData();
         paymentsStore.removeScheduledPayment(rowPayment.getId());
