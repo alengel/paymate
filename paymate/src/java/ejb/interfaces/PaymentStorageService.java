@@ -12,6 +12,7 @@ import javax.ejb.Remote;
  *
  * @author 119848
  */
+
 @Remote
 public interface PaymentStorageService {
 

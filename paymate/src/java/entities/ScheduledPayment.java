@@ -15,24 +15,32 @@ import javax.validation.constraints.NotNull;
  *
  * @author 119848
  */
+
 @Entity
 public class ScheduledPayment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
+    
     @OneToOne
     Account origin;
+    
     @OneToOne
     Account recipient;
+    
     @NotNull
     String currency;
+    
     @NotNull
     float amount;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     Date nextScheduledDate;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     Date startDate;
+    
     String frequency;
 
     public ScheduledPayment() {

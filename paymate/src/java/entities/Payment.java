@@ -16,28 +16,37 @@ import javax.validation.constraints.NotNull;
  *
  * @author 119848
  */
+
 @Entity
-@NamedQuery(name = "findAllPayments", query = "SELECT c FROM Payment c ")
+@NamedQuery(name = "findAllPayments", query = "SELECT p FROM Payment p ")
 public class Payment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
+    
     @NotNull
     @Temporal(javax.persistence.TemporalType.DATE)
     Date paymentTimestamp;
+    
     @NotNull
     String type;
+    
     @OneToOne
     Account origin;
+    
     @OneToOne
     Account recipient;
+    
     @NotNull
     String currency;
+    
     @NotNull
     float amount;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     Date scheduledDate;
+    
     @NotNull
     String status;
 
@@ -131,16 +140,16 @@ public class Payment implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 29 * hash + Objects.hashCode(this.paymentTimestamp);
-        hash = 29 * hash + Objects.hashCode(this.type);
-        hash = 29 * hash + Objects.hashCode(this.origin);
-        hash = 29 * hash + Objects.hashCode(this.recipient);
-        hash = 29 * hash + Objects.hashCode(this.currency);
-        hash = 29 * hash + Float.floatToIntBits(this.amount);
-        hash = 29 * hash + Objects.hashCode(this.scheduledDate);
-        hash = 29 * hash + Objects.hashCode(this.status);
+        int hash = 3;
+        hash = 79 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 79 * hash + Objects.hashCode(this.paymentTimestamp);
+        hash = 79 * hash + Objects.hashCode(this.type);
+        hash = 79 * hash + Objects.hashCode(this.origin);
+        hash = 79 * hash + Objects.hashCode(this.recipient);
+        hash = 79 * hash + Objects.hashCode(this.currency);
+        hash = 79 * hash + Float.floatToIntBits(this.amount);
+        hash = 79 * hash + Objects.hashCode(this.scheduledDate);
+        hash = 79 * hash + Objects.hashCode(this.status);
         return hash;
     }
 

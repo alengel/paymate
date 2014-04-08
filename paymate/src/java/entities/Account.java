@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author 119848
  */
+
 @Entity
 @NamedQuery(
         name = "getAccountWithEmail",
@@ -26,17 +27,24 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
+    
     @Column(unique = true)
     @NotNull
     String email;
+    
     String password;
+    
     String currency;
+    
     float balance;
+    
     @NotNull
     String permissionRole;
+    
     @NotNull
     @Temporal(javax.persistence.TemporalType.DATE)
     Date registrationDate;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     Date lastLoggedIn;
 

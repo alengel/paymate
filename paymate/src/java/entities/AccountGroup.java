@@ -9,11 +9,13 @@ import javax.persistence.Id;
  *
  * @author 119848
  */
+
 @Entity
 public class AccountGroup implements Serializable {
 
     @Id
     String email;
+    
     String groupName;
 
     public AccountGroup() {
