@@ -20,23 +20,23 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
-import jsf.shared.beans.UtilityBean;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
  * @author 119848
  */
+
 @Stateless
 @DeclareRoles({"admin"})
 public class AccountStorageServiceBean implements AccountStorageService {
-
-    private final UtilityBean utility;
 
     @EJB
     private JpaAccountDao accountDao;
 
     public AccountStorageServiceBean() {
-        utility = new UtilityBean();
+
     }
 
     //Return a boolean value if the email exists in the Account table
@@ -69,16 +69,18 @@ public class AccountStorageServiceBean implements AccountStorageService {
     @TransactionAttribute(REQUIRED)
     @Override
     public synchronized void insertAccount(String email, String password, String currency) {
-
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        
         float balance;
         String defaultRole;
         String hashedPassword;
 
         hashedPassword = hashPassword(password);
 
-        if (utility.getLoggedInUser() != null) {
+        if (request.getRemoteUser() != null) {
             //Admin user defaults
-            defaultRole = "admin";
+            defaultRole = getAdminDefaultRole();
             balance = 0;
         } else if (currency.equals("FB")) {
             //Facebook user defaults
@@ -129,5 +131,11 @@ public class AccountStorageServiceBean implements AccountStorageService {
         }
 
         return CurrencyService.getConvertedAmount(defaultCurrency, currency, gbpBalance);
+    }
+    
+    //Only return admin if the logged in user has admin rights
+    @RolesAllowed("admin")
+    private String getAdminDefaultRole(){
+        return "admin";
     }
 }

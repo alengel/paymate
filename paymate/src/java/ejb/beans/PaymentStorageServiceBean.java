@@ -26,9 +26,9 @@ import static javax.ejb.TransactionAttributeType.REQUIRED;
  *
  * @author 119848
  */
+
 @Stateless
 @DeclareRoles({"admin"})
-@TransactionAttribute(REQUIRED)
 public class PaymentStorageServiceBean implements PaymentStorageService {
 
     @EJB
@@ -259,7 +259,7 @@ public class PaymentStorageServiceBean implements PaymentStorageService {
         return nextScheduledDate;
     }
 
-    //Small helper function to add days to today
+    //Helper function to add days to today
     private Date addDaysToDate(int noOfDays) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -268,7 +268,7 @@ public class PaymentStorageServiceBean implements PaymentStorageService {
         return cal.getTime();
     }
 
-    //Small helper function to add months to today
+    //Helper function to add months to today
     private Date addMonthsToDate(int noOfMonths) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -277,7 +277,7 @@ public class PaymentStorageServiceBean implements PaymentStorageService {
         return cal.getTime();
     }
 
-    //Small helper function to return today
+    //Helper function to return today
     private Date getToday() {
         return new Date();
     }
