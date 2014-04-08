@@ -107,14 +107,20 @@ public class FbOauthBean implements Serializable {
         redirectToAnotherPage(authorizationUrl);
     }
 
-    private String callOnLoaded(String callbackUri) {
+    private String callOnLoaded(String callbackUri) throws IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest codeRequest = (HttpServletRequest) context.getRequest();
-        String code = codeRequest.getParameter("code");
         OAuthService service = getService(callbackUri);
-        Verifier verifier = new Verifier(code);
-
+        String code = codeRequest.getParameter("code");
+        
+        //If user cancels FB authentication dialog, redirect to login
+        if(code == null){
+            redirectToAnotherPage(buildFullUri("login.xhtml"));
+            return null;
+        }
+        
         //Obtain access token for the FB /me call
+        Verifier verifier = new Verifier(code);
         Token accessToken = service.getAccessToken(null, verifier);
 
         //Make request to FB /me passing the accessToken to authenticate

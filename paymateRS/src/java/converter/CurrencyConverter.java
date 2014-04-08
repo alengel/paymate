@@ -25,7 +25,7 @@ public class CurrencyConverter {
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllCurrencies() {
-        //Return all currency rates as a string
+        //Return all currency rates as a string JSON
         return currencies.getRates().toString();
     }
 
@@ -33,7 +33,7 @@ public class CurrencyConverter {
     @Path("available")
     @Produces({MediaType.APPLICATION_JSON})
     public String getAvailableCurrencies() {
-        //Return all available currency rates as a string
+        //Return all available currency rates as a string JSON
         return currencies.getAvailableCurrencies().toString();
     }
 
