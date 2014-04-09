@@ -4,13 +4,13 @@ import entities.Account;
 import entities.AccountGroup;
 import java.sql.SQLException;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author 119848
  */
-@Remote
+@Local
 public interface AccountStorageService {
 
     public Boolean checkAccountExists(String email) throws SQLException;

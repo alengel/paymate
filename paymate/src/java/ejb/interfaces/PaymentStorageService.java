@@ -6,13 +6,13 @@ import entities.ScheduledPayment;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author 119848
  */
-@Remote
+@Local
 public interface PaymentStorageService {
 
     public void makePayment(String type, Account origin,

@@ -1,10 +1,10 @@
 package ejb.beans;
 
+import dao.generic.AccountDao;
+import dao.generic.PaymentDao;
+import dao.generic.ScheduledPaymentDao;
 import services.CurrencyService;
 import services.TimestampService;
-import dao.jpa.JpaAccountDao;
-import dao.jpa.JpaPaymentDao;
-import dao.jpa.JpaScheduledPaymentDao;
 import ejb.interfaces.PaymentStorageService;
 import entities.Account;
 import entities.Payment;
@@ -35,13 +35,13 @@ public class PaymentStorageServiceBean implements PaymentStorageService {
     private TimestampService timestampService;
 
     @EJB
-    private JpaAccountDao accountDao;
+    private AccountDao accountDao;
 
     @EJB
-    private JpaPaymentDao paymentDao;
+    private PaymentDao paymentDao;
 
     @EJB
-    private JpaScheduledPaymentDao scheduledPaymentDao;
+    private ScheduledPaymentDao scheduledPaymentDao;
 
     public PaymentStorageServiceBean() {
 

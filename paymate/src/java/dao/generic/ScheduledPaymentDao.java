@@ -4,12 +4,14 @@ import entities.Account;
 import entities.ScheduledPayment;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Local;
 
 /**
  *
  * @author 119848
  */
 //Generic interface for the ScheduledPaymentDao
+@Local
 public interface ScheduledPaymentDao {
 
     public void insertScheduledPayment(Account origin, Account recipient,

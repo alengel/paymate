@@ -4,12 +4,14 @@ import entities.Account;
 import entities.Payment;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Local;
 
 /**
  *
  * @author 119848
  */
 //Generic interface for the PaymentDao
+@Local
 public interface PaymentDao {
 
     public void insertTransaction(Date timestamp, String type,

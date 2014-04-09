@@ -1,7 +1,7 @@
 package ejb.beans;
 
+import dao.generic.AccountDao;
 import services.CurrencyService;
-import dao.jpa.JpaAccountDao;
 import ejb.interfaces.AccountStorageService;
 import entities.Account;
 import entities.AccountGroup;
@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AccountStorageServiceBean implements AccountStorageService {
 
     @EJB
-    private JpaAccountDao accountDao;
+    private AccountDao accountDao;
 
     public AccountStorageServiceBean() {
 

@@ -35,7 +35,7 @@ public class JpaAccountDao implements AccountDao {
     }
 
     @Override
-    public Account getAccount(String email) throws SQLException {
+    public Account getAccount(String email) {
         try {
             TypedQuery<Account> query = em.createQuery(
                     "SELECT a FROM Account a WHERE a.email = :email", Account.class);
