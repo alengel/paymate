@@ -140,8 +140,8 @@ public class FbOauthBean implements Serializable {
     //Using the third party library Scribe
     //https://github.com/fernandezpablo85/scribe-java
     private OAuthService getService(String callbackUri) {
-        String apiKey = "730517613635252";
-        String apiSecret = "2462bbabcc2bcc11e40570a0116289aa";
+        String apiKey = "your_api_key";
+        String apiSecret = "your_api_secret";
         OAuthService service = new ServiceBuilder()
                 .provider(FacebookApi.class)
                 .apiKey(apiKey)
@@ -185,7 +185,7 @@ public class FbOauthBean implements Serializable {
     }
 
     private String getDefaultFbPassword() {
-        return "4_p4ym4te_u5er";
+        return "removed_password";
     }
 
     //Helper function, redirecting to passed in url
